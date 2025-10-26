@@ -3,6 +3,9 @@ import Hero from "@/components/home/Hero";
 import BusinessVerticals from "@/components/home/BusinessVerticals";
 import Clients from "@/components/home/Clients";
 import DataCenterBrands from "@/components/home/DataCenterBrands";
+import DataCenterImages from "@/components/home/DataCenterImages";
+import CCTVSurveillance from "@/components/home/CCTVServeillance";
+import LowCurrentSolution from "@/components/home/LowCurrentSolution";
 
 export default function Home() {
   return (
@@ -12,7 +15,10 @@ export default function Home() {
       {/* Hero Section with Prism Background */}
       <Hero />
       <BusinessVerticals  />
+      <DataCenterImages />
       <DataCenterBrands />
+      <CCTVSurveillance />
+      <LowCurrentSolution />
       <Clients />
 
       {/* Footer */}
