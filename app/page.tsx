@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Hero from "@/components/home/Hero";
 import BusinessVerticals from "@/components/home/BusinessVerticals";
+import Clients from "@/components/home/Clients";
+import DataCenterBrands from "@/components/home/DataCenterBrands";
 
 export default function Home() {
   return (
@@ -10,6 +12,8 @@ export default function Home() {
       {/* Hero Section with Prism Background */}
       <Hero />
       <BusinessVerticals  />
+      <DataCenterBrands />
+      <Clients />
 
       {/* Footer */}
     </div>
