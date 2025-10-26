@@ -6,7 +6,10 @@ import ShinyText from '../ShinyText';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-900 via-black to-gray-800">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-900 via-black to-gray-900">
+      {/* Bottom gradient transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-b from-transparent to-black z-5 pointer-events-none"></div>
+      
       {/* DotGrid Background - Interactive dots */}
       <div className="absolute inset-0 z-0 opacity-60">
         <DotGrid
