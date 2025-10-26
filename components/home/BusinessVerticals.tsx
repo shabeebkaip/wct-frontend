@@ -15,9 +15,6 @@ const BusinessVerticals = () => {
             <p className="text-gray-300 text-lg leading-relaxed mb-6">
               Right from incorporation WeCare Technology has always strived to be a knowledge base company and has focused in keeping a technically agile and versatile group of Engineers and Technicians who form the solid core of the company. Our team of Professionals has managed to keep the Quality of Service and the speed of execution very high.
             </p>
-            <p className="text-gray-400 text-base">
-              In this Profile, we will introduce you the Business Verticals we handle and also a list of a few projects recently executed will be detailed.
-            </p>
           </div>
         </div>
 
