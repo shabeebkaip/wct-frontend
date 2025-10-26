@@ -6,6 +6,7 @@ import DataCenterBrands from "@/components/home/DataCenterBrands";
 import DataCenterImages from "@/components/home/DataCenterImages";
 import CCTVSurveillance from "@/components/home/CCTVServeillance";
 import LowCurrentSolution from "@/components/home/LowCurrentSolution";
+import StructuredCabling from "@/components/home/StructuredCabling";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       <DataCenterBrands />
       <CCTVSurveillance />
       <LowCurrentSolution />
+      <StructuredCabling  />
       <Clients />
 
       {/* Footer */}
