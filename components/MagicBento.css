@@ -29,11 +29,14 @@
   max-width: 100%;
   padding: 1.25em;
   border-radius: 20px;
-  border: 1px solid var(--border-color);
   background: var(--background-dark);
   font-weight: 300;
   overflow: hidden;
   transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
   --glow-x: 50%;
   --glow-y: 50%;
@@ -42,8 +45,12 @@
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.4),
+    0 6px 20px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .card__header,
@@ -143,40 +150,40 @@
   }
 }
 
-/* Border glow effect */
-.card--border-glow::after {
+/* Shadow glow effect */
+.card--border-glow {
+  position: relative;
+}
+
+.card--border-glow::before {
   content: '';
   position: absolute;
-  inset: 0;
-  padding: 6px;
+  inset: -2px;
   background: radial-gradient(
     var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-    rgba(132, 0, 255, calc(var(--glow-intensity) * 0.8)) 0%,
-    rgba(132, 0, 255, calc(var(--glow-intensity) * 0.4)) 30%,
+    rgba(59, 130, 246, calc(var(--glow-intensity) * 0.6)) 0%,
+    rgba(59, 130, 246, calc(var(--glow-intensity) * 0.3)) 30%,
     transparent 60%
   );
   border-radius: inherit;
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask-composite: subtract;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
+  opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
-  z-index: 1;
+  z-index: -1;
+  filter: blur(8px);
 }
 
-.card--border-glow:hover::after {
+.card--border-glow:hover::before {
   opacity: 1;
 }
 
 .card--border-glow:hover {
   box-shadow:
-    0 4px 20px rgba(46, 24, 78, 0.4),
-    0 0 30px var(--purple-glow);
+    0 12px 35px rgba(0, 0, 0, 0.4),
+    0 6px 20px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(59, 130, 246, 0.3),
+    0 0 80px rgba(59, 130, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .particle-container {
@@ -198,8 +205,9 @@
 
 .particle-container:hover {
   box-shadow:
-    0 4px 20px rgba(46, 24, 78, 0.2),
-    0 0 30px var(--purple-glow);
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.2),
+    0 0 40px rgba(59, 130, 246, 0.2);
 }
 
 /* Global spotlight styles */

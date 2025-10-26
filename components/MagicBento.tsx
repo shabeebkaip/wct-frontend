@@ -1,12 +1,13 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
+import { Building2, Zap, Cable, Hammer, Camera, Battery } from 'lucide-react';
 import './MagicBento.css';
 
 export interface BentoCardProps {
   color?: string;
   title?: string;
   description?: string;
-  label?: string;
+  label?: string | React.ReactNode;
   textAutoHide?: boolean;
   disableAnimations?: boolean;
 }
@@ -33,39 +34,69 @@ const MOBILE_BREAKPOINT = 768;
 const cardData: BentoCardProps[] = [
   {
     color: '#020617',
-    title: 'Data Center Solutions',
-    description: 'Tier III turnkey data centers with legacy, modular, container, and hybrid designs',
-    label: '🏢 Infrastructure'
+    title: 'DATA CENTER',
+    description: 'Turn-Key Solution Provider with Cross Platform Design Experience. One of the few System Integrators with extensive experience in Traditional and Modern Data Center Design Elements',
+    label: (
+      <div className="flex items-center gap-2">
+        <Building2 className="w-4 h-4" />
+        <span>Infrastructure</span>
+      </div>
+    )
   },
   {
     color: '#0c0a14',
-    title: 'Electro-Mechanical',
-    description: 'Advanced HVAC, fire suppression (Novec, FM200), and precision cooling systems',
-    label: '⚡ Systems'
+    title: 'MEP',
+    description: 'A great expert in Mechanical, Electrical and Plumbing works with deep understanding in design and Implementation of Electro Mechanical systems.',
+    label: (
+      <div className="flex items-center gap-2">
+        <Zap className="w-4 h-4" />
+        <span>Systems</span>
+      </div>
+    )
   },
   {
     color: '#020617',
-    title: 'Structured Cabling',
-    description: 'EIA/TIA-568A compliant UTP, STP, FTP, and fiber optic infrastructure',
-    label: '🔌 Connectivity'
+    title: 'NETWORKING',
+    description: 'Provide Structured Cabling Solution right from Design of the Systems.',
+    label: (
+      <div className="flex items-center gap-2">
+        <Cable className="w-4 h-4" />
+        <span>Connectivity</span>
+      </div>
+    )
   },
   {
     color: '#0c0a14',
-    title: 'Security Solutions',
-    description: 'Perimeter protection, access control, and AI-powered surveillance systems',
-    label: '🔒 Protection'
+    title: 'FIT OUT WORKS',
+    description: 'Have Extensive Knowledge in Designing and Buidling Office space right from Ceiling, Carpets, Lighting, Cooling and Office Furniture\'s.',
+    label: (
+      <div className="flex items-center gap-2">
+        <Hammer className="w-4 h-4" />
+        <span>Construction</span>
+      </div>
+    )
   },
   {
     color: '#020617',
-    title: 'CCTV Surveillance',
-    description: '15+ years expertise in crowd management, high-security, and enterprise monitoring',
-    label: '📹 Monitoring'
+    title: 'LOW CURRENT SYSTEMS',
+    description: 'Have Multi Divisional Knowledge and Understanding in Design and Development of Low Current Systems. Our Core Areas are in CCTV, A/V Systems, MATV and IPTV Solutions.',
+    label: (
+      <div className="flex items-center gap-2">
+        <Camera className="w-4 h-4" />
+        <span>Monitoring</span>
+      </div>
+    )
   },
   {
     color: '#0c0a14',
-    title: 'Low Voltage Systems',
-    description: 'UPS systems (5-400 KVA), panel boards, ATS, and PLC controllers',
-    label: '🔋 Power'
+    title: 'LOW VOLTAGE SYSTEM',
+    description: 'Involved in Design and Manufacturing Custom Switch Gear Solutions for Customers. WCT has experience is design systems less than 1 MW.',
+    label: (
+      <div className="flex items-center gap-2">
+        <Battery className="w-4 h-4" />
+        <span>Power</span>
+      </div>
+    )
   }
 ];
 
