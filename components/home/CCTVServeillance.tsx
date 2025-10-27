@@ -87,9 +87,6 @@ const CCTVSurveillance = () => {
               <div
                 key={index}
                 className="group relative bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-6 hover:border-gray-700/80 transition-all duration-500 hover:bg-gray-800/50 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden"
-                style={{
-                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
-                }}
               >
                 {/* Gradient Background on Hover */}
                 <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 bg-linear-to-br ${solution.color} transition-opacity duration-500`}></div>

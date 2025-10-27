@@ -73,7 +73,7 @@ const StructuredCabling = () => {
             Structured Cabling Solutions
           </h2>
           <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-            GFS has a concrete design approach for Structured Cabling Solutions. We follow EIA/TIA-568A Standards. 
+            We Care Tech has a concrete design approach for Structured Cabling Solutions. We follow EIA/TIA-568A Standards. 
             Our design considerations always take into consideration all the sub-elements in the infrastructure.
           </p>
         </div>

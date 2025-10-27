@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +30,7 @@ const Header = () => {
   }, [mobileMenuOpen]);
 
   const navLinks = [
-    { name: 'Home', href: '/', active: true },
+    { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Projects', href: '/projects' },
     { name: 'Contact', href: '/contact' },
@@ -73,27 +75,34 @@ const Header = () => {
 
               {/* Desktop Navigation */}
               <nav className="hidden lg:flex items-center gap-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                      link.active
-                        ? 'text-blue-400 bg-blue-500/10'
-                        : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
-                    }`}
-                  >
-                    {link.name}
-                    {link.active && (
-                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full"></span>
-                    )}
-                  </Link>
-                ))}
+                {navLinks.map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                        isActive
+                          ? 'text-blue-400 bg-blue-500/10'
+                          : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                      }`}
+                    >
+                      {link.name}
+                      {isActive && (
+                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full"></span>
+                      )}
+                    </Link>
+                  );
+                })}
                 
                 {/* Solutions Dropdown */}
                 <div className="relative group">
                   <button
-                    className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-300"
+                    className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                      pathname?.startsWith('/solutions') 
+                        ? 'text-blue-400 bg-blue-500/10' 
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                    }`}
                     onMouseEnter={() => setSolutionsOpen(true)}
                     onMouseLeave={() => setSolutionsOpen(false)}
                   >
@@ -109,15 +118,22 @@ const Header = () => {
                     onMouseEnter={() => setSolutionsOpen(true)}
                     onMouseLeave={() => setSolutionsOpen(false)}
                   >
-                    {solutions.map((solution) => (
-                      <Link
-                        key={solution.name}
-                        href={solution.href}
-                        className="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-blue-500/10 hover:border-l-2 hover:border-blue-500 transition-all duration-200"
-                      >
-                        {solution.name}
-                      </Link>
-                    ))}
+                    {solutions.map((solution) => {
+                      const isActive = pathname === solution.href;
+                      return (
+                        <Link
+                          key={solution.name}
+                          href={solution.href}
+                          className={`block px-4 py-3 text-sm transition-all duration-200 ${
+                            isActive
+                              ? 'text-blue-400 bg-blue-500/10 border-l-2 border-blue-500'
+                              : 'text-gray-300 hover:text-white hover:bg-blue-500/10 hover:border-l-2 hover:border-blue-500'
+                          }`}
+                        >
+                          {solution.name}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </nav>
@@ -199,20 +215,23 @@ const Header = () => {
           {/* Mobile Navigation */}
           <nav className="flex-1 overflow-y-auto p-6">
             <div className="space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
-                    link.active
-                      ? 'text-blue-400 bg-blue-500/10 border border-blue-500/30'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
+                      isActive
+                        ? 'text-blue-400 bg-blue-500/10 border border-blue-500/30'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                );
+              })}
               
               {/* Mobile Solutions Section */}
               <div className="pt-4">
@@ -220,16 +239,23 @@ const Header = () => {
                   Solutions
                 </p>
                 <div className="space-y-2">
-                  {solutions.map((solution) => (
-                    <Link
-                      key={solution.name}
-                      href={solution.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block px-4 py-3 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/50 transition-all duration-300"
-                    >
-                      {solution.name}
-                    </Link>
-                  ))}
+                  {solutions.map((solution) => {
+                    const isActive = pathname === solution.href;
+                    return (
+                      <Link
+                        key={solution.name}
+                        href={solution.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`block px-4 py-3 rounded-lg text-sm transition-all duration-300 ${
+                          isActive
+                            ? 'text-blue-400 bg-blue-500/10 border border-blue-500/30'
+                            : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                        }`}
+                      >
+                        {solution.name}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </div>
