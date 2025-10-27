@@ -18,8 +18,8 @@ export default function Home() {
       {/* Hero Section with Prism Background */}
       <Hero />
       <BusinessVerticals  />
+      {/* <DataCenterBrands /> */}
       <DataCenterImages />
-      <DataCenterBrands />
       <CCTVSurveillance />
       <LowCurrentSolution />
       <StructuredCabling  />
