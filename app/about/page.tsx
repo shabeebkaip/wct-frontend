@@ -12,7 +12,8 @@ import {
   Globe,
   Building2,
   Briefcase,
-  Star
+  Star,
+  UserCircle2
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -22,6 +23,42 @@ const About = () => {
     { value: '100+', label: 'Projects Completed' },
     { value: '50+', label: 'Expert Engineers' },
     { value: '99%', label: 'Client Satisfaction' }
+  ];
+
+  const leadership = [
+    {
+      name: 'Sheriff',
+      role: 'Co-Founder & Managing Director',
+      image: null,
+      description: 'Leading WeCare Technology with strategic vision and extensive industry expertise.'
+    },
+    {
+      name: 'Harris',
+      role: 'Co-Founder & Technical Director',
+      image: null,
+      description: 'Driving technical excellence and innovation across all our infrastructure solutions.'
+    }
+  ];
+
+  const team = [
+    {
+      name: 'Fasal',
+      role: 'Sales and Design Engineer',
+      image: '/members/fasal.jpeg',
+      description: 'Specialized in solution design and client relationship management.'
+    },
+    {
+      name: 'Nawas',
+      role: 'Design Engineer',
+      image: "/members/navas.jpeg",
+      description: 'Expert in infrastructure design and technical specifications.'
+    },
+    {
+      name: 'Faizan',
+      role: 'Sales Account Manager',
+      image: null,
+      description: 'Managing key accounts and ensuring client satisfaction.'
+    }
   ];
 
   const values = [
@@ -223,6 +260,102 @@ const About = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="relative py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
+              <Users className="w-4 h-4 text-blue-400" />
+              <span className="text-sm font-medium text-blue-400">Our Team</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
+              Meet the People Behind Our Success
+            </h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Our team of dedicated professionals brings together decades of experience and expertise in IT infrastructure.
+            </p>
+          </div>
+
+          {/* Leadership */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-gray-100 mb-8 text-center">Leadership Team</h3>
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              {leadership.map((leader, index) => (
+                <div
+                  key={index}
+                  className="group relative p-8 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                >
+                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+                  <div className="relative">
+                    <div className="flex flex-col items-center text-center">
+                      {/* Avatar */}
+                      <div className="w-32 h-32 rounded-full bg-linear-to-br from-blue-500/20 to-blue-600/10 border-2 border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-300">
+                        {leader.image ? (
+                          <div className="relative w-full h-full rounded-full overflow-hidden">
+                            <Image
+                              src={leader.image}
+                              alt={leader.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <UserCircle2 className="w-20 h-20 text-blue-400" />
+                        )}
+                      </div>
+
+                      {/* Info */}
+                      <h4 className="text-2xl font-bold text-gray-100 mb-2">{leader.name}</h4>
+                      <p className="text-blue-400 font-medium mb-4">{leader.role}</p>
+                      <p className="text-gray-400 leading-relaxed">{leader.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Team Members */}
+          <div>
+            <h3 className="text-2xl font-bold text-gray-100 mb-8 text-center">Our Team</h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {team.map((member, index) => (
+                <div
+                  key={index}
+                  className="group relative p-6 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                >
+                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+                  <div className="relative">
+                    <div className="flex flex-col items-center text-center">
+                      {/* Avatar */}
+                      <div className="w-24 h-24 rounded-full bg-linear-to-br from-blue-500/20 to-blue-600/10 border-2 border-blue-500/30 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
+                        {member.image ? (
+                          <div className="relative w-full h-full rounded-full overflow-hidden">
+                            <Image
+                              src={member.image}
+                              alt={member.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <UserCircle2 className="w-16 h-16 text-blue-400" />
+                        )}
+                      </div>
+
+                      {/* Info */}
+                      <h4 className="text-xl font-bold text-gray-100 mb-1">{member.name}</h4>
+                      <p className="text-blue-400 text-sm font-medium mb-3">{member.role}</p>
+                      <p className="text-gray-400 text-sm leading-relaxed">{member.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
