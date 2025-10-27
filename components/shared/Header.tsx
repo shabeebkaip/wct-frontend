@@ -3,9 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,75 +18,243 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return (
-    <header className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 w-full max-w-7xl px-6">
-      <div className={`px-8 py-4 rounded-full border transition-all duration-300 ${
-        scrolled 
-          ? 'bg-black/30 backdrop-blur-xl border-white/20 shadow-2xl shadow-black/50' 
-          : 'bg-black/20 backdrop-blur-lg border-white/10 shadow-xl shadow-black/30'
-      }`}>
-        <div className="flex items-center justify-between gap-12">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <Image
-              src="/logo.png"
-              alt="WCT Solutions Logo"
-              width={120}
-              height={120}
-              className="transform group-hover:scale-110 transition-transform"
-            />
-          </Link>
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [mobileMenuOpen]);
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            <Link
-              href="/"
-              className="relative text-sm text-white font-medium hover:text-blue-400 transition-colors group"
+  const navLinks = [
+    { name: 'Home', href: '/', active: true },
+    { name: 'About', href: '/about' },
+    { name: 'Projects', href: '/projects' },
+    { name: 'Contact', href: '/contact' },
+  ];
+
+  const solutions = [
+    { name: 'Data Center Solutions', href: '/solutions/data-center' },
+    { name: 'CCTV Surveillance', href: '/solutions/cctv' },
+    { name: 'Low Current Systems', href: '/solutions/low-current' },
+    { name: 'Structured Cabling', href: '/solutions/structured-cabling' },
+  ];
+
+  return (
+    <>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? 'py-3' : 'py-4 md:py-6'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className={`relative px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-2xl border transition-all duration-300 ${
+            scrolled 
+              ? 'bg-gray-900/95 backdrop-blur-xl border-gray-800/80 shadow-2xl shadow-black/50' 
+              : 'bg-gray-900/80 backdrop-blur-lg border-gray-800/50 shadow-xl shadow-black/30'
+          }`}>
+            <div className="flex items-center justify-between">
+              {/* Logo */}
+              <Link href="/" className="flex items-center gap-2 group relative z-10">
+                <div className="relative w-10 h-10 sm:w-12 sm:h-12">
+                  <Image
+                    src="/logo.png"
+                    alt="WCT Solutions"
+                    fill
+                    className="object-contain transform group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <div className="hidden sm:block">
+                  <h1 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">
+                    WeCare Tech
+                  </h1>
+                  <p className="text-xs text-gray-400">Infrastructure Solutions</p>
+                </div>
+              </Link>
+
+              {/* Desktop Navigation */}
+              <nav className="hidden lg:flex items-center gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                      link.active
+                        ? 'text-blue-400 bg-blue-500/10'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                    }`}
+                  >
+                    {link.name}
+                    {link.active && (
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-400 rounded-full"></span>
+                    )}
+                  </Link>
+                ))}
+                
+                {/* Solutions Dropdown */}
+                <div className="relative group">
+                  <button
+                    className="flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800/50 transition-all duration-300"
+                    onMouseEnter={() => setSolutionsOpen(true)}
+                    onMouseLeave={() => setSolutionsOpen(false)}
+                  >
+                    Solutions
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${solutionsOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {/* Dropdown Menu */}
+                  <div
+                    className={`absolute top-full left-0 mt-2 w-64 bg-gray-900/95 backdrop-blur-xl border border-gray-800/80 rounded-xl shadow-2xl overflow-hidden transition-all duration-300 ${
+                      solutionsOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+                    }`}
+                    onMouseEnter={() => setSolutionsOpen(true)}
+                    onMouseLeave={() => setSolutionsOpen(false)}
+                  >
+                    {solutions.map((solution) => (
+                      <Link
+                        key={solution.name}
+                        href={solution.href}
+                        className="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-blue-500/10 hover:border-l-2 hover:border-blue-500 transition-all duration-200"
+                      >
+                        {solution.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </nav>
+
+              {/* Desktop Action Buttons */}
+              <div className="hidden lg:flex items-center gap-3">
+                <a
+                  href="tel:+966123456789"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-300 hover:text-blue-400 rounded-lg hover:bg-gray-800/50 transition-all duration-300"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>Call Us</span>
+                </a>
+                <a
+                  href="/contact"
+                  className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105"
+                >
+                  <Mail className="w-4 h-4" />
+                  <span>Get Quote</span>
+                </a>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="lg:hidden p-2 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-lg transition-all duration-300"
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${
+          mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        onClick={() => setMobileMenuOpen(false)}
+      />
+
+      {/* Mobile Menu */}
+      <div
+        className={`fixed top-0 right-0 h-full w-full max-w-sm bg-gray-900/98 backdrop-blur-xl border-l border-gray-800 z-40 lg:hidden transition-transform duration-300 ${
+          mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <div className="flex flex-col h-full">
+          {/* Mobile Menu Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-800">
+            <div className="flex items-center gap-2">
+              <div className="relative w-10 h-10">
+                <Image
+                  src="/logo.png"
+                  alt="WCT Solutions"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-white">WeCare Tech</h2>
+                <p className="text-xs text-gray-400">Infrastructure Solutions</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
             >
-              <span className="flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
-                Home
-              </span>
-            </Link>
-            <Link
-              href="/solutions"
-              className="text-sm text-gray-300 hover:text-white transition-colors"
-            >
-              Solutions
-            </Link>
-            <Link
-              href="/projects"
-              className="text-sm text-gray-300 hover:text-white transition-colors"
-            >
-              Projects
-            </Link>
-            <Link
-              href="/about"
-              className="text-sm text-gray-300 hover:text-white transition-colors"
-            >
-              About
-            </Link>
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Mobile Navigation */}
+          <nav className="flex-1 overflow-y-auto p-6">
+            <div className="space-y-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
+                    link.active
+                      ? 'text-blue-400 bg-blue-500/10 border border-blue-500/30'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-800/50'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              
+              {/* Mobile Solutions Section */}
+              <div className="pt-4">
+                <p className="px-4 pb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  Solutions
+                </p>
+                <div className="space-y-2">
+                  {solutions.map((solution) => (
+                    <Link
+                      key={solution.name}
+                      href={solution.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block px-4 py-3 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/50 transition-all duration-300"
+                    >
+                      {solution.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           </nav>
 
-          {/* Action Buttons */}
-          <div className="flex items-center gap-3">
-            <button className="hidden sm:block px-5 py-2 text-sm font-medium text-gray-300 hover:text-blue-400 transition-colors">
-              Contact Us
-            </button>
-            <button className="flex items-center gap-2 px-5 py-2 bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-full text-sm font-medium text-white transition-all hover:shadow-lg hover:shadow-blue-500/30">
-              <svg
-                className="w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-              </svg>
-              <span>Get Started</span>
-            </button>
+          {/* Mobile Action Buttons */}
+          <div className="p-6 border-t border-gray-800 space-y-3">
+            <a
+              href="tel:+966123456789"
+              className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium text-gray-300 hover:text-white rounded-lg border border-gray-700 hover:border-gray-600 transition-all duration-300"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call Us</span>
+            </a>
+            <a
+              href="/contact"
+              className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold text-white transition-all duration-300 shadow-lg shadow-blue-500/20"
+            >
+              <Mail className="w-4 h-4" />
+              <span>Get Quote</span>
+            </a>
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 };
 
