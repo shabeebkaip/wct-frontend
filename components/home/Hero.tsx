@@ -31,19 +31,15 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-32 text-center">
         {/* Badge */}
-        <div className="inline-block relative mb-12 group">
-          <div className="absolute inset-0 bg-linear-to-r from-blue-500/40 via-purple-500/40 to-cyan-500/40 blur-2xl animate-pulse"></div>
-          <div className="relative flex items-center gap-4 px-8 py-4 bg-black/80 backdrop-blur-md border border-gray-700/60 rounded-full shadow-2xl hover:shadow-blue-500/30 transition-all duration-300">
-            <div className="relative">
-              <svg className="w-6 h-6 text-blue-400 drop-shadow-sm" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <div className="absolute inset-0 bg-blue-400/60 blur-md -z-10"></div>
-            </div>
-            <span className="text-sm font-mono tracking-wider text-gray-200 font-bold drop-shadow-sm">
-              18+ YEARS • ICT EXCELLENCE • EST. 2006
-            </span>
+        <div className="inline-flex items-center gap-3 mb-12 px-6 py-2.5 bg-linear-to-r from-blue-500/10 via-purple-500/10 to-blue-500/10 backdrop-blur-sm border border-blue-500/20 rounded-lg">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+            <span className="text-xs font-semibold text-blue-400 tracking-wider">EST. 2006</span>
           </div>
+          <div className="w-px h-4 bg-gray-600"></div>
+          <span className="text-xs font-medium text-gray-300 tracking-wide">
+            18+ Years of ICT Excellence
+          </span>
         </div>
 
         {/* Main Heading */}

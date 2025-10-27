@@ -57,7 +57,7 @@ const Header = () => {
             <div className="flex items-center justify-between">
               {/* Logo */}
               <Link href="/" className="flex items-center gap-2 group relative z-10">
-                <div className="relative w-10 h-10 sm:w-12 sm:h-12">
+                <div className="relative w-12 h-12 sm:w-14 sm:h-14">
                   <Image
                     src="/logo.png"
                     alt="WCT Solutions"
@@ -201,8 +201,8 @@ const Header = () => {
         <div className="flex flex-col h-full">
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-800">
-            <div className="flex items-center gap-2">
-              <div className="relative w-10 h-10">
+            <div className="flex items-center gap-3">
+              <div className="relative w-12 h-12">
                 <Image
                   src="/logo.png"
                   alt="WCT Solutions"
