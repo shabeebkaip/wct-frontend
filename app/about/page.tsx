@@ -1,6 +1,4 @@
 'use client';
-
-import React from 'react';
 import { 
   Award, 
   Target, 
@@ -42,21 +40,21 @@ const About = () => {
 
   const team = [
     {
-      name: 'Fasal',
+      name: 'Fasal Sheriff',
       role: 'Sales and Design Engineer',
       image: '/members/fasal.jpeg',
       description: 'Specialized in solution design and client relationship management.'
     },
     {
-      name: 'Nawas',
+      name: 'Nawas Sheriff',
       role: 'Design Engineer',
       image: "/members/navas.jpeg",
       description: 'Expert in infrastructure design and technical specifications.'
     },
     {
-      name: 'Faizan',
+      name: 'Faizan Solanki',
       role: 'Sales Account Manager',
-      image: null,
+      image: "/members/faizan.jpeg",
       description: 'Managing key accounts and ensuring client satisfaction.'
     }
   ];
