@@ -242,9 +242,13 @@ const DataCenterImages = () => {
               <button className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40">
                 Request Consultation
               </button>
-              <button className="px-8 py-3 bg-gray-800/80 border border-gray-700 hover:bg-gray-700/80 rounded-xl font-semibold text-gray-200 transition-all duration-300">
+              <a
+                href="/GFS PROFILE.pptx"
+                download="WeCare-Tech-Company-Profile.pptx"
+                className="inline-block px-8 py-3 bg-gray-800/80 border border-gray-700 hover:bg-gray-700/80 rounded-xl font-semibold text-gray-200 transition-all duration-300"
+              >
                 Download Brochure
-              </button>
+              </a>
             </div>
           </div>
         </div>

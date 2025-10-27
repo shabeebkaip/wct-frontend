@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import DotGrid from '../DotGrid';
 import ShinyText from '../ShinyText';
 
@@ -81,12 +82,18 @@ const Hero = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
-          <button className="group relative px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-2xl font-bold text-base text-white hover:shadow-2xl hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105 transform backdrop-blur-sm">
+          <Link 
+            href="/solutions/data-center"
+            className="group relative px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-2xl font-bold text-base text-white hover:shadow-2xl hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105 transform backdrop-blur-sm"
+          >
             <span className="relative z-10 drop-shadow-sm">Explore Solutions</span>
-          </button>
-          <button className="group relative px-8 py-4 bg-gray-800/30 backdrop-blur-md border-2 border-gray-600/40 rounded-2xl font-bold text-base text-gray-200 hover:shadow-2xl hover:shadow-emerald-400/30 transition-all duration-300 hover:scale-105 hover:bg-gray-700/40 hover:border-emerald-400/60">
+          </Link>
+          <Link 
+            href="/projects"
+            className="group relative px-8 py-4 bg-gray-800/30 backdrop-blur-md border-2 border-gray-600/40 rounded-2xl font-bold text-base text-gray-200 hover:shadow-2xl hover:shadow-emerald-400/30 transition-all duration-300 hover:scale-105 hover:bg-gray-700/40 hover:border-emerald-400/60"
+          >
             <span className="drop-shadow-sm">View Projects</span>
-          </button>
+          </Link>
         </div>
 
 

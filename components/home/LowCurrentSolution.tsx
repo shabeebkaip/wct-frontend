@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Shield, Lock, Eye, MapPin, Zap, ArrowRight } from 'lucide-react';
 
 const LowCurrentSolution = () => {
@@ -206,12 +207,19 @@ const LowCurrentSolution = () => {
               security requirements, ensuring complete protection and peace of mind.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <button className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40">
+              <Link
+                href="/contact"
+                className="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40"
+              >
                 Request Consultation
-              </button>
-              <button className="px-8 py-3 bg-gray-800/80 border border-gray-700 hover:bg-gray-700/80 rounded-xl font-semibold text-gray-200 transition-all duration-300">
+              </Link>
+              <a
+                href="/GFS PROFILE.pptx"
+                download="WeCare-Tech-Company-Profile.pptx"
+                className="inline-block px-8 py-3 bg-gray-800/80 border border-gray-700 hover:bg-gray-700/80 rounded-xl font-semibold text-gray-200 transition-all duration-300"
+              >
                 Download Brochure
-              </button>
+              </a>
             </div>
           </div>
         </div>

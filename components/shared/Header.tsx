@@ -141,6 +141,17 @@ const Header = () => {
               {/* Desktop Action Buttons */}
               <div className="hidden lg:flex items-center gap-3">
                 <a
+                  href="/GFS PROFILE.pptx"
+                  download="WeCare-Tech-Company-Profile.pptx"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-300 hover:text-blue-400 rounded-lg hover:bg-gray-800/50 transition-all duration-300"
+                  title="Download Company Brochure"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>Brochure</span>
+                </a>
+                <a
                   href="tel:+966123456789"
                   className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-300 hover:text-blue-400 rounded-lg hover:bg-gray-800/50 transition-all duration-300"
                 >
@@ -263,6 +274,16 @@ const Header = () => {
 
           {/* Mobile Action Buttons */}
           <div className="p-6 border-t border-gray-800 space-y-3">
+            <a
+              href="/GFS PROFILE.pptx"
+              download="WeCare-Tech-Company-Profile.pptx"
+              className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium text-gray-300 hover:text-white rounded-lg border border-gray-700 hover:border-gray-600 transition-all duration-300"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span>Download Brochure</span>
+            </a>
             <a
               href="tel:+966123456789"
               className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium text-gray-300 hover:text-white rounded-lg border border-gray-700 hover:border-gray-600 transition-all duration-300"

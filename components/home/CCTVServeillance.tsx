@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Camera, Shield, Users, Building2, MapPin, ShoppingBag } from 'lucide-react';
 
 const CCTVSurveillance = () => {
@@ -138,12 +139,18 @@ const CCTVSurveillance = () => {
                 surveillance system tailored to your specific needs and budget.
               </p>
               <div className="flex flex-wrap gap-4">
-                <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40">
+                <Link
+                  href="/contact"
+                  className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40"
+                >
                   Get Free Consultation
-                </button>
-                <button className="px-6 py-3 bg-gray-800/80 border border-gray-700 hover:bg-gray-700/80 rounded-xl font-semibold text-gray-200 transition-all duration-300">
+                </Link>
+                <Link
+                  href="/projects"
+                  className="inline-block px-6 py-3 bg-gray-800/80 border border-gray-700 hover:bg-gray-700/80 rounded-xl font-semibold text-gray-200 transition-all duration-300"
+                >
                   View Projects
-                </button>
+                </Link>
               </div>
             </div>
 
