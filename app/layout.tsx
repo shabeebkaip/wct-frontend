@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -23,12 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased ${montserrat.variable}`}
+        className={`antialiased bg-white dark:bg-gray-900 transition-colors duration-300 ${montserrat.variable}`}
         style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
       >
-        <Header />
-        {children}
-        <Footer />
+        <ThemeProvider>
+          <Header />
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
