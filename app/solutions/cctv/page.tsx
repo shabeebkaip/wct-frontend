@@ -334,13 +334,13 @@ const CCTVSolutionPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100">
+    <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 text-slate-900 dark:text-gray-100">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-900/20 via-gray-900 to-gray-950" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-700" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-100/30 via-slate-50 to-white dark:from-blue-900/20 dark:via-gray-900 dark:to-gray-950" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 dark:opacity-10" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-400/10 dark:bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
 
       {/* Hero Section */}
@@ -348,16 +348,16 @@ const CCTVSolutionPage = () => {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-                <Camera className="w-4 h-4 text-blue-400" />
-                <span className="text-sm font-medium text-blue-400">CCTV Surveillance Solutions</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+                <Camera className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <span className="text-sm font-medium text-blue-700 dark:text-blue-400">CCTV Surveillance Solutions</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-gray-100 via-blue-100 to-gray-100 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-slate-900 via-blue-700 to-slate-900 dark:from-gray-100 dark:via-blue-100 dark:to-gray-100 bg-clip-text text-transparent">
                 Advanced Security Through Intelligent Surveillance
               </h1>
               
-              <p className="text-lg md:text-xl text-gray-400 mb-8 leading-relaxed">
+              <p className="text-lg md:text-xl text-slate-600 dark:text-gray-400 mb-8 leading-relaxed">
                 Protect your assets with cutting-edge CCTV surveillance systems featuring AI-powered 
                 analytics, remote monitoring, and crystal-clear HD recording capabilities.
               </p>
@@ -365,8 +365,8 @@ const CCTVSolutionPage = () => {
               <div className="grid grid-cols-2 gap-4 mb-8">
                 {heroFeatures.map((feature, idx) => (
                   <div key={idx} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0" />
-                    <span className="text-gray-300 text-sm">{feature}</span>
+                    <CheckCircle2 className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0" />
+                    <span className="text-slate-700 dark:text-gray-300 text-sm">{feature}</span>
                   </div>
                 ))}
               </div>
@@ -381,7 +381,7 @@ const CCTVSolutionPage = () => {
                 </Link>
                 <Link
                   href="/projects"
-                  className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-medium border border-gray-700 hover:border-blue-500/50 transition-all duration-300"
+                  className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 text-slate-900 dark:text-white font-medium border border-slate-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500/50 transition-all duration-300"
                 >
                   <span>View Projects</span>
                 </Link>
@@ -389,14 +389,14 @@ const CCTVSolutionPage = () => {
             </div>
 
             <div className="relative">
-              <div className="relative h-[500px] rounded-2xl overflow-hidden border border-gray-800/50">
+              <div className="relative h-[500px] rounded-2xl overflow-hidden border border-slate-200 dark:border-gray-800/50 shadow-2xl dark:shadow-none">
                 <Image
                   src="/cctv.avif"
                   alt="CCTV Surveillance System"
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-gray-900 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-white/50 via-transparent to-transparent dark:from-gray-900 dark:via-transparent dark:to-transparent" />
               </div>
 
               {/* Floating Stats */}
@@ -404,10 +404,10 @@ const CCTVSolutionPage = () => {
                 {stats.slice(0, 2).map((stat, idx) => (
                   <div
                     key={idx}
-                    className="p-4 rounded-xl bg-gray-900/90 backdrop-blur-sm border border-gray-800/50"
+                    className="p-4 rounded-xl bg-white/95 dark:bg-gray-900/90 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 shadow-lg dark:shadow-none"
                   >
-                    <div className="text-2xl font-bold text-blue-400">{stat.value}</div>
-                    <div className="text-xs text-gray-400">{stat.label}</div>
+                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stat.value}</div>
+                    <div className="text-xs text-slate-600 dark:text-gray-400">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -420,14 +420,14 @@ const CCTVSolutionPage = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-              <Layers className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium text-blue-400">Complete Surveillance Services</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+              <Layers className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">Complete Surveillance Services</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               End-to-End CCTV Solutions
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
               From design to maintenance, we provide comprehensive surveillance solutions tailored to your needs.
             </p>
           </div>
@@ -436,22 +436,22 @@ const CCTVSolutionPage = () => {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="group relative p-8 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                className="group relative p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
               >
                 <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                 
                 <div className="relative">
-                  <div className="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <service.icon className="w-7 h-7 text-blue-400" />
+                  <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <service.icon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-100 mb-3">{service.title}</h3>
-                  <p className="text-gray-400 mb-4 leading-relaxed">{service.description}</p>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-3">{service.title}</h3>
+                  <p className="text-slate-600 dark:text-gray-400 mb-4 leading-relaxed">{service.description}</p>
 
                   <ul className="space-y-2">
                     {service.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-gray-400">
-                        <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                      <li key={idx} className="flex items-start gap-2 text-sm text-slate-600 dark:text-gray-400">
+                        <CheckCircle2 className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -467,14 +467,14 @@ const CCTVSolutionPage = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-              <Zap className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium text-blue-400">Advanced Features</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+              <Zap className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">Advanced Features</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               Cutting-Edge Technology
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
               Our CCTV systems come equipped with the latest features for enhanced security and performance.
             </p>
           </div>
@@ -483,17 +483,17 @@ const CCTVSolutionPage = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="group relative p-6 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
               >
                 <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                 
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <feature.icon className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <feature.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
 
-                  <h3 className="text-lg font-bold text-gray-100 mb-2">{feature.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-2">{feature.title}</h3>
+                  <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed">{feature.description}</p>
                 </div>
               </div>
             ))}
@@ -505,14 +505,14 @@ const CCTVSolutionPage = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-              <Building2 className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium text-blue-400">Industry Solutions</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+              <Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">Industry Solutions</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               Tailored for Every Industry
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
               Customized surveillance solutions designed for specific industry requirements and challenges.
             </p>
           </div>
@@ -521,23 +521,23 @@ const CCTVSolutionPage = () => {
             {solutions.map((solution, index) => (
               <div
                 key={index}
-                className="group relative p-8 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                className="group relative p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
               >
                 <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                 
                 <div className="relative">
-                  <div className="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <solution.icon className="w-7 h-7 text-blue-400" />
+                  <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <solution.icon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-100 mb-3">{solution.title}</h3>
-                  <p className="text-gray-400 mb-4 leading-relaxed">{solution.description}</p>
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-3">{solution.title}</h3>
+                  <p className="text-slate-600 dark:text-gray-400 mb-4 leading-relaxed">{solution.description}</p>
 
                   <div className="flex flex-wrap gap-2">
                     {solution.applications.map((app, idx) => (
                       <span
                         key={idx}
-                        className="px-3 py-1 rounded-lg bg-gray-800/50 text-xs text-gray-400"
+                        className="px-3 py-1 rounded-lg bg-slate-100 dark:bg-gray-800/50 text-xs text-slate-600 dark:text-gray-400"
                       >
                         {app}
                       </span>
@@ -554,14 +554,14 @@ const CCTVSolutionPage = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-              <Settings className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium text-blue-400">Implementation Process</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+              <Settings className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">Implementation Process</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               Professional Installation Process
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
               Our systematic approach ensures seamless deployment and optimal performance.
             </p>
           </div>
@@ -570,20 +570,20 @@ const CCTVSolutionPage = () => {
             {process.map((step, index) => (
               <div
                 key={index}
-                className="group relative p-6 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
               >
                 <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                 
                 <div className="relative">
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="text-4xl font-bold text-blue-400/20">{step.step}</div>
-                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <step.icon className="w-6 h-6 text-blue-400" />
+                    <div className="text-4xl font-bold text-blue-600/20 dark:text-blue-400/20">{step.step}</div>
+                    <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <step.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-bold text-gray-100 mb-2">{step.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed">{step.description}</p>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-2">{step.title}</h3>
+                  <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed">{step.description}</p>
                 </div>
               </div>
             ))}
@@ -595,14 +595,14 @@ const CCTVSolutionPage = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-              <TrendingUp className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium text-blue-400">Key Benefits</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+              <TrendingUp className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">Key Benefits</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               Why Choose Our CCTV Solutions
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
               Comprehensive security solutions delivering peace of mind and operational efficiency.
             </p>
           </div>
@@ -611,18 +611,18 @@ const CCTVSolutionPage = () => {
             {benefits.map((benefit, index) => (
               <div
                 key={index}
-                className="group relative p-6 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
               >
                 <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                 
                 <div className="relative flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
-                    <benefit.icon className="w-6 h-6 text-blue-400" />
+                  <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <benefit.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   
                   <div>
-                    <h3 className="text-lg font-bold text-gray-100 mb-2">{benefit.title}</h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">{benefit.description}</p>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-2">{benefit.title}</h3>
+                    <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed">{benefit.description}</p>
                   </div>
                 </div>
               </div>
@@ -635,14 +635,14 @@ const CCTVSolutionPage = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-              <Award className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium text-blue-400">Trusted Partners</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+              <Award className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">Trusted Partners</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               World-Class CCTV Brands
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
               We partner with leading global manufacturers to deliver reliable, high-performance systems.
             </p>
           </div>
@@ -651,7 +651,7 @@ const CCTVSolutionPage = () => {
             {brands.map((brand, index) => (
               <div
                 key={index}
-                className="group relative p-6 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
               >
                 <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                 
@@ -664,8 +664,8 @@ const CCTVSolutionPage = () => {
                       className="object-contain filter brightness-90 group-hover:brightness-110 transition-all duration-300"
                     />
                   </div>
-                  <h3 className="text-sm font-semibold text-gray-100 mb-1 text-center">{brand.name}</h3>
-                  <p className="text-xs text-gray-400 text-center">{brand.specialization}</p>
+                  <h3 className="text-sm font-semibold text-slate-900 dark:text-gray-100 mb-1 text-center">{brand.name}</h3>
+                  <p className="text-xs text-slate-600 dark:text-gray-400 text-center">{brand.specialization}</p>
                 </div>
               </div>
             ))}
@@ -677,14 +677,14 @@ const CCTVSolutionPage = () => {
       <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-              <Camera className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium text-blue-400">Success Stories</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+              <Camera className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">Success Stories</span>
             </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               Featured Security Projects
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-gray-400 max-w-2xl mx-auto">
               Delivering comprehensive surveillance solutions across multiple sectors.
             </p>
           </div>
@@ -693,7 +693,7 @@ const CCTVSolutionPage = () => {
             {projects.map((project, index) => (
               <div
                 key={index}
-                className="group relative rounded-2xl overflow-hidden bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                className="group relative rounded-2xl overflow-hidden bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
               >
                 <div className="relative h-64">
                   <Image
@@ -702,7 +702,7 @@ const CCTVSolutionPage = () => {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-linear-to-t from-gray-900 via-gray-900/50 to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-white via-white/50 to-transparent dark:from-gray-900 dark:via-gray-900/50 dark:to-transparent" />
                   
                   <div className="absolute top-4 right-4">
                     <span className="px-3 py-1 rounded-full bg-blue-600/90 backdrop-blur-sm text-xs font-medium text-white">
@@ -712,10 +712,10 @@ const CCTVSolutionPage = () => {
                 </div>
                 
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-gray-100 mb-2 group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {project.name}
                   </h3>
-                  <p className="text-sm text-gray-400 flex items-center gap-1">
+                  <p className="text-sm text-slate-600 dark:text-gray-400 flex items-center gap-1">
                     <MapPin className="w-4 h-4" />
                     {project.location}
                   </p>
@@ -727,7 +727,7 @@ const CCTVSolutionPage = () => {
           <div className="text-center mt-12">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-medium border border-gray-700 hover:border-blue-500/50 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 text-slate-900 dark:text-white font-medium border border-slate-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500/50 transition-all duration-300"
             >
               <span>View All Security Projects</span>
               <ArrowRight className="w-5 h-5" />
@@ -739,14 +739,14 @@ const CCTVSolutionPage = () => {
       {/* CTA Section */}
       <section className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="relative p-12 rounded-2xl bg-linear-to-br from-blue-600/10 via-blue-500/5 to-transparent backdrop-blur-sm border border-blue-500/30 overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-500/20 via-transparent to-transparent" />
+          <div className="relative p-12 rounded-2xl bg-linear-to-br from-blue-100/80 via-blue-50/50 to-transparent dark:from-blue-600/10 dark:via-blue-500/5 dark:to-transparent backdrop-blur-sm border border-blue-300 dark:border-blue-500/30 overflow-hidden shadow-xl dark:shadow-none">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-200/40 via-transparent to-transparent dark:from-blue-500/20 dark:via-transparent dark:to-transparent" />
             
             <div className="relative text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-100 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4">
                 Secure Your Premises Today
               </h2>
-              <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
                 Get a free consultation and security assessment from our experts. Let&apos;s design the perfect surveillance solution for you.
               </p>
               
@@ -760,7 +760,7 @@ const CCTVSolutionPage = () => {
                 </Link>
                 <Link
                   href="/about"
-                  className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-medium border border-gray-700 hover:border-blue-500/50 transition-all duration-300"
+                  className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 text-slate-900 dark:text-white font-medium border border-slate-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500/50 transition-all duration-300"
                 >
                   <span>Learn More About Us</span>
                 </Link>

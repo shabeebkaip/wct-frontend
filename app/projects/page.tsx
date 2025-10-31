@@ -191,27 +191,27 @@ const ProjectsPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100">
+    <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 text-slate-900 dark:text-gray-100">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-900/20 via-gray-900 to-gray-950" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-700" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-100/30 via-slate-50 to-white dark:from-blue-900/20 dark:via-gray-900 dark:to-gray-950" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 dark:opacity-10" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-400/10 dark:bg-blue-400/10 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-10 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/30 mb-6">
-              <Building2 className="w-4 h-4 text-blue-400" />
-              <span className="text-sm font-medium text-blue-400">Our Portfolio</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+              <Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-medium text-blue-700 dark:text-blue-400">Our Portfolio</span>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-gray-100 via-blue-100 to-gray-100 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-slate-900 via-blue-700 to-slate-900 dark:from-gray-100 dark:via-blue-100 dark:to-gray-100 bg-clip-text text-transparent">
               Delivering Excellence Across Industries
             </h1>
-            <p className="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
               Explore our portfolio of successfully completed projects spanning Data Centers, ICT Infrastructure, and Security Solutions.
             </p>
           </div>
@@ -221,12 +221,12 @@ const ProjectsPage = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="group relative p-6 rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300"
+                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
               >
                 <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
                 <div className="relative text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-blue-400 mb-2">{stat.value}</div>
-                  <div className="text-sm text-gray-400">{stat.label}</div>
+                  <div className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">{stat.value}</div>
+                  <div className="text-sm text-slate-600 dark:text-gray-400">{stat.label}</div>
                 </div>
               </div>
             ))}
@@ -247,7 +247,7 @@ const ProjectsPage = () => {
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
                     activeFilter === category.id
                       ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
-                      : 'bg-gray-900/40 text-gray-400 border border-gray-800/50 hover:border-blue-500/30'
+                      : 'bg-white dark:bg-gray-900/40 text-slate-600 dark:text-gray-400 border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 shadow-md dark:shadow-none'
                   }`}
                 >
                   <category.icon className="w-4 h-4" />
@@ -257,11 +257,11 @@ const ProjectsPage = () => {
             </div>
 
             {/* View Mode Toggle */}
-            <div className="flex gap-2 p-1 rounded-xl bg-gray-900/40 border border-gray-800/50">
+            <div className="flex gap-2 p-1 rounded-xl bg-white dark:bg-gray-900/40 border border-slate-200 dark:border-gray-800/50 shadow-md dark:shadow-none">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-all duration-300 ${
-                  viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-300'
+                  viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-gray-300'
                 }`}
               >
                 <Grid3x3 className="w-5 h-5" />
@@ -269,7 +269,7 @@ const ProjectsPage = () => {
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-all duration-300 ${
-                  viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-gray-300'
+                  viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-gray-300'
                 }`}
               >
                 <List className="w-5 h-5" />
@@ -279,8 +279,8 @@ const ProjectsPage = () => {
 
           {/* Projects Count */}
           <div className="mb-8">
-            <p className="text-gray-400">
-              Showing <span className="text-blue-400 font-semibold">{filteredProjects.length}</span> projects
+            <p className="text-slate-600 dark:text-gray-400">
+              Showing <span className="text-blue-600 dark:text-blue-400 font-semibold">{filteredProjects.length}</span> projects
             </p>
           </div>
 
@@ -290,7 +290,7 @@ const ProjectsPage = () => {
               {filteredProjects.map((project) => (
                 <div
                   key={project.id}
-                  className="group relative rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300 overflow-hidden"
+                  className="group relative rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 overflow-hidden shadow-lg dark:shadow-none"
                 >
                   <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   
@@ -302,7 +302,7 @@ const ProjectsPage = () => {
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-gray-900 via-gray-900/50 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-white via-white/50 to-transparent dark:from-gray-900 dark:via-gray-900/50 dark:to-transparent" />
                     
                     {/* Category Badge */}
                     <div className="absolute top-4 right-4">
@@ -314,11 +314,11 @@ const ProjectsPage = () => {
 
                   {/* Project Info */}
                   <div className="relative p-6">
-                    <h3 className="text-xl font-bold text-gray-100 mb-2 group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {project.title}
                     </h3>
                     
-                    <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+                    <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-gray-400 mb-4">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
                         <span>{project.year}</span>
@@ -329,7 +329,7 @@ const ProjectsPage = () => {
                       </div>
                     </div>
 
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+                    <p className="text-slate-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                       {project.description}
                     </p>
 
@@ -338,7 +338,7 @@ const ProjectsPage = () => {
                       {project.tags.slice(0, 3).map((tag, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-1 rounded-lg bg-gray-800/50 text-xs text-gray-400"
+                          className="px-2 py-1 rounded-lg bg-slate-100 dark:bg-gray-800/50 text-xs text-slate-600 dark:text-gray-400"
                         >
                           {tag}
                         </span>
@@ -348,7 +348,7 @@ const ProjectsPage = () => {
                     {/* View Details Button */}
                     <Link 
                       href={`/projects/${project.id}`}
-                      className="flex items-center gap-2 text-sm text-blue-400 hover:text-blue-300 transition-colors group/btn"
+                      className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors group/btn"
                     >
                       <span>View Details</span>
                       <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
@@ -363,7 +363,7 @@ const ProjectsPage = () => {
                 <Link
                   key={project.id}
                   href={`/projects/${project.id}`}
-                  className="group relative rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 hover:border-blue-500/30 transition-all duration-300 overflow-hidden block"
+                  className="group relative rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 overflow-hidden block shadow-lg dark:shadow-none"
                 >
                   <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   
@@ -385,11 +385,11 @@ const ProjectsPage = () => {
 
                     {/* Project Info */}
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-gray-100 mb-3 group-hover:text-blue-400 transition-colors">
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {project.title}
                       </h3>
                       
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-4">
+                      <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-gray-400 mb-4">
                         <div className="flex items-center gap-1">
                           <Building2 className="w-4 h-4" />
                           <span>{project.client}</span>
@@ -404,17 +404,17 @@ const ProjectsPage = () => {
                         </div>
                       </div>
 
-                      <p className="text-gray-400 mb-4 leading-relaxed">
+                      <p className="text-slate-600 dark:text-gray-400 mb-4 leading-relaxed">
                         {project.description}
                       </p>
 
                       {/* Scope */}
                       <div className="mb-4">
-                        <h4 className="text-sm font-semibold text-gray-300 mb-2">Project Scope:</h4>
+                        <h4 className="text-sm font-semibold text-slate-800 dark:text-gray-300 mb-2">Project Scope:</h4>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                           {project.scope.map((item, idx) => (
-                            <div key={idx} className="flex items-center gap-2 text-sm text-gray-400">
-                              <CheckCircle className="w-4 h-4 text-blue-400 shrink-0" />
+                            <div key={idx} className="flex items-center gap-2 text-sm text-slate-600 dark:text-gray-400">
+                              <CheckCircle className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
                               <span>{item}</span>
                             </div>
                           ))}
@@ -426,7 +426,7 @@ const ProjectsPage = () => {
                         {project.tags.map((tag, idx) => (
                           <span
                             key={idx}
-                            className="px-3 py-1 rounded-lg bg-gray-800/50 text-xs text-gray-400"
+                            className="px-3 py-1 rounded-lg bg-slate-100 dark:bg-gray-800/50 text-xs text-slate-600 dark:text-gray-400"
                           >
                             {tag}
                           </span>
@@ -444,29 +444,29 @@ const ProjectsPage = () => {
       {/* CTA Section */}
       <section className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="relative p-12 rounded-2xl bg-linear-to-br from-blue-600/10 via-blue-500/5 to-transparent backdrop-blur-sm border border-blue-500/30 overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-500/20 via-transparent to-transparent" />
+          <div className="relative p-12 rounded-2xl bg-linear-to-br from-blue-100/80 via-blue-50/50 to-transparent dark:from-blue-600/10 dark:via-blue-500/5 dark:to-transparent backdrop-blur-sm border border-blue-300 dark:border-blue-500/30 overflow-hidden shadow-xl dark:shadow-none">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-200/40 via-transparent to-transparent dark:from-blue-500/20 dark:via-transparent dark:to-transparent" />
             <div className="relative text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-100 mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4">
                 Ready to Start Your Project?
               </h2>
-              <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+              <p className="text-slate-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
                 Let&apos;s discuss how we can bring your infrastructure vision to life with our proven expertise.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <a
+                <Link
                   href="/contact"
                   className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20 flex items-center gap-2"
                 >
                   <span>Contact Us</span>
                   <ArrowRight className="w-5 h-5" />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/about"
-                  className="px-8 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-medium border border-gray-700 hover:border-blue-500/50 transition-all duration-300"
+                  className="px-8 py-3 rounded-xl bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 text-slate-900 dark:text-white font-medium border border-slate-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500/50 transition-all duration-300"
                 >
                   Learn More About Us
-                </a>
+                </Link>
               </div>
             </div>
           </div>

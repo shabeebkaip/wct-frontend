@@ -18,8 +18,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (savedTheme) {
         return savedTheme;
       }
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return prefersDark ? 'dark' : 'light';
+      // Default to light mode
+      return 'light';
     }
     return 'light';
   });

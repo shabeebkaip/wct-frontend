@@ -175,10 +175,10 @@ const ProjectDetailPage = () => {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-100 mb-4">Project Not Found</h1>
-          <Link href="/projects" className="text-blue-400 hover:text-blue-300">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-4">Project Not Found</h1>
+          <Link href="/projects" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
             Back to Projects
           </Link>
         </div>
@@ -206,18 +206,18 @@ const ProjectDetailPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-950 via-gray-900 to-gray-950 text-gray-100">
+    <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 text-slate-900 dark:text-gray-100">
       {/* Animated Background */}
       <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-900/20 via-gray-900 to-gray-950" />
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-blue-100/30 via-slate-50 to-white dark:from-blue-900/20 dark:via-gray-900 dark:to-gray-950" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 dark:opacity-10" />
       </div>
 
       {/* Back Button */}
       <div className="max-w-7xl mx-auto px-6 pt-32 pb-8">
         <Link 
           href="/projects"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-colors"
+          className="inline-flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>Back to Projects</span>
@@ -230,14 +230,14 @@ const ProjectDetailPage = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             {/* Project Image Gallery */}
             <div className="relative">
-              <div className="relative h-[500px] rounded-2xl overflow-hidden">
+              <div className="relative h-[500px] rounded-2xl overflow-hidden border border-slate-200 dark:border-gray-800/50 shadow-2xl dark:shadow-none">
                 <Image
                   src={project.images[currentImageIndex]}
                   alt={`${project.title} - Image ${currentImageIndex + 1}`}
                   fill
                   className="object-cover"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-gray-900/50 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-white/50 via-transparent to-transparent dark:from-gray-900/50 dark:via-transparent dark:to-transparent" />
                 
                 <div className="absolute top-6 left-6">
                   <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/90 backdrop-blur-sm text-sm font-medium text-white">
@@ -251,21 +251,21 @@ const ProjectDetailPage = () => {
                   <>
                     <button
                       onClick={previousImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-gray-900/80 backdrop-blur-sm text-white hover:bg-gray-800 transition-colors"
+                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-slate-900 dark:text-white hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-lg dark:shadow-none"
                       aria-label="Previous image"
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-gray-900/80 backdrop-blur-sm text-white hover:bg-gray-800 transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-slate-900 dark:text-white hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-lg dark:shadow-none"
                       aria-label="Next image"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
 
                     {/* Image Counter */}
-                    <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-gray-900/80 backdrop-blur-sm text-sm text-white">
+                    <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-sm text-slate-900 dark:text-white shadow-lg dark:shadow-none">
                       {currentImageIndex + 1} / {project.images.length}
                     </div>
                   </>
@@ -282,7 +282,7 @@ const ProjectDetailPage = () => {
                       className={`relative w-20 h-20 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
                         currentImageIndex === idx 
                           ? 'border-blue-500 ring-2 ring-blue-500/50' 
-                          : 'border-gray-700 hover:border-gray-500'
+                          : 'border-slate-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-gray-500'
                       }`}
                     >
                       <Image
@@ -299,26 +299,26 @@ const ProjectDetailPage = () => {
 
             {/* Project Info */}
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-100 mb-6">
+              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-6">
                 {project.title}
               </h1>
 
               <div className="flex flex-wrap gap-6 mb-8">
-                <div className="flex items-center gap-2 text-gray-400">
+                <div className="flex items-center gap-2 text-slate-600 dark:text-gray-400">
                   <Building2 className="w-5 h-5" />
                   <span>{project.client}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-400">
+                <div className="flex items-center gap-2 text-slate-600 dark:text-gray-400">
                   <Calendar className="w-5 h-5" />
                   <span>{project.year}</span>
                 </div>
-                <div className="flex items-center gap-2 text-gray-400">
+                <div className="flex items-center gap-2 text-slate-600 dark:text-gray-400">
                   <MapPin className="w-5 h-5" />
                   <span>{project.location}</span>
                 </div>
               </div>
 
-              <p className="text-lg text-gray-300 leading-relaxed mb-8">
+              <p className="text-lg text-slate-700 dark:text-gray-300 leading-relaxed mb-8">
                 {project.description}
               </p>
 
@@ -327,7 +327,7 @@ const ProjectDetailPage = () => {
                 {project.tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="px-4 py-2 rounded-lg bg-blue-500/10 border border-blue-500/30 text-sm text-blue-400"
+                    className="px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 text-sm text-blue-700 dark:text-blue-400"
                   >
                     {tag}
                   </span>
@@ -335,13 +335,13 @@ const ProjectDetailPage = () => {
               </div>
 
               {/* Project Scope */}
-              <div className="rounded-2xl bg-gray-900/40 backdrop-blur-sm border border-gray-800/50 p-6">
-                <h2 className="text-xl font-bold text-gray-100 mb-4">Project Scope</h2>
+              <div className="rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-6 shadow-lg dark:shadow-none">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-4">Project Scope</h2>
                 <div className="space-y-3">
                   {project.scope.map((item, idx) => (
                     <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-                      <span className="text-gray-300">{item}</span>
+                      <CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                      <span className="text-slate-700 dark:text-gray-300">{item}</span>
                     </div>
                   ))}
                 </div>
@@ -354,16 +354,16 @@ const ProjectDetailPage = () => {
       {/* CTA Section */}
       <section className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="relative p-12 rounded-2xl bg-linear-to-br from-blue-600/10 via-blue-500/5 to-transparent backdrop-blur-sm border border-blue-500/30 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-100 mb-4">
+          <div className="relative p-12 rounded-2xl bg-linear-to-br from-blue-100/80 via-blue-50/50 to-transparent dark:from-blue-600/10 dark:via-blue-500/5 dark:to-transparent backdrop-blur-sm border border-blue-300 dark:border-blue-500/30 text-center shadow-xl dark:shadow-none">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               Interested in a Similar Project?
             </h2>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+            <p className="text-slate-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
               Let&apos;s discuss how we can help you achieve your infrastructure goals.
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20"
             >
               <span>Get in Touch</span>
             </Link>
