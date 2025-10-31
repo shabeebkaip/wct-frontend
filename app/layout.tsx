@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { Orb } from "@/components/ui/orb";
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -24,10 +25,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased bg-white dark:bg-gray-900 transition-colors duration-300 ${montserrat.variable}`}
+        className={`antialiased bg-white dark:bg-gray-900 transition-colors duration-300 ${montserrat.variable} overflow-x-hidden`}
         style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
       >
         <ThemeProvider>
+          <Orb 
+            size={200} 
+            color="rgba(59, 130, 246, 0.3)" 
+            blur={100} 
+            opacity={0.4}
+            className="dark:opacity-25"
+          />
           <Header />
           {children}
           <Footer />
