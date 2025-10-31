@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Server, Wifi, Shield, ChevronRight, Building2 } from 'lucide-react';
 
 const ProjectList = () => {

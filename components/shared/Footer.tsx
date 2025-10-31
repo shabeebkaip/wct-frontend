@@ -37,9 +37,9 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-black border-t border-gray-800/50 overflow-hidden">
+    <footer className="relative bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-gray-800/50 overflow-hidden">
       {/* Animated Background */}
-      <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 opacity-5 dark:opacity-5">
         <div className="absolute inset-0" style={{
           backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.3) 1px, transparent 0)',
           backgroundSize: '50px 50px',
@@ -47,8 +47,8 @@ const Footer = () => {
       </div>
 
       {/* Gradient Orbs */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/5 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
         {/* Main Footer Content */}
@@ -66,40 +66,38 @@ const Footer = () => {
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                    WeCare Tech
-                  </h3>
-                  <p className="text-xs text-gray-500">Infrastructure Solutions</p>
-                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  WeCare Tech
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-gray-500">Infrastructure Solutions</p>
+              </div>
               </Link>
-              <p className="text-gray-400 text-sm leading-relaxed mb-6">
+              <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed mb-6">
                 Delivering world-class infrastructure solutions across Saudi Arabia. 
                 Specialized in Data Centers, Security Systems, and ICT Infrastructure 
                 with 18+ years of expertise.
-              </p>
-              
-              {/* Contact Info */}
+              </p>              {/* Contact Info */}
               <div className="space-y-3">
                 <a 
                   href="tel:+966112063919" 
-                  className="flex items-center gap-3 text-gray-400 hover:text-blue-400 transition-colors group"
+                  className="flex items-center gap-3 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-gray-900/50 border border-gray-800/50 flex items-center justify-center group-hover:border-blue-500/30 transition-colors">
+                  <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center group-hover:border-blue-400 dark:group-hover:border-blue-500/30 transition-colors">
                     <Phone className="w-4 h-4" />
                   </div>
                   <span className="text-sm">+966 11 206 3919</span>
                 </a>
                 <a 
                   href="mailto:info@wecaretech.com" 
-                  className="flex items-center gap-3 text-gray-400 hover:text-blue-400 transition-colors group"
+                  className="flex items-center gap-3 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-gray-900/50 border border-gray-800/50 flex items-center justify-center group-hover:border-blue-500/30 transition-colors">
+                  <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center group-hover:border-blue-400 dark:group-hover:border-blue-500/30 transition-colors">
                     <Mail className="w-4 h-4" />
                   </div>
                   <span className="text-sm">info@wecaretech.com</span>
                 </a>
-                <div className="flex items-start gap-3 text-gray-400">
-                  <div className="w-10 h-10 rounded-lg bg-gray-900/50 border border-gray-800/50 flex items-center justify-center shrink-0">
+                <div className="flex items-start gap-3 text-slate-600 dark:text-gray-400">
+                  <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center shrink-0">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div className="text-sm">
@@ -112,7 +110,7 @@ const Footer = () => {
 
             {/* Solutions */}
             <div>
-              <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-6">
+              <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">
                 Solutions
               </h4>
               <ul className="space-y-3">
@@ -120,7 +118,7 @@ const Footer = () => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-colors text-sm group"
+                      className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       <span>{item.name}</span>
@@ -132,7 +130,7 @@ const Footer = () => {
 
             {/* Company */}
             <div>
-              <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-6">
+              <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">
                 Company
               </h4>
               <ul className="space-y-3">
@@ -140,7 +138,7 @@ const Footer = () => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-colors text-sm group"
+                      className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       <span>{item.name}</span>
@@ -152,7 +150,7 @@ const Footer = () => {
 
             {/* Support */}
             <div>
-              <h4 className="text-white font-bold text-sm uppercase tracking-wider mb-6">
+              <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">
                 Support
               </h4>
               <ul className="space-y-3">
@@ -160,7 +158,7 @@ const Footer = () => {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className="flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-colors text-sm group"
+                      className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       <span>{item.name}</span>
@@ -173,11 +171,11 @@ const Footer = () => {
         </div>
 
         {/* Newsletter Section */}
-        <div className="border-t border-gray-800/50 py-8">
+        <div className="border-t border-slate-200 dark:border-gray-800/50 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-center md:text-left">
-              <h4 className="text-white font-bold mb-2">Stay Updated</h4>
-              <p className="text-gray-400 text-sm">
+              <h4 className="text-slate-900 dark:text-white font-bold mb-2">Stay Updated</h4>
+              <p className="text-slate-600 dark:text-gray-400 text-sm">
                 Subscribe to our newsletter for latest updates and insights
               </p>
             </div>
@@ -185,7 +183,7 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 md:w-64 px-4 py-2.5 bg-gray-900/50 border border-gray-800/50 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
+                className="flex-1 md:w-64 px-4 py-2.5 bg-white dark:bg-gray-900/50 border border-slate-300 dark:border-gray-800/50 rounded-lg text-slate-900 dark:text-white text-sm placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-500/50 transition-all"
               />
               <button className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm font-semibold transition-colors whitespace-nowrap">
                 Subscribe
@@ -195,10 +193,10 @@ const Footer = () => {
         </div>
 
         {/* Bottom Footer */}
-        <div className="border-t border-gray-800/50 py-8">
+        <div className="border-t border-slate-200 dark:border-gray-800/50 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Copyright */}
-            <div className="text-gray-500 text-sm text-center md:text-left">
+            <div className="text-slate-500 dark:text-gray-500 text-sm text-center md:text-left">
               <p>© {currentYear} WeCare Tech. All rights reserved.</p>
               <p className="text-xs mt-1">
                 Crafted with excellence in Saudi Arabia
@@ -214,7 +212,7 @@ const Footer = () => {
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="w-10 h-10 rounded-lg bg-gray-900/50 border border-gray-800/50 flex items-center justify-center text-gray-400 hover:text-blue-400 hover:border-blue-500/50 hover:bg-blue-500/10 transition-all duration-300"
+                    className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
                   >
                     <Icon className="w-4 h-4" />
                   </a>
