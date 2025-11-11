@@ -32,11 +32,11 @@ const Hero = () => {
         <div className="inline-flex items-center gap-3 mb-12 px-6 py-2.5 bg-linear-to-r from-blue-100 via-purple-100 to-blue-100 dark:from-blue-500/10 dark:via-purple-500/10 dark:to-blue-500/10 backdrop-blur-sm border border-blue-300 dark:border-blue-500/20 rounded-lg shadow-sm">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-blue-600 dark:bg-blue-400 rounded-full animate-pulse"></div>
-            <span className="text-xs font-semibold text-blue-700 dark:text-blue-400 tracking-wider">EST. 2006</span>
+            <span className="text-xs font-semibold text-blue-700 dark:text-blue-400 tracking-wider">EST. 2005</span>
           </div>
           <div className="w-px h-4 bg-slate-400 dark:bg-gray-600"></div>
           <span className="text-xs font-medium text-slate-700 dark:text-gray-300 tracking-wide">
-            18+ Years of ICT Excellence
+            20+ Years of ICT Excellence
           </span>
         </div>
 

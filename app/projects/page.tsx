@@ -275,12 +275,6 @@ const ProjectsPage = () => {
       ? projects
       : projects.filter((project) => project.category === activeFilter);
 
-  const stats = [
-    { value: "50+", label: "Completed Projects" },
-    { value: "3", label: "Service Verticals" },
-    { value: "99%", label: "Success Rate" },
-    { value: "24/7", label: "Support Available" },
-  ];
 
   return (
     <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 text-slate-900 dark:text-gray-100 overflow-hidden">
@@ -307,26 +301,6 @@ const ProjectsPage = () => {
               Explore our portfolio of successfully completed projects spanning
               Data Centers, ICT Infrastructure, and Security Solutions.
             </p>
-          </div>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
-              >
-                <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-                <div className="relative text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-slate-600 dark:text-gray-400">
-                    {stat.label}
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>

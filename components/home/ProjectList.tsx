@@ -119,17 +119,6 @@ const ProjectList = () => {
                   ))}
                 </div>
 
-                {/* Client Count Badge */}
-                <div className="relative mt-6 pt-6 border-t border-slate-200 dark:border-gray-800/50">
-                  <div className="flex items-center justify-between">
-                    <span className="text-slate-500 dark:text-gray-500 text-xs font-semibold uppercase tracking-wider">
-                      Total Projects
-                    </span>
-                    <span className="text-blue-600 dark:text-blue-400 text-2xl font-bold">
-                      {category.clients.length}
-                    </span>
-                  </div>
-                </div>
 
                 {/* Corner Accent */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-blue-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -138,25 +127,6 @@ const ProjectList = () => {
           })}
         </div>
 
-        {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-          <div className="bg-white dark:bg-gray-900/30 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-xl p-6 text-center hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-md dark:shadow-none">
-            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">24+</div>
-            <div className="text-slate-600 dark:text-gray-400 text-sm">Total Projects</div>
-          </div>
-          <div className="bg-white dark:bg-gray-900/30 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-xl p-6 text-center hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-md dark:shadow-none">
-            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">3</div>
-            <div className="text-slate-600 dark:text-gray-400 text-sm">Business Verticals</div>
-          </div>
-          <div className="bg-white dark:bg-gray-900/30 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-xl p-6 text-center hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-md dark:shadow-none">
-            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">18+</div>
-            <div className="text-slate-600 dark:text-gray-400 text-sm">Years Experience</div>
-          </div>
-          <div className="bg-white dark:bg-gray-900/30 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-xl p-6 text-center hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-md dark:shadow-none">
-            <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">100%</div>
-            <div className="text-slate-600 dark:text-gray-400 text-sm">Client Satisfaction</div>
-          </div>
-        </div>
 
         {/* CTA Section */}
         <div className="relative bg-linear-to-r from-slate-100/80 via-blue-50/80 to-slate-100/80 dark:from-gray-900/60 dark:via-gray-800/60 dark:to-gray-900/60 backdrop-blur-sm border border-slate-200 dark:border-gray-700/50 rounded-2xl p-8 md:p-12 overflow-hidden">

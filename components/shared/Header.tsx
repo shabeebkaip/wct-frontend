@@ -4,15 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, Phone, Mail, Sun, Moon } from 'lucide-react';
-import { useTheme } from '@/contexts/ThemeContext';
+import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const pathname = usePathname();
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,19 +57,14 @@ const Header = () => {
             <div className="flex items-center justify-between">
               {/* Logo */}
               <Link href="/" className="flex items-center gap-2 group relative z-10">
-                <div className="relative w-12 h-12 sm:w-14 sm:h-14">
+                <div className="relative ">
                   <Image
                     src="/logo.png"
                     alt="WCT Solutions"
-                    fill
+                    width={150}
+                    height={150}
                     className="object-contain transform group-hover:scale-110 transition-transform duration-300"
                   />
-                </div>
-                <div className="hidden sm:block">
-                  <h1 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    WeCare Tech
-                  </h1>
-                  <p className="text-xs text-slate-600 dark:text-gray-400">Infrastructure Solutions</p>
                 </div>
               </Link>
 
@@ -142,18 +135,10 @@ const Header = () => {
 
               {/* Desktop Action Buttons */}
               <div className="hidden lg:flex items-center gap-3">
-                {/* Theme Toggle */}
-                <button
-                  onClick={toggleTheme}
-                  className="p-2 text-slate-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800/50 transition-all duration-300"
-                  aria-label="Toggle theme"
-                >
-                  {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-                </button>
                 <a
                   href="/GFS PROFILE.pptx"
                   download="WeCare-Tech-Company-Profile.pptx"
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800/50 transition-all duration-300"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 rounded-lg hover:bg-slate-100 transition-all duration-300"
                   title="Download Company Brochure"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +148,7 @@ const Header = () => {
                 </a>
                 <a
                   href="tel:+966123456789"
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800/50 transition-all duration-300"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 rounded-lg hover:bg-slate-100 transition-all duration-300"
                 >
                   <Phone className="w-4 h-4" />
                   <span>Call Us</span>
@@ -180,7 +165,7 @@ const Header = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800/50 rounded-lg transition-all duration-300"
+                className="lg:hidden p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all duration-300"
                 aria-label="Toggle menu"
               >
                 {mobileMenuOpen ? (
@@ -220,23 +205,11 @@ const Header = () => {
                   className="object-contain"
                 />
               </div>
-              <div>
-                <h2 className="text-base font-bold text-slate-900 dark:text-white">WeCare Tech</h2>
-                <p className="text-xs text-slate-600 dark:text-gray-400">Infrastructure Solutions</p>
-              </div>
             </div>
             <div className="flex items-center gap-2">
-              {/* Mobile Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className="p-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-                aria-label="Toggle theme"
-              >
-                {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-              </button>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2 text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>

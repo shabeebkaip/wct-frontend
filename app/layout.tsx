@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased bg-white dark:bg-gray-900 transition-colors duration-300 ${montserrat.variable} overflow-x-hidden`}
+        className={`antialiased bg-white ${montserrat.variable} overflow-x-hidden`}
         style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
       >
         <ThemeProvider>
@@ -34,7 +34,6 @@ export default function RootLayout({
             color="rgba(59, 130, 246, 0.3)" 
             blur={100} 
             opacity={0.4}
-            className="dark:opacity-25"
           />
           <Header />
           {children}

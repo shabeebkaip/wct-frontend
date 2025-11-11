@@ -320,12 +320,6 @@ const LowCurrentSolutionPage = () => {
     }
   ];
 
-  const stats = [
-    { value: '150+', label: 'ICT Projects Delivered' },
-    { value: '100+', label: 'Systems Integrated' },
-    { value: '24/7', label: 'Technical Support' },
-    { value: '15+ Years', label: 'Industry Experience' }
-  ];
 
   const projects = [
     {
@@ -441,19 +435,6 @@ const LowCurrentSolutionPage = () => {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-white/80 via-transparent to-transparent dark:from-gray-900 dark:via-transparent dark:to-transparent" />
-              </div>
-
-              {/* Floating Stats */}
-              <div className="absolute -bottom-6 left-6 right-6 grid grid-cols-2 gap-4">
-                {stats.slice(0, 2).map((stat, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-xl bg-white/95 backdrop-blur-sm border border-slate-200 shadow-lg dark:bg-gray-900/90 dark:border-gray-800/50 dark:shadow-none"
-                  >
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stat.value}</div>
-                    <div className="text-xs text-slate-600 dark:text-gray-400">{stat.label}</div>
-                  </div>
-                ))}
               </div>
             </div>
           </div>

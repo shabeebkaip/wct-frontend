@@ -154,11 +154,7 @@ const CCTVSurveillance = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 rounded-xl p-4 text-center">
-                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">500+</div>
-                <div className="text-sm text-slate-500 dark:text-gray-500">Cameras Installed</div>
-              </div>
+            <div className="grid grid-cols-3 gap-4">
               <div className="bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 rounded-xl p-4 text-center">
                 <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-1">100+</div>
                 <div className="text-sm text-slate-500 dark:text-gray-500">Projects Completed</div>

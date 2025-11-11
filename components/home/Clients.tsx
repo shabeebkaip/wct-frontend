@@ -86,26 +86,6 @@ const Clients = () => {
             </div>
           ))}
         </div>
-
-        {/* Stats or Additional Info */}
-        <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-8 px-8 py-4 bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl shadow-lg dark:shadow-none">
-            <div>
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">6+</div>
-              <div className="text-slate-600 dark:text-gray-400 text-sm">Technology Partners</div>
-            </div>
-            <div className="w-px h-12 bg-slate-300 dark:bg-gray-700/50"></div>
-            <div>
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">100+</div>
-              <div className="text-slate-600 dark:text-gray-400 text-sm">Joint Projects</div>
-            </div>
-            <div className="w-px h-12 bg-slate-300 dark:bg-gray-700/50"></div>
-            <div>
-              <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">18+</div>
-              <div className="text-slate-600 dark:text-gray-400 text-sm">Years Partnership</div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
