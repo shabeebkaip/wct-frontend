@@ -285,7 +285,7 @@ const ProjectsPage = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-10 px-6">
+      <section className="relative pt-36 pb-10 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">

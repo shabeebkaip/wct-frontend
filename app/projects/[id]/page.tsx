@@ -214,7 +214,7 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Back Button */}
-      <div className="max-w-7xl mx-auto px-6 pt-32 pb-8">
+      <div className="max-w-7xl mx-auto px-6 pt-36 pb-8">
         <Link 
           href="/projects"
           className="inline-flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"

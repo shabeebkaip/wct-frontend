@@ -5,7 +5,7 @@ import DotGrid from '../DotGrid';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-gray-900 dark:via-black dark:to-gray-900 transition-colors duration-300">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-gray-900 dark:via-black dark:to-gray-900 transition-colors duration-300 pt-4 ">
       {/* Bottom gradient transition */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-b from-transparent to-white dark:to-black z-5 pointer-events-none"></div>
       
