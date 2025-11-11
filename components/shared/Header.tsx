@@ -51,8 +51,8 @@ const Header = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`relative px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-2xl border transition-all duration-300 ${
             scrolled 
-              ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-slate-200 dark:border-gray-800/80 shadow-lg shadow-slate-900/10 dark:shadow-black/50' 
-              : 'bg-white/90 dark:bg-gray-900/80 backdrop-blur-lg border-slate-200/70 dark:border-gray-800/50 shadow-md shadow-slate-900/5 dark:shadow-black/30'
+              ? 'bg-white/70 backdrop-blur-md border-white/20 shadow-2xl shadow-slate-900/10' 
+              : 'bg-white/60 backdrop-blur border-white/30 shadow-xl shadow-slate-900/5'
           }`}>
             <div className="flex items-center justify-between">
               {/* Logo */}
