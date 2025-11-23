@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
-import HomePage from '@/lib/models/HomePage';
+import { HomePage } from '@/lib/models/HomePage';
 import { requireAdmin, forbiddenResponse } from '@/lib/api-auth';
 
 const defaultData = {

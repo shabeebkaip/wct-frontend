@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Revalidate the hero tag
-    revalidateTag('hero');
+    await revalidateTag('hero', 'default');
 
     return NextResponse.json({
       success: true,

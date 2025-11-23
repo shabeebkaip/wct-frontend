@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidateTag } from 'next/cache';
+import { requireAdmin, forbiddenResponse } from '@/lib/api-auth';
 
 export async function POST(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader || authHeader !== 'Bearer admin-token') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const { authorized } = await requireAdmin();
+    if (!authorized) {
+      return forbiddenResponse();
     }
 
-    revalidateTag('data-center-page');
+    await revalidateTag('data-center-page', 'default');
     
     return NextResponse.json({
       success: true,
