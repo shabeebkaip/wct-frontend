@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Initialize Admin User</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #1d4ed8;
+    }
+    button:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+    .message {
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+    .success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #10b981;
+    }
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #ef4444;
+    }
+    .info {
+      background: #e0e7ff;
+      color: #3730a3;
+      border: 1px solid #6366f1;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Initialize Admin User</h1>
+    
+    <div class="info">
+      <strong>One-time setup:</strong> This will create the admin user for the CMS.
+    </div>
+
+    <form id="initForm">
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" id="email" value="wct@wecaretech.com" required readonly style="background: #f9fafb;">
+      </div>
+
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" id="password" value="weCareTech@2005#" required readonly style="background: #f9fafb;">
+      </div>
+
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" id="name" value="WeCare Tech Admin" required>
+      </div>
+
+      <div class="form-group">
+        <label>Secret Key:</label>
+        <input type="text" id="secret" value="wecare-tech-init-2025" required readonly style="background: #f9fafb;">
+      </div>
+
+      <button type="submit" id="submitBtn">Create Admin User</button>
+    </form>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('initForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const messageDiv = document.getElementById('message');
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating...';
+      messageDiv.innerHTML = '';
+
+      const data = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        name: document.getElementById('name').value,
+        secret: document.getElementById('secret').value,
+      };
+
+      try {
+        const response = await fetch('/api/auth/init-admin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          messageDiv.className = 'message success';
+          messageDiv.innerHTML = `
+            <strong>✓ Success!</strong><br>
+            Admin user created successfully.<br>
+            <strong>Email:</strong> ${result.user.email}<br>
+            <strong>Role:</strong> ${result.user.role}<br><br>
+            You can now <a href="/admin/login" style="color: #059669; font-weight: 600;">login to the CMS</a>
+          `;
+          submitBtn.textContent = 'Created Successfully ✓';
+        } else {
+          messageDiv.className = 'message error';
+          messageDiv.innerHTML = `<strong>✗ Error:</strong> ${result.error}`;
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Admin User';
+        }
+      } catch (error) {
+        messageDiv.className = 'message error';
+        messageDiv.innerHTML = `<strong>✗ Network Error:</strong> ${error.message}`;
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Admin User';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -16,7 +16,7 @@ export default function Home() {
 
       {/* Hero Section with Prism Background */}
       <Hero />
-      <BusinessVerticals  />
+      {/* <BusinessVerticals  /> */}
       {/* <DataCenterBrands /> */}
       <DataCenterImages />
       <CCTVSurveillance />

@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/shared/Header";
-import Footer from "@/components/shared/Footer";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Orb } from "@/components/ui/orb";
+import LayoutWrapper from "@/components/LayoutWrapper";
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -35,9 +34,9 @@ export default function RootLayout({
             blur={100} 
             opacity={0.4}
           />
-          <Header />
-          {children}
-          <Footer />
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
         </ThemeProvider>
       </body>
     </html>

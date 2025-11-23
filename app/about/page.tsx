@@ -120,7 +120,7 @@ const About = () => {
               Building Tomorrow&apos;s Infrastructure
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              For over 18 years, WeCare Technology has been at the forefront of
+              For over 20 years, WeCare Technology has been at the forefront of
               delivering world-class IT infrastructure solutions across Saudi
               Arabia and the GCC region.
             </p>
@@ -144,7 +144,7 @@ const About = () => {
               </h2>
               <div className="space-y-4 text-slate-600 dark:text-gray-400 leading-relaxed">
                 <p>
-                  Founded in 2007, WeCare Technology emerged with a clear
+                  Founded in 2005, WeCare Technology emerged with a clear
                   mission: to provide exceptional IT infrastructure solutions
                   that empower businesses to thrive in the digital age. Our
                   journey began in Riyadh, and over the years, we&apos;ve grown
