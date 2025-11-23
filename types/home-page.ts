@@ -16,17 +16,28 @@ declare global {
       badge: string;
       title: string;
       description: string;
-      solutions: Array<{
+      securityApproach: {
+        title: string;
+        steps: Array<{
+          number: string;
+          title: string;
+          subtitle: string;
+        }>;
+      };
+      mainSolutions: Array<{
         icon: string;
         title: string;
         description: string;
         features: string[];
       }>;
-      additionalSolutions: Array<{
-        icon: string;
+      additionalServices: {
         title: string;
-        description: string;
-      }>;
+        services: Array<{
+          icon: string;
+          title: string;
+          description: string;
+        }>;
+      };
     };
     structuredCablingSection: {
       badge: string;
@@ -47,6 +58,11 @@ declare global {
         icon: string;
       }>;
       features: Array<{
+        icon: string;
+        title: string;
+        description: string;
+      }>;
+      additionalSolutions: Array<{
         icon: string;
         title: string;
         description: string;

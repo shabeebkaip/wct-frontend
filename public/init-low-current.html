@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Initialize Low Current Data - WeCare Tech</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    
+    .info-box {
+      background: #f8f9fa;
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+    
+    .info-box h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    
+    .info-box ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .info-box li {
+      padding: 8px 0;
+      color: #555;
+      font-size: 14px;
+    }
+    
+    .info-box li:before {
+      content: "✓ ";
+      color: #667eea;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+    
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.6;
+      display: none;
+    }
+    
+    .result.success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+    
+    .result.error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+    
+    .result.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .links {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 2px solid #f0f0f0;
+    }
+    
+    .links h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    
+    .links a {
+      display: inline-block;
+      color: #667eea;
+      text-decoration: none;
+      padding: 8px 16px;
+      margin: 5px;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .links a:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔌 Initialize Low Current Data</h1>
+    <p class="subtitle">Set up the Low Current Systems section with default content</p>
+    
+    <div class="info-box">
+      <h3>📦 What will be initialized:</h3>
+      <ul>
+        <li>Badge: "LOW CURRENT SYSTEMS"</li>
+        <li>4-Step Security Approach Flow</li>
+        <li>4 Main Solution Cards (Shield, Lock, Eye, MapPin)</li>
+        <li>3 Additional Service Cards</li>
+        <li>All content fully editable via CMS</li>
+      </ul>
+    </div>
+    
+    <button id="initBtn" onclick="initializeData()">
+      Initialize Low Current Section
+    </button>
+    
+    <div id="result" class="result"></div>
+    
+    <div class="links">
+      <h3>🔗 Quick Links:</h3>
+      <a href="/admin/home-content">Edit Content (CMS)</a>
+      <a href="/">View Homepage</a>
+    </div>
+  </div>
+  
+  <script>
+    async function initializeData() {
+      const btn = document.getElementById('initBtn');
+      const result = document.getElementById('result');
+      
+      // Disable button and show loading state
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>Initializing...';
+      result.classList.remove('show', 'success', 'error');
+      
+      try {
+        const response = await fetch('/api/init-low-current', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          result.className = 'result success show';
+          result.innerHTML = `
+            <strong>✅ Success!</strong><br><br>
+            ${data.message}<br><br>
+            <strong>Data structure created:</strong><br>
+            • Security Approach: ${data.data.securityApproach.steps.length} steps<br>
+            • Main Solutions: ${data.data.mainSolutions.length} cards<br>
+            • Additional Services: ${data.data.additionalServices.services.length} services<br><br>
+            You can now visit the <a href="/admin/home-content" style="color: #155724; font-weight: bold; text-decoration: underline;">CMS Admin Panel</a> to edit the content!
+          `;
+          btn.innerHTML = '✓ Initialized Successfully';
+          btn.style.background = '#28a745';
+        } else {
+          throw new Error(data.error || 'Unknown error');
+        }
+      } catch (error) {
+        result.className = 'result error show';
+        result.innerHTML = `
+          <strong>❌ Error</strong><br><br>
+          ${error.message}<br><br>
+          Please check your database connection and try again.
+        `;
+        btn.disabled = false;
+        btn.innerHTML = 'Try Again';
+      }
+    }
+  </script>
+</body>
+</html>
