@@ -1,19 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface HeroData {
-  title: string;
-  subtitle: string;
-  description: string;
-  badgeText: string;
-  badgeDescription: string;
-  primaryButtonText: string;
-  primaryButtonLink: string;
-  secondaryButtonText: string;
-  secondaryButtonLink: string;
-  backgroundImage: string;
-}
-
 async function getHeroData(): Promise<HeroData> {
   // Fetch directly from database during build and runtime
   // This avoids HTTP request issues during Vercel build

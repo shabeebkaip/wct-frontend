@@ -2,39 +2,7 @@ import React from 'react';
 import * as LucideIcons from 'lucide-react';
 import ImageGallery from './DataCenterImageGallery';
 
-interface DataCenterData {
-  sectionHeader: {
-    badge: string;
-    title: string;
-    description: string;
-  };
-  solutions: Array<{
-    icon: string;
-    title: string;
-    description: string;
-  }>;
-  features: string[];
-  images: Array<{
-    src: string;
-    alt: string;
-    title: string;
-    description: string;
-  }>;
-  cta: {
-    title: string;
-    description: string;
-    primaryButton: {
-      text: string;
-      link: string;
-    };
-    secondaryButton: {
-      text: string;
-      link: string;
-    };
-  };
-}
-
-async function getDataCenterData(): Promise<DataCenterData> {
+async function getDataCenterData(): Promise<DataCenterHomeData> {
   // Fetch directly from database during build and runtime
   // This avoids HTTP request issues during Vercel build
   try {
@@ -48,7 +16,7 @@ async function getDataCenterData(): Promise<DataCenterData> {
         if (key === '_id' || key === '__v') return undefined;
         return value;
       }));
-      return plainData as DataCenterData;
+      return plainData as DataCenterHomeData;
     }
   } catch (error) {
     console.error('Error fetching data center data from database:', error);
