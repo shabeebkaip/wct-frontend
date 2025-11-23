@@ -15,36 +15,23 @@ interface HeroData {
 }
 
 async function getHeroData(): Promise<HeroData> {
+  // Fetch directly from database during build and runtime
+  // This avoids HTTP request issues during Vercel build
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/hero`, {
-      next: {
-        revalidate: 60, // Revalidate every 60 seconds (ISR)
-        tags: ['hero'],
-      },
-    });
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch hero data');
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const Hero = (await import('@/lib/models/Hero')).default;
+    await connectDB();
+    const data = await Hero.findOne().lean();
+    if (data) {
+      // Convert to plain object, removing MongoDB _id and __v fields
+      const { _id, __v, ...plainData } = data;
+      return plainData as HeroData;
     }
-
-    return res.json();
   } catch (error) {
-    console.error('Error fetching hero data:', error);
-    // Return default data as fallback
-    return {
-      title: 'Next-Gen Data Center &',
-      subtitle: 'ICT Solutions',
-      description: "Pioneering turnkey data center solutions, electro-mechanical systems, and enterprise-grade infrastructure for the Kingdom's digital transformation since 2005.",
-      badgeText: 'EST. 2005',
-      badgeDescription: '20+ Years of ICT Excellence',
-      primaryButtonText: 'Explore Solutions',
-      primaryButtonLink: '/solutions/data-center',
-      secondaryButtonText: 'View Projects',
-      secondaryButtonLink: '/projects',
-      backgroundImage: '',
-    };
+    console.error('Error fetching hero data from database:', error);
   }
+
+  throw new Error('Failed to fetch hero data');
 }
 
 export default async function Hero() {
