@@ -24,7 +24,7 @@ async function getHeroData(): Promise<HeroData> {
     const data = await Hero.findOne().lean();
     if (data) {
       // Convert to plain object, removing MongoDB _id and __v fields
-      const { _id, __v, ...plainData } = data;
+      const { ...plainData } = data;
       return plainData as HeroData;
     }
   } catch (error) {
