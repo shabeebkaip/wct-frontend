@@ -2,11 +2,12 @@
 
 import React from 'react';
 import * as LucideIcons from 'lucide-react';
-import { Plus, Trash2, ArrowRight } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
+import { LowCurrentData } from '@/types/lowCurrentSolution';
 
 interface LowCurrentSectionProps {
-  data: HomePageData;
-  updateData: (updates: Partial<HomePageData>) => void;
+  data: { lowCurrentSection: LowCurrentData };
+  updateData: (updates: { lowCurrentSection: LowCurrentData }) => void;
   editingField: string | null;
   setEditingField: (field: string | null) => void;
 }
@@ -17,79 +18,6 @@ export default function LowCurrentSection({
   editingField,
   setEditingField,
 }: LowCurrentSectionProps) {
-  // Migrate old structure to new structure if needed and ensure defaults
-  React.useEffect(() => {
-    let needsUpdate = false;
-    const updatedData = { ...data.lowCurrentSection };
-
-    // Migrate from old structure if needed
-    if (data.lowCurrentSection.solutions && !data.lowCurrentSection.mainSolutions) {
-      updatedData.securityApproach = {
-        title: 'Multi-Layered Security Approach',
-        steps: [
-          { number: '1', title: 'Perimeter Protection System', subtitle: 'First line of defense' },
-          { number: '2', title: 'Access Control System', subtitle: 'Entry point management' },
-          { number: '3', title: 'On Premise Security', subtitle: 'Internal monitoring' },
-          { number: '4', title: 'Public Area Protection', subtitle: 'Comprehensive coverage' },
-        ],
-      };
-      updatedData.mainSolutions = data.lowCurrentSection.solutions;
-      updatedData.additionalServices = {
-        title: 'Additional Services',
-        services: data.lowCurrentSection.additionalSolutions || [],
-      };
-      delete updatedData.solutions;
-      delete updatedData.additionalSolutions;
-      needsUpdate = true;
-    }
-
-    // Ensure securityApproach has defaults
-    if (!updatedData.securityApproach) {
-      updatedData.securityApproach = {
-        title: 'Multi-Layered Security Approach',
-        steps: [],
-      };
-      needsUpdate = true;
-    } else {
-      if (!updatedData.securityApproach.title) {
-        updatedData.securityApproach.title = 'Multi-Layered Security Approach';
-        needsUpdate = true;
-      }
-      if (!updatedData.securityApproach.steps) {
-        updatedData.securityApproach.steps = [];
-        needsUpdate = true;
-      }
-    }
-
-    // Ensure mainSolutions exists
-    if (!updatedData.mainSolutions) {
-      updatedData.mainSolutions = [];
-      needsUpdate = true;
-    }
-
-    // Ensure additionalServices has defaults
-    if (!updatedData.additionalServices) {
-      updatedData.additionalServices = {
-        title: 'Additional Services',
-        services: [],
-      };
-      needsUpdate = true;
-    } else {
-      if (!updatedData.additionalServices.title) {
-        updatedData.additionalServices.title = 'Additional Services';
-        needsUpdate = true;
-      }
-      if (!updatedData.additionalServices.services) {
-        updatedData.additionalServices.services = [];
-        needsUpdate = true;
-      }
-    }
-
-    if (needsUpdate) {
-      updateData({ lowCurrentSection: updatedData });
-    }
-  }, [data.lowCurrentSection, updateData]);
-
   const EditableText = ({
     value,
     onChange,
@@ -103,15 +31,27 @@ export default function LowCurrentSection({
     multiline?: boolean;
     className?: string;
   }) => {
+    const [localValue, setLocalValue] = React.useState(value);
     const isEditing = editingField === fieldKey;
+
+    React.useEffect(() => {
+      setLocalValue(value);
+    }, [value]);
+
+    const handleBlur = () => {
+      setEditingField(null);
+      if (localValue !== value) {
+        onChange(localValue);
+      }
+    };
 
     if (multiline) {
       return (
         <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          value={localValue}
+          onChange={(e) => setLocalValue(e.target.value)}
           onFocus={() => setEditingField(fieldKey)}
-          onBlur={() => setEditingField(null)}
+          onBlur={handleBlur}
           className={`${className} ${
             isEditing ? 'ring-2 ring-blue-500' : 'ring-1 ring-gray-200'
           } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
@@ -123,10 +63,10 @@ export default function LowCurrentSection({
     return (
       <input
         type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
         onFocus={() => setEditingField(fieldKey)}
-        onBlur={() => setEditingField(null)}
+        onBlur={handleBlur}
         className={`${className} ${
           isEditing ? 'ring-2 ring-blue-500' : 'ring-1 ring-gray-200'
         } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
@@ -146,16 +86,18 @@ export default function LowCurrentSection({
       'Shield',
       'Lock',
       'Eye',
+      'MapPin',
+      'Zap',
       'Radio',
       'Wifi',
-      'Zap',
       'Settings',
       'Activity',
       'Tv',
       'Video',
       'Lightbulb',
       'Building',
-      'MapPin',
+      'Camera',
+      'AlertTriangle',
     ];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -207,27 +149,27 @@ export default function LowCurrentSection({
   };
 
   return (
-    <section className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+    <section className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
       {/* Section Header */}
-      <div className="bg-linear-to-r from-blue-600 to-cyan-600 p-6 text-white">
+      <div className="bg-indigo-600 p-4 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold mb-1">
-              <LucideIcons.Zap className="inline w-6 h-6 mr-2" />
-              Low Current Systems Section
+            <h2 className="text-xl font-bold">
+              <LucideIcons.Shield className="inline w-5 h-5 mr-2" />
+              Low Current Solutions Section
             </h2>
-            <p className="text-blue-100 text-sm">Edit integrated security solutions</p>
+            <p className="text-indigo-100 text-xs">Edit as it appears on your website</p>
           </div>
         </div>
       </div>
 
-      <div className="p-8 space-y-8">
-        {/* Header Content */}
-        <div className="text-center space-y-4 pb-6 border-b border-gray-200">
+      <div className="p-3 space-y-3">
+        {/* Header Section */}
+        <div className="text-center space-y-1.5 pb-2 border-b border-gray-200">
           <div className="inline-block">
-            <div className="text-xs font-medium text-gray-600 mb-2">📌 BADGE TEXT</div>
-            <div className="px-6 py-2.5 bg-blue-100 border border-blue-300 rounded-full text-blue-700 text-sm font-semibold inline-flex items-center gap-2 min-w-[300px]">
-              <LucideIcons.Zap className="w-4 h-4" />
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📌 BADGE</div>
+            <div className="px-3 py-1 bg-indigo-100 border border-indigo-300 rounded-full text-indigo-700 text-xs font-semibold inline-flex items-center gap-1.5 min-w-[200px]">
+              <LucideIcons.Shield className="w-3 h-3" />
               <EditableText
                 value={data.lowCurrentSection.badge}
                 onChange={(value) =>
@@ -236,13 +178,13 @@ export default function LowCurrentSection({
                   })
                 }
                 fieldKey="low-current-badge"
-                className="text-sm bg-transparent flex-1 text-center"
+                className="text-xs bg-transparent flex-1 text-center"
               />
             </div>
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-600 mb-2">📝 MAIN TITLE</div>
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📝 TITLE</div>
             <EditableText
               value={data.lowCurrentSection.title}
               onChange={(value) =>
@@ -251,12 +193,12 @@ export default function LowCurrentSection({
                 })
               }
               fieldKey="low-current-title"
-              className="text-4xl font-bold text-gray-900 text-center"
+              className="text-xl font-bold text-gray-900 text-center"
             />
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-600 mb-2">📄 DESCRIPTION</div>
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📄 DESCRIPTION</div>
             <EditableText
               value={data.lowCurrentSection.description}
               onChange={(value) =>
@@ -266,181 +208,114 @@ export default function LowCurrentSection({
               }
               fieldKey="low-current-description"
               multiline
-              className="text-lg text-gray-600 max-w-3xl mx-auto text-center"
+              className="text-xs text-gray-600 max-w-3xl mx-auto text-center"
             />
           </div>
         </div>
 
-        {/* Security Approach Flow */}
-        <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-2xl border border-blue-200">
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">🔄 Multi-Layered Security Approach</h3>
-                <p className="text-sm text-gray-600 mt-1">Flow diagram showing security layers</p>
-              </div>
+        {/* Security Flow Section */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <h3 className="text-base font-bold text-gray-900">🔒 Security Flow Steps</h3>
+              <p className="text-xs text-gray-600">Implementation process steps</p>
             </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Section Title</label>
-              <EditableText
-                value={data.lowCurrentSection.securityApproach.title}
-                onChange={(value) =>
-                  updateData({
-                    lowCurrentSection: {
-                      ...data.lowCurrentSection,
-                      securityApproach: {
-                        title: value,
-                        steps: data.lowCurrentSection.securityApproach.steps,
-                      },
-                    },
-                  })
-                }
-                fieldKey="security-approach-title"
-                className="text-lg font-semibold"
-              />
-            </div>
+            <button
+              onClick={() => {
+                const newStep = {
+                  step: (data.lowCurrentSection.securityFlow?.length || 0) + 1,
+                  title: 'New Step',
+                  description: 'Step description',
+                };
+                updateData({
+                  lowCurrentSection: {
+                    ...data.lowCurrentSection,
+                    securityFlow: [...(data.lowCurrentSection.securityFlow || []), newStep],
+                  },
+                });
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all font-medium text-xs"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Add Step
+            </button>
           </div>
 
-          {/* Flow Steps */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between mb-4">
-              <label className="text-sm font-semibold text-gray-700">Flow Steps</label>
-              <button
-                onClick={() => {
-                  const newStep = {
-                    number: String(((data.lowCurrentSection.securityApproach || {}).steps || []).length + 1),
-                    title: 'New Step',
-                    subtitle: 'Step description',
-                  };
-                  updateData({
-                    lowCurrentSection: {
-                      ...data.lowCurrentSection,
-                      securityApproach: {
-                        ...(data.lowCurrentSection.securityApproach || {}),
-                        steps: [...((data.lowCurrentSection.securityApproach || {}).steps || []), newStep],
-                      },
-                    },
-                  });
-                }}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            {(data.lowCurrentSection.securityFlow || []).map((step, index) => (
+              <div
+                key={index}
+                className="group relative bg-white border-2 border-gray-200 rounded-xl p-3 hover:border-indigo-400 hover:shadow-xl transition-all"
               >
-                <Plus className="w-4 h-4" />
-                Add Step
-              </button>
-            </div>
+                {/* Delete Button */}
+                <button
+                  onClick={() => {
+                    if (confirm('Delete this step?')) {
+                      const newSteps = data.lowCurrentSection.securityFlow.filter((_, i) => i !== index);
+                      // Renumber steps
+                      const renumberedSteps = newSteps.map((s, i) => ({ ...s, step: i + 1 }));
+                      updateData({
+                        lowCurrentSection: { ...data.lowCurrentSection, securityFlow: renumberedSteps },
+                      });
+                    }
+                  }}
+                  className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+                >
+                  <Trash2 className="w-3 h-3" />
+                </button>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {((data.lowCurrentSection.securityApproach || {}).steps || []).map((step, index) => (
-                <div key={index} className="group relative">
-                  <div className="bg-white border-2 border-blue-200 rounded-xl p-4 hover:border-blue-400 transition-all">
-                    <button
-                      onClick={() => {
-                        const newSteps = ((data.lowCurrentSection.securityApproach || {}).steps || []).filter(
-                          (_, i) => i !== index
-                        );
+                <div className="space-y-2">
+                  {/* Step Number */}
+                  <div className="flex items-center justify-center w-8 h-8 bg-indigo-600 text-white rounded-full font-bold text-sm">
+                    {step.step}
+                  </div>
+
+                  {/* Title */}
+                  <div>
+                    <div className="text-xs font-semibold text-gray-600 mb-0.5">Step Title</div>
+                    <EditableText
+                      value={step.title}
+                      onChange={(value) => {
+                        const newSteps = [...data.lowCurrentSection.securityFlow];
+                        newSteps[index] = { ...step, title: value };
                         updateData({
-                          lowCurrentSection: {
-                            ...data.lowCurrentSection,
-                            securityApproach: {
-                              ...(data.lowCurrentSection.securityApproach || {}),
-                              steps: newSteps,
-                            },
-                          },
+                          lowCurrentSection: { ...data.lowCurrentSection, securityFlow: newSteps },
                         });
                       }}
-                      className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-
-                    <div className="space-y-3">
-                      <div>
-                        <label className="text-xs font-medium text-gray-600 mb-1 block">Step Number</label>
-                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-2">
-                          <input
-                            type="text"
-                            value={step.number}
-                            onChange={(e) => {
-                              const newSteps = [...((data.lowCurrentSection.securityApproach || {}).steps || [])];
-                              newSteps[index] = { ...step, number: e.target.value };
-                              updateData({
-                                lowCurrentSection: {
-                                  ...data.lowCurrentSection,
-                                  securityApproach: {
-                                    ...(data.lowCurrentSection.securityApproach || {}),
-                                    steps: newSteps,
-                                  },
-                                },
-                              });
-                            }}
-                            className="w-6 text-center font-bold text-blue-600 bg-transparent border-none outline-none"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="text-xs font-medium text-gray-600 mb-1 block">Step Title</label>
-                        <EditableText
-                          value={step.title}
-                          onChange={(value) => {
-                            const newSteps = [...((data.lowCurrentSection.securityApproach || {}).steps || [])];
-                            newSteps[index] = { ...step, title: value };
-                            updateData({
-                              lowCurrentSection: {
-                                ...data.lowCurrentSection,
-                                securityApproach: {
-                                  ...(data.lowCurrentSection.securityApproach || {}),
-                                  steps: newSteps,
-                                },
-                              },
-                            });
-                          }}
-                          fieldKey={`step-title-${index}`}
-                          className="text-sm font-semibold"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-xs font-medium text-gray-600 mb-1 block">Subtitle</label>
-                        <EditableText
-                          value={step.subtitle}
-                          onChange={(value) => {
-                            const newSteps = [...((data.lowCurrentSection.securityApproach || {}).steps || [])];
-                            newSteps[index] = { ...step, subtitle: value };
-                            updateData({
-                              lowCurrentSection: {
-                                ...data.lowCurrentSection,
-                                securityApproach: {
-                                  ...(data.lowCurrentSection.securityApproach || {}),
-                                  steps: newSteps,
-                                },
-                              },
-                            });
-                          }}
-                          fieldKey={`step-subtitle-${index}`}
-                          className="text-xs text-gray-600"
-                        />
-                      </div>
-                    </div>
+                      fieldKey={`security-flow-title-${index}`}
+                      className="text-sm font-bold text-gray-900"
+                    />
                   </div>
-                  {index < ((data.lowCurrentSection.securityApproach || {}).steps || []).length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-2 transform -translate-y-1/2 translate-x-1/2 z-10">
-                      <ArrowRight className="w-5 h-5 text-blue-400" />
-                    </div>
-                  )}
+
+                  {/* Description */}
+                  <div>
+                    <div className="text-xs font-semibold text-gray-600 mb-0.5">Description</div>
+                    <EditableText
+                      value={step.description}
+                      onChange={(value) => {
+                        const newSteps = [...data.lowCurrentSection.securityFlow];
+                        newSteps[index] = { ...step, description: value };
+                        updateData({
+                          lowCurrentSection: { ...data.lowCurrentSection, securityFlow: newSteps },
+                        });
+                      }}
+                      fieldKey={`security-flow-desc-${index}`}
+                      multiline
+                      className="text-xs text-gray-600"
+                    />
+                  </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Main Solutions (4 Cards) */}
+        {/* Main Solutions Section */}
         <div>
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-2">
             <div>
-              <h3 className="text-xl font-bold text-gray-900">📦 Main Solution Cards</h3>
-              <p className="text-sm text-gray-600">Four main security solutions with features</p>
+              <h3 className="text-base font-bold text-gray-900">🛡️ Main Solutions</h3>
+              <p className="text-xs text-gray-600">Primary security solutions</p>
             </div>
             <button
               onClick={() => {
@@ -448,157 +323,153 @@ export default function LowCurrentSection({
                   icon: 'Shield',
                   title: 'New Solution',
                   description: 'Solution description',
-                  features: ['Feature 1', 'Feature 2', 'Feature 3'],
+                  features: ['Feature 1', 'Feature 2'],
                 };
                 updateData({
                   lowCurrentSection: {
                     ...data.lowCurrentSection,
-                    mainSolutions: [...(data.lowCurrentSection.mainSolutions || []), newSolution],
+                    solutions: [...(data.lowCurrentSection.solutions || []), newSolution],
                   },
                 });
               }}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl font-semibold"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all font-medium text-xs"
             >
-              <Plus className="w-5 h-5" />
-              Add Solution Card
+              <Plus className="w-3.5 h-3.5" />
+              Add Solution
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(data.lowCurrentSection.mainSolutions || []).map((solution, index) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {(data.lowCurrentSection.solutions || []).map((solution, index) => {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const Icon = (LucideIcons as any)[solution.icon] || LucideIcons.Shield;
               return (
                 <div
                   key={index}
-                  className="group relative bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-blue-400 hover:shadow-2xl transition-all"
+                  className="group relative bg-white border-2 border-gray-200 rounded-xl p-3 hover:border-indigo-400 hover:shadow-xl transition-all"
                 >
+                  {/* Delete Button */}
                   <button
                     onClick={() => {
-                      if (confirm('Delete this solution card?')) {
-                        const newSolutions = (data.lowCurrentSection.mainSolutions || []).filter(
-                          (_, i) => i !== index
-                        );
+                      if (confirm('Delete this solution?')) {
+                        const newSolutions = data.lowCurrentSection.solutions.filter((_, i) => i !== index);
                         updateData({
-                          lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
+                          lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
                         });
                       }
                     }}
-                    className="absolute -top-3 -right-3 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+                    className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3 h-3" />
                   </button>
 
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     {/* Icon */}
-                    <div className="space-y-2">
-                      <div className="text-xs font-semibold text-gray-600 uppercase">Icon</div>
-                      <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-3">
-                        <Icon className="w-6 h-6 text-blue-600" />
+                    <div className="space-y-1">
+                      <div className="text-xs font-semibold text-gray-600">Icon</div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center shadow-md">
+                          <Icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <IconSelector
+                            value={solution.icon}
+                            onChange={(icon) => {
+                              const newSolutions = [...data.lowCurrentSection.solutions];
+                              newSolutions[index] = { ...solution, icon };
+                              updateData({
+                                lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
+                              });
+                            }}
+                          />
+                        </div>
                       </div>
-                      <IconSelector
-                        value={solution.icon}
-                        onChange={(icon) => {
-                          const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
-                          newSolutions[index] = { ...solution, icon };
-                          updateData({
-                            lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
-                          });
-                        }}
-                      />
                     </div>
 
                     {/* Title */}
                     <div>
-                      <div className="text-xs font-semibold text-gray-600 mb-1 uppercase">Card Title</div>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Title</div>
                       <EditableText
                         value={solution.title}
                         onChange={(value) => {
-                          const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
+                          const newSolutions = [...data.lowCurrentSection.solutions];
                           newSolutions[index] = { ...solution, title: value };
                           updateData({
-                            lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
+                            lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
                           });
                         }}
-                        fieldKey={`low-current-solution-title-${index}`}
-                        className="text-lg font-bold text-gray-900"
+                        fieldKey={`solution-title-${index}`}
+                        className="text-sm font-bold text-gray-900"
                       />
                     </div>
 
                     {/* Description */}
                     <div>
-                      <div className="text-xs font-semibold text-gray-600 mb-1 uppercase">Description</div>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Description</div>
                       <EditableText
                         value={solution.description}
                         onChange={(value) => {
-                          const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
+                          const newSolutions = [...data.lowCurrentSection.solutions];
                           newSolutions[index] = { ...solution, description: value };
                           updateData({
-                            lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
+                            lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
                           });
                         }}
-                        fieldKey={`low-current-solution-desc-${index}`}
+                        fieldKey={`solution-desc-${index}`}
                         multiline
-                        className="text-sm text-gray-600"
+                        className="text-xs text-gray-600"
                       />
                     </div>
 
                     {/* Features */}
                     <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="text-xs font-semibold text-gray-600 uppercase">Features List</div>
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="text-xs font-semibold text-gray-600">Features</div>
                         <button
                           onClick={() => {
-                            const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
+                            const newSolutions = [...data.lowCurrentSection.solutions];
                             newSolutions[index] = {
                               ...solution,
                               features: [...(solution.features || []), 'New Feature'],
                             };
                             updateData({
-                              lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
+                              lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
                             });
                           }}
-                          className="text-xs px-2 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-medium"
+                          className="text-indigo-600 hover:text-indigo-700 text-xs font-medium"
                         >
-                          + Feature
+                          + Add
                         </button>
                       </div>
-                      <div className="space-y-2">
-                        {(solution.features || []).map((feature, fIndex) => (
-                          <div key={fIndex} className="flex items-center gap-2 text-sm">
-                            <span className="text-blue-600">•</span>
+                      <div className="space-y-1">
+                        {(solution.features || []).map((feature, fIdx) => (
+                          <div key={fIdx} className="flex items-center gap-1">
                             <input
                               type="text"
                               value={feature}
                               onChange={(e) => {
-                                const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
+                                const newSolutions = [...(data.lowCurrentSection.solutions || [])];
                                 const newFeatures = [...(solution.features || [])];
-                                newFeatures[fIndex] = e.target.value;
+                                newFeatures[fIdx] = e.target.value;
                                 newSolutions[index] = { ...solution, features: newFeatures };
                                 updateData({
-                                  lowCurrentSection: {
-                                    ...data.lowCurrentSection,
-                                    mainSolutions: newSolutions,
-                                  },
+                                  lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
                                 });
                               }}
-                              className="flex-1 px-2 py-1 text-xs border border-gray-200 rounded bg-white text-gray-900"
+                              className="flex-1 px-2 py-1 text-xs border border-gray-200 rounded text-gray-900"
                             />
                             <button
                               onClick={() => {
-                                const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
-                                const newFeatures = (solution.features || []).filter((_, i) => i !== fIndex);
+                                const newSolutions = [...data.lowCurrentSection.solutions];
+                                const newFeatures = solution.features.filter((_, i) => i !== fIdx);
                                 newSolutions[index] = { ...solution, features: newFeatures };
                                 updateData({
-                                  lowCurrentSection: {
-                                    ...data.lowCurrentSection,
-                                    mainSolutions: newSolutions,
-                                  },
+                                  lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
                                 });
                               }}
-                              className="text-red-500 hover:text-red-700"
+                              className="p-1 text-red-600 hover:bg-red-50 rounded"
                             >
-                              <LucideIcons.X className="w-3 h-3" />
+                              <Trash2 className="w-3 h-3" />
                             </button>
                           </div>
                         ))}
@@ -611,33 +482,16 @@ export default function LowCurrentSection({
           </div>
         </div>
 
-        {/* Additional Services Section */}
-        <div className="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border border-gray-200">
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">🔧 Additional Services</h3>
-            <EditableText
-              value={(data.lowCurrentSection.additionalServices || {}).title || ''}
-              onChange={(value) =>
-                updateData({
-                  lowCurrentSection: {
-                    ...data.lowCurrentSection,
-                    additionalServices: {
-                      ...(data.lowCurrentSection.additionalServices || {}),
-                      title: value,
-                    },
-                  },
-                })
-              }
-              fieldKey="additional-services-title"
-              className="text-lg font-semibold"
-            />
-          </div>
-
-          <div className="flex items-center justify-between mb-4">
-            <label className="text-sm font-semibold text-gray-700">Service Cards</label>
+        {/* Additional Solutions Section */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <h3 className="text-base font-bold text-gray-900">➕ Additional Solutions</h3>
+              <p className="text-xs text-gray-600">Supplementary services</p>
+            </div>
             <button
               onClick={() => {
-                const newService = {
+                const newSolution = {
                   icon: 'Zap',
                   title: 'New Service',
                   description: 'Service description',
@@ -645,126 +499,98 @@ export default function LowCurrentSection({
                 updateData({
                   lowCurrentSection: {
                     ...data.lowCurrentSection,
-                    additionalServices: {
-                      ...(data.lowCurrentSection.additionalServices || {}),
-                      services: [
-                        ...((data.lowCurrentSection.additionalServices || {}).services || []),
-                        newService,
-                      ],
-                    },
+                    additionalSolutions: [...(data.lowCurrentSection.additionalSolutions || []), newSolution],
                   },
                 });
               }}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all font-medium text-xs"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5" />
               Add Service
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {((data.lowCurrentSection.additionalServices || {}).services || []).map((service, index) => {
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {(data.lowCurrentSection.additionalSolutions || []).map((solution, index) => {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const Icon = (LucideIcons as any)[service.icon] || LucideIcons.Zap;
+              const Icon = (LucideIcons as any)[solution.icon] || LucideIcons.Zap;
               return (
                 <div
                   key={index}
-                  className="group relative bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-all"
+                  className="group relative bg-white border-2 border-gray-200 rounded-xl p-3 hover:border-indigo-400 hover:shadow-xl transition-all"
                 >
+                  {/* Delete Button */}
                   <button
                     onClick={() => {
-                      const newServices = ((data.lowCurrentSection.additionalServices || {}).services || []).filter(
-                        (_, i) => i !== index
-                      );
-                      updateData({
-                        lowCurrentSection: {
-                          ...data.lowCurrentSection,
-                          additionalServices: {
-                            ...(data.lowCurrentSection.additionalServices || {}),
-                            services: newServices,
-                          },
-                        },
-                      });
+                      if (confirm('Delete this service?')) {
+                        const newSolutions = data.lowCurrentSection.additionalSolutions.filter(
+                          (_, i) => i !== index
+                        );
+                        updateData({
+                          lowCurrentSection: { ...data.lowCurrentSection, additionalSolutions: newSolutions },
+                        });
+                      }
                     }}
-                    className="absolute top-2 right-2 p-2 bg-red-100 text-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-200"
+                    className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3 h-3" />
                   </button>
 
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Icon</label>
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-blue-100 rounded-lg">
-                          <Icon className="w-6 h-6 text-blue-600" />
+                  <div className="space-y-2">
+                    {/* Icon */}
+                    <div className="space-y-1">
+                      <div className="text-xs font-semibold text-gray-600">Icon</div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-md">
+                          <Icon className="w-4 h-4 text-white" />
                         </div>
-                        <IconSelector
-                          value={service.icon}
-                          onChange={(icon) => {
-                            const newServices = [
-                              ...((data.lowCurrentSection.additionalServices || {}).services || []),
-                            ];
-                            newServices[index] = { ...service, icon };
-                            updateData({
-                              lowCurrentSection: {
-                                ...data.lowCurrentSection,
-                                additionalServices: {
-                                  ...(data.lowCurrentSection.additionalServices || {}),
-                                  services: newServices,
-                                },
-                              },
-                            });
-                          }}
-                        />
+                        <div className="flex-1">
+                          <IconSelector
+                            value={solution.icon}
+                            onChange={(icon) => {
+                              const newSolutions = [...data.lowCurrentSection.additionalSolutions];
+                              newSolutions[index] = { ...solution, icon };
+                              updateData({
+                                lowCurrentSection: { ...data.lowCurrentSection, additionalSolutions: newSolutions },
+                              });
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
 
+                    {/* Title */}
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Title</label>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Title</div>
                       <EditableText
-                        value={service.title}
+                        value={solution.title}
                         onChange={(value) => {
-                          const newServices = [
-                            ...((data.lowCurrentSection.additionalServices || {}).services || []),
-                          ];
-                          newServices[index] = { ...service, title: value };
+                          const newSolutions = [...data.lowCurrentSection.additionalSolutions];
+                          newSolutions[index] = { ...solution, title: value };
                           updateData({
-                            lowCurrentSection: {
-                              ...data.lowCurrentSection,
-                              additionalServices: {
-                                ...(data.lowCurrentSection.additionalServices || {}),
-                                services: newServices,
-                              },
-                            },
+                            lowCurrentSection: { ...data.lowCurrentSection, additionalSolutions: newSolutions },
                           });
                         }}
-                        fieldKey={`additional-service-title-${index}`}
-                        className="font-semibold"
+                        fieldKey={`additional-title-${index}`}
+                        className="text-sm font-bold text-gray-900"
                       />
                     </div>
 
+                    {/* Description */}
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Description</label>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Description</div>
                       <EditableText
-                        value={service.description}
+                        value={solution.description}
                         onChange={(value) => {
-                          const newServices = [
-                            ...((data.lowCurrentSection.additionalServices || {}).services || []),
-                          ];
-                          newServices[index] = { ...service, description: value };
+                          const newSolutions = [...data.lowCurrentSection.additionalSolutions];
+                          newSolutions[index] = { ...solution, description: value };
                           updateData({
-                            lowCurrentSection: {
-                              ...data.lowCurrentSection,
-                              additionalServices: {
-                                ...(data.lowCurrentSection.additionalServices || {}),
-                                services: newServices,
-                              },
-                            },
+                            lowCurrentSection: { ...data.lowCurrentSection, additionalSolutions: newSolutions },
                           });
                         }}
-                        fieldKey={`additional-service-desc-${index}`}
+                        fieldKey={`additional-desc-${index}`}
                         multiline
-                        className="text-sm"
+                        className="text-xs text-gray-600"
                       />
                     </div>
                   </div>
