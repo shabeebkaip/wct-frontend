@@ -30,15 +30,27 @@ export default function CCTVSection({
     multiline?: boolean;
     className?: string;
   }) => {
+    const [localValue, setLocalValue] = React.useState(value);
     const isEditing = editingField === fieldKey;
+
+    React.useEffect(() => {
+      setLocalValue(value);
+    }, [value]);
+
+    const handleBlur = () => {
+      setEditingField(null);
+      if (localValue !== value) {
+        onChange(localValue);
+      }
+    };
 
     if (multiline) {
       return (
         <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          value={localValue}
+          onChange={(e) => setLocalValue(e.target.value)}
           onFocus={() => setEditingField(fieldKey)}
-          onBlur={() => setEditingField(null)}
+          onBlur={handleBlur}
           className={`${className} ${
             isEditing ? 'ring-2 ring-blue-500' : 'ring-1 ring-gray-200'
           } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
@@ -50,10 +62,10 @@ export default function CCTVSection({
     return (
       <input
         type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
         onFocus={() => setEditingField(fieldKey)}
-        onBlur={() => setEditingField(null)}
+        onBlur={handleBlur}
         className={`${className} ${
           isEditing ? 'ring-2 ring-blue-500' : 'ring-1 ring-gray-200'
         } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
@@ -71,6 +83,10 @@ export default function CCTVSection({
     const [isOpen, setIsOpen] = React.useState(false);
     const commonIcons = [
       'Shield',
+      'Building2',
+      'Users',
+      'MapPin',
+      'ShoppingBag',
       'Camera',
       'Lock',
       'Eye',
@@ -86,13 +102,10 @@ export default function CCTVSection({
       'Network',
       'Antenna',
       'Building',
-      'Users',
       'UserCheck',
       'ShieldCheck',
       'Activity',
-      'MapPin',
       'Home',
-      'ShoppingBag',
       'Package',
     ];
 
@@ -145,27 +158,27 @@ export default function CCTVSection({
   };
 
   return (
-    <section className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+    <section className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
       {/* Section Header with Preview */}
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-600 p-6 text-white">
+      <div className="bg-blue-600 p-4 text-white">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold mb-1">
-              <LucideIcons.Camera className="inline w-6 h-6 mr-2" />
+            <h2 className="text-xl font-bold">
+              <LucideIcons.Camera className="inline w-5 h-5 mr-2" />
               CCTV Surveillance Section
             </h2>
-            <p className="text-blue-100 text-sm">Edit as it appears on your website</p>
+            <p className="text-blue-100 text-xs">Edit as it appears on your website</p>
           </div>
         </div>
       </div>
 
-      <div className="p-8 space-y-8">
+      <div className="p-3 space-y-3">
         {/* Header Section - As it appears on website */}
-        <div className="text-center space-y-4 pb-6 border-b border-gray-200">
+        <div className="text-center space-y-1.5 pb-2 border-b border-gray-200">
           <div className="inline-block">
-            <div className="text-xs font-medium text-gray-600 mb-2">📌 BADGE TEXT (Small blue label)</div>
-            <div className="px-6 py-2.5 bg-blue-100 border border-blue-300 rounded-full text-blue-700 text-sm font-semibold inline-flex items-center gap-2 min-w-[300px]">
-              <LucideIcons.Camera className="w-4 h-4" />
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📌 BADGE</div>
+            <div className="px-3 py-1 bg-blue-100 border border-blue-300 rounded-full text-blue-700 text-xs font-semibold inline-flex items-center gap-1.5 min-w-[200px]">
+              <LucideIcons.Camera className="w-3 h-3" />
               <EditableText
                 value={data.cctvSection.badge}
                 onChange={(value) =>
@@ -174,13 +187,13 @@ export default function CCTVSection({
                   })
                 }
                 fieldKey="cctv-badge"
-                className="text-sm bg-transparent flex-1 text-center"
+                className="text-xs bg-transparent flex-1 text-center"
               />
             </div>
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-600 mb-2">📝 MAIN TITLE (Large heading)</div>
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📝 TITLE</div>
             <EditableText
               value={data.cctvSection.title}
               onChange={(value) =>
@@ -189,12 +202,12 @@ export default function CCTVSection({
                 })
               }
               fieldKey="cctv-title"
-              className="text-4xl font-bold text-gray-900 text-center"
+              className="text-xl font-bold text-gray-900 text-center"
             />
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-600 mb-2">📄 DESCRIPTION (Subtitle text)</div>
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📄 DESCRIPTION</div>
             <EditableText
               value={data.cctvSection.description}
               onChange={(value) =>
@@ -204,17 +217,17 @@ export default function CCTVSection({
               }
               fieldKey="cctv-description"
               multiline
-              className="text-lg text-gray-600 max-w-3xl mx-auto text-center"
+              className="text-xs text-gray-600 max-w-3xl mx-auto text-center"
             />
           </div>
         </div>
 
         {/* Solutions Cards - Visual Preview */}
         <div>
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-2">
             <div>
-              <h3 className="text-xl font-bold text-gray-900">📦 Solution Cards</h3>
-              <p className="text-sm text-gray-600">These cards appear on the website - Click to edit each one</p>
+              <h3 className="text-base font-bold text-gray-900">📦 Solution Cards</h3>
+              <p className="text-xs text-gray-600">Click to edit</p>
             </div>
             <button
               onClick={() => {
@@ -232,21 +245,21 @@ export default function CCTVSection({
                   },
                 });
               }}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl font-semibold"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-medium text-xs"
             >
-              <Plus className="w-5 h-5" />
-              Add New Card
+              <Plus className="w-3.5 h-3.5" />
+              Add Card
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {(data.cctvSection.solutions || []).map((solution, index: number) => {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const Icon = (LucideIcons as any)[solution.icon] || LucideIcons.Shield;
               return (
                 <div
                   key={index}
-                  className="group relative bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-blue-400 hover:shadow-2xl transition-all"
+                  className="group relative bg-white border-2 border-gray-200 rounded-xl p-4 hover:border-blue-400 hover:shadow-xl transition-all"
                 >
                   {/* Delete Button */}
                   <button
@@ -264,12 +277,12 @@ export default function CCTVSection({
                   </button>
 
                   {/* Card Preview */}
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     {/* Icon Section */}
-                    <div className="space-y-2">
-                      <div className="text-xs font-semibold text-gray-600 uppercase">Icon & Color</div>
-                      <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${solution.color} flex items-center justify-center shadow-lg`}>
-                        <Icon className="w-8 h-8 text-white" />
+                    <div className="space-y-1">
+                      <div className="text-xs font-semibold text-gray-600">Icon</div>
+                      <div className={`w-10 h-10 rounded-lg bg-linear-to-br ${solution.color} flex items-center justify-center shadow-md`}>
+                        <Icon className="w-5 h-5 text-white drop-shadow-md" />
                       </div>
                       <div className="grid grid-cols-2 gap-2">
                         <div>
@@ -309,7 +322,7 @@ export default function CCTVSection({
 
                     {/* Title */}
                     <div>
-                      <div className="text-xs font-semibold text-gray-600 mb-1 uppercase">Card Title</div>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Card Title</div>
                       <EditableText
                         value={solution.title}
                         onChange={(value) => {
@@ -320,7 +333,7 @@ export default function CCTVSection({
                           });
                         }}
                         fieldKey={`cctv-solution-title-${index}`}
-                        className="text-lg font-bold text-gray-900"
+                        className="text-base font-bold text-gray-900"
                       />
                     </div>
 

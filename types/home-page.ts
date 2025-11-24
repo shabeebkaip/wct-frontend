@@ -57,11 +57,6 @@ declare global {
         title: string;
         description: string;
       }>;
-      additionalSolutions: Array<{
-        icon: string;
-        title: string;
-        description: string;
-      }>;
     };
     clientsSection: {
       badge: string;

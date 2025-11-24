@@ -53,54 +53,65 @@ export default function AdminDashboard() {
       section: 'main'
     },
     { 
-      icon: Layout, 
-      label: 'Hero Section', 
-      href: '/admin/hero', 
-      active: false,
-      section: 'content'
-    },
-    { 
-      icon: FileText, 
-      label: 'Home Sections', 
-      href: '/admin/home-content', 
-      active: false,
-      section: 'content',
-      description: 'CCTV, Low Current, Cabling, Clients'
-    },
-    { 
-      icon: Server, 
-      label: 'Data Center', 
-      href: '/admin/data-center-home', 
-      active: false,
-      section: 'content'
-    },
-    { 
       icon: FolderOpen, 
       label: 'Projects', 
       href: '/admin/projects', 
       active: false,
-      section: 'content'
+      section: 'main'
     },
+  ];
+
+  const homeSubItems = [
+    { 
+      label: 'Hero Section', 
+      href: '/admin/hero', 
+      active: false,
+    },
+    { 
+      label: 'CCTV', 
+      href: '/admin/cctv-section', 
+      active: false,
+    },
+    { 
+      label: 'Low Current', 
+      href: '/admin/low-current-section', 
+      active: false,
+    },
+    { 
+      label: 'Cabling', 
+      href: '/admin/structured-cabling-section', 
+      active: false,
+    },
+    { 
+      label: 'Data Center', 
+      href: '/admin/data-center-home', 
+      active: false,
+    },
+    { 
+      label: 'Clients', 
+      href: '/admin/clients-section', 
+      active: false,
+    },
+  ];
+
+  const systemItems = [
     { 
       icon: UsersRound, 
       label: 'Team Members', 
       href: '/admin/team', 
       active: false,
-      section: 'manage'
     },
     { 
       icon: ImageIcon, 
       label: 'Media Library', 
       href: '/admin/media', 
       active: false,
-      section: 'manage'
     },
     { 
       icon: Settings, 
       label: 'Settings', 
       href: '/admin/settings', 
       active: false,
-      section: 'manage'
     },
   ];
 
@@ -125,23 +136,21 @@ export default function AdminDashboard() {
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
             {/* Main Section */}
-            <div>
-              {menuItems
-                .filter((item) => item.section === 'main')
-                .map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                      item.active
-                        ? 'bg-blue-50 text-blue-600 font-semibold'
-                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                    }`}
-                  >
-                    <item.icon className="w-5 h-5" />
-                    <span>{item.label}</span>
-                  </a>
-                ))}
+            <div className="space-y-1">
+              {menuItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    item.active
+                      ? 'bg-blue-50 text-blue-600 font-semibold'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                  }`}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span>{item.label}</span>
+                </a>
+              ))}
             </div>
 
             {/* Content Management */}
@@ -149,30 +158,30 @@ export default function AdminDashboard() {
               <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-4 mb-2">
                 Content Management
               </p>
+              
+              {/* Home Sections with Sublists */}
               <div className="space-y-1">
-                {menuItems
-                  .filter((item) => item.section === 'content')
-                  .map((item) => (
+                <a
+                  href="/admin/home"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                >
+                  <FileText className="w-5 h-5" />
+                  <span className="font-medium">Home Sections</span>
+                </a>
+                
+                {/* Sublists */}
+                <div className="ml-8 space-y-0.5">
+                  {homeSubItems.map((item) => (
                     <a
                       key={item.label}
                       href={item.href}
-                      className={`flex items-start gap-3 px-4 py-3 rounded-lg transition-all ${
-                        item.active
-                          ? 'bg-blue-50 text-blue-600 font-semibold'
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                      }`}
+                      className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all text-slate-500 hover:bg-slate-50 hover:text-slate-700"
                     >
-                      <item.icon className="w-5 h-5 mt-0.5 shrink-0" />
-                      <div className="flex-1">
-                        <span className="block">{item.label}</span>
-                        {item.description && (
-                          <span className="text-xs text-slate-400 block mt-0.5">
-                            {item.description}
-                          </span>
-                        )}
-                      </div>
+                      <span className="text-slate-400">↳</span>
+                      <span>{item.label}</span>
                     </a>
                   ))}
+                </div>
               </div>
             </div>
 
@@ -182,22 +191,16 @@ export default function AdminDashboard() {
                 System
               </p>
               <div className="space-y-1">
-                {menuItems
-                  .filter((item) => item.section === 'manage')
-                  .map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                        item.active
-                          ? 'bg-blue-50 text-blue-600 font-semibold'
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                      }`}
-                    >
-                      <item.icon className="w-5 h-5" />
-                      <span>{item.label}</span>
-                    </a>
-                  ))}
+                {systemItems.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  >
+                    <item.icon className="w-5 h-5" />
+                    <span>{item.label}</span>
+                  </a>
+                ))}
               </div>
             </div>
           </nav>

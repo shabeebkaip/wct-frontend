@@ -1,0 +1,47 @@
+import { NextRequest, NextResponse } from 'next/server';
+import connectDB from '@/lib/mongodb';
+import { ClientsSection } from '@/lib/models/ClientsSection';
+import { requireAdmin, forbiddenResponse } from '@/lib/api-auth';
+
+export async function GET() {
+  try {
+    await connectDB();
+    const data = await ClientsSection.findOne();
+    
+    if (!data) {
+      return NextResponse.json({ error: 'Clients section not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error fetching clients section:', error);
+    return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const { authorized } = await requireAdmin();
+    if (!authorized) {
+      return forbiddenResponse();
+    }
+
+    const body = await request.json();
+    await connectDB();
+
+    const data = await ClientsSection.findOneAndUpdate({}, body, {
+      new: true,
+      upsert: true,
+      runValidators: true,
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'Clients section updated successfully',
+      data,
+    });
+  } catch (error) {
+    console.error('Error updating clients section:', error);
+    return NextResponse.json({ error: 'Failed to update data' }, { status: 500 });
+  }
+}

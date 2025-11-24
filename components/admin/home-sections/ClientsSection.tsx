@@ -30,15 +30,27 @@ export default function ClientsSection({
     multiline?: boolean;
     className?: string;
   }) => {
+    const [localValue, setLocalValue] = React.useState(value);
     const isEditing = editingField === fieldKey;
+
+    React.useEffect(() => {
+      setLocalValue(value);
+    }, [value]);
+
+    const handleBlur = () => {
+      setEditingField(null);
+      if (localValue !== value) {
+        onChange(localValue);
+      }
+    };
 
     if (multiline) {
       return (
         <textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+          value={localValue}
+          onChange={(e) => setLocalValue(e.target.value)}
           onFocus={() => setEditingField(fieldKey)}
-          onBlur={() => setEditingField(null)}
+          onBlur={handleBlur}
           className={`${className} ${
             isEditing ? 'ring-2 ring-green-500' : 'ring-1 ring-gray-200'
           } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
@@ -50,10 +62,10 @@ export default function ClientsSection({
     return (
       <input
         type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        value={localValue}
+        onChange={(e) => setLocalValue(e.target.value)}
         onFocus={() => setEditingField(fieldKey)}
-        onBlur={() => setEditingField(null)}
+        onBlur={handleBlur}
         className={`${className} ${
           isEditing ? 'ring-2 ring-green-500' : 'ring-1 ring-gray-200'
         } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
@@ -122,7 +134,7 @@ export default function ClientsSection({
             {(data.clientsSection.logos || []).map((logo, index: number) => (
               <div
                 key={index}
-                className="group relative bg-gradient-to-br from-green-50 to-white border border-green-200 rounded-xl p-4 hover:shadow-lg transition-all"
+                className="group relative bg-green-50 border border-green-200 rounded-xl p-4 hover:shadow-lg transition-all"
               >
                 <button
                   onClick={() => {
