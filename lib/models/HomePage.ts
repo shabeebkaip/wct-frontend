@@ -21,6 +21,11 @@ interface IHomePage {
     badge: string;
     title: string;
     description: string;
+    securityFlow?: Array<{
+      step: number;
+      title: string;
+      description: string;
+    }>;
     solutions: Array<{
       icon: string;
       title: string;
@@ -95,6 +100,13 @@ const HomePageSchema = new mongoose.Schema<IHomePage>(
       badge: { type: String, required: true },
       title: { type: String, required: true },
       description: { type: String, required: true },
+      securityFlow: [
+        {
+          step: { type: Number, required: true },
+          title: { type: String, required: true },
+          description: { type: String, required: true },
+        },
+      ],
       solutions: [
         {
           icon: { type: String, required: true },

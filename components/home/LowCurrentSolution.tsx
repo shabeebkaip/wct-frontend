@@ -2,77 +2,36 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Shield, Lock, Eye, MapPin, Zap, ArrowRight } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 
-const LowCurrentSolution = () => {
-  const solutions = [
-    {
-      icon: Shield,
-      title: 'Perimeter Protection System',
-      description: 'Advanced boundary security with electric fencing, intrusion detection, and real-time alert systems',
-      features: ['Electric Fencing', 'Motion Sensors', 'Laser Barriers', 'Alert Integration'],
-    },
-    {
-      icon: Lock,
-      title: 'Access Control System',
-      description: 'Biometric and card-based access management for secure entry and exit control across facilities',
-      features: ['Biometric Readers', 'RFID Cards', 'Time Attendance', 'Multi-Level Access'],
-    },
-    {
-      icon: Eye,
-      title: 'On Premise Security',
-      description: 'Comprehensive indoor monitoring with IP cameras, NVR systems, and integrated surveillance platforms',
-      features: ['IP Cameras', 'NVR/DVR Systems', 'Analytics', 'Remote Monitoring'],
-    },
-    {
-      icon: MapPin,
-      title: 'Public Area Protection',
-      description: 'Wide-area surveillance solutions for public spaces, parking lots, and outdoor facilities',
-      features: ['PTZ Cameras', 'License Plate Recognition', 'Crowd Analytics', 'Emergency Response'],
-    },
-  ];
+interface LowCurrentSolutionProps {
+  data: {
+    badge: string;
+    title: string;
+    description: string;
+    securityFlow?: Array<{
+      step: number;
+      title: string;
+      description: string;
+    }>;
+    solutions?: Array<{
+      icon: string;
+      title: string;
+      description: string;
+      features: string[];
+    }>;
+    additionalSolutions?: Array<{
+      icon: string;
+      title: string;
+      description: string;
+    }>;
+  };
+}
 
-  const securityFlow = [
-    {
-      step: 1,
-      title: 'Perimeter Protection System',
-      description: 'First line of defense',
-    },
-    {
-      step: 2,
-      title: 'Access Control System',
-      description: 'Entry point management',
-    },
-    {
-      step: 3,
-      title: 'On Premise Security',
-      description: 'Internal monitoring',
-    },
-    {
-      step: 4,
-      title: 'Public Area Protection',
-      description: 'Comprehensive coverage',
-    },
-  ];
-
-  const additionalSolutions = [
-    {
-      icon: Zap,
-      title: 'MATV & IPTV Solutions',
-      description: 'Master Antenna Television and IP Television systems for hotels, hospitals, and large facilities',
-    },
-    {
-      icon: Shield,
-      title: 'Audio/Video Systems',
-      description: 'Professional AV solutions for conference rooms, auditoriums, and command centers',
-    },
-    {
-      icon: Eye,
-      title: 'Building Management',
-      description: 'Integrated BMS solutions for HVAC, lighting, and energy management',
-    },
-  ];
-
+const LowCurrentSolution = ({ data }: LowCurrentSolutionProps) => {
+  const content = data;
+  const { Zap, ArrowRight } = LucideIcons;
+  
   return (
     <section className="relative bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-black dark:via-gray-900 dark:to-black py-20 overflow-hidden">
       {/* Animated Background */}
@@ -92,23 +51,22 @@ const LowCurrentSolution = () => {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 rounded-full text-blue-700 dark:text-blue-400 text-sm font-semibold tracking-wide mb-6">
             <Zap className="w-4 h-4" />
-            <span>LOW CURRENT SYSTEMS</span>
+            <span>{content.badge}</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-slate-900 dark:text-gray-100">
-            Integrated Security Solutions
+            {content.title}
           </h2>
           <p className="text-slate-600 dark:text-gray-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">
-            We care Tech has Expertise in designing State of the Art Security Solutions. Our Security Solutions 
-            has multiple Facets which suits both Government, Retail, Military, Residential and High 
-            Security Premises.
+            {content.description}
           </p>
         </div>
 
         {/* Security Flow Diagram */}
+        {content.securityFlow && content.securityFlow.length > 0 && (
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 text-center mb-8">Multi-Layered Security Approach</h3>
           <div className="relative flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
-            {securityFlow.map((item, index) => (
+            {content.securityFlow.map((item, index) => (
               <React.Fragment key={index}>
                 {/* Flow Card */}
                 <div className="relative group">
@@ -124,18 +82,21 @@ const LowCurrentSolution = () => {
                 </div>
 
                 {/* Arrow */}
-                {index < securityFlow.length - 1 && (
+                {content.securityFlow && index < content.securityFlow.length - 1 && (
                   <ArrowRight className="hidden md:block w-8 h-8 text-blue-500 dark:text-blue-400/50 mx-2 shrink-0" />
                 )}
               </React.Fragment>
             ))}
           </div>
         </div>
+        )}
 
         {/* Main Solutions Grid */}
+        {content.solutions && content.solutions.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {solutions.map((solution, index) => {
-            const Icon = solution.icon;
+          {content.solutions.map((solution, index) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const Icon = (LucideIcons as any)[solution.icon] || LucideIcons.Shield;
             return (
               <div
                 key={index}
@@ -173,13 +134,16 @@ const LowCurrentSolution = () => {
             );
           })}
         </div>
+        )}
 
         {/* Additional Solutions */}
+        {content.additionalSolutions && content.additionalSolutions.length > 0 && (
         <div className="mb-16">
           <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-gray-100 text-center mb-8">Additional Services</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {additionalSolutions.map((item, index) => {
-              const Icon = item.icon;
+            {content.additionalSolutions.map((item, index) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Zap;
               return (
                 <div
                   key={index}
@@ -193,6 +157,7 @@ const LowCurrentSolution = () => {
             })}
           </div>
         </div>
+        )}
 
         {/* CTA Section */}
         <div className="relative bg-linear-to-r from-slate-100/80 via-blue-50/80 to-slate-100/80 dark:from-gray-900/60 dark:via-gray-800/60 dark:to-gray-900/60 backdrop-blur-sm border border-slate-200 dark:border-gray-700/50 rounded-2xl p-8 md:p-12 overflow-hidden">

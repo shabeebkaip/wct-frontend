@@ -5,7 +5,7 @@ import { HomePage } from '@/lib/models/HomePage';
 const lowCurrentData = {
   badge: 'LOW CURRENT SYSTEMS',
   title: 'Integrated Security Solutions',
-  description: 'We care Tech has Expertise in designing State of the Art Security Solutions. Our Security Solutions has multiple Facets which suits both Government, Retail, Military, Residential and High Security Premises.',
+  description: 'Complete low current system integration for comprehensive facility management and security',
   securityApproach: {
     title: 'Multi-Layered Security Approach',
     steps: [

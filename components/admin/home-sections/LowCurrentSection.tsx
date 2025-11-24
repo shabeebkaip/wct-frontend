@@ -3,6 +3,8 @@
 import React from 'react';
 import * as LucideIcons from 'lucide-react';
 import { Plus, Trash2, ArrowRight } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 interface LowCurrentSectionProps {
   data: HomePageData;
@@ -17,6 +19,31 @@ export default function LowCurrentSection({
   editingField,
   setEditingField,
 }: LowCurrentSectionProps) {
+  // Ensure all required fields have defaults
+  React.useEffect(() => {
+    let needsUpdate = false;
+    const updatedData = { ...data.lowCurrentSection };
+
+    if (!updatedData.securityFlow) {
+      updatedData.securityFlow = [];
+      needsUpdate = true;
+    }
+
+    if (!updatedData.solutions) {
+      updatedData.solutions = [];
+      needsUpdate = true;
+    }
+
+    if (!updatedData.additionalSolutions) {
+      updatedData.additionalSolutions = [];
+      needsUpdate = true;
+    }
+
+    if (needsUpdate) {
+      updateData({ lowCurrentSection: updatedData });
+    }
+  }, [data.lowCurrentSection, updateData]);
+
   const EditableText = ({
     value,
     onChange,
@@ -40,23 +67,21 @@ export default function LowCurrentSection({
           onFocus={() => setEditingField(fieldKey)}
           onBlur={() => setEditingField(null)}
           className={`${className} ${
-            isEditing ? 'ring-2 ring-purple-500' : 'ring-1 ring-gray-200'
-          } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
+            isEditing ? 'ring-2 ring-blue-500' : ''
+          } w-full px-3 py-2 rounded-lg transition-all bg-white border border-gray-300 hover:border-gray-400 focus:border-blue-500 text-gray-900`}
           rows={3}
         />
       );
     }
 
     return (
-      <input
+      <Input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setEditingField(fieldKey)}
         onBlur={() => setEditingField(null)}
-        className={`${className} ${
-          isEditing ? 'ring-2 ring-purple-500' : 'ring-1 ring-gray-200'
-        } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
+        className={`${className} bg-white`}
       />
     );
   };
@@ -117,8 +142,8 @@ export default function LowCurrentSection({
                       onChange(iconName);
                       setIsOpen(false);
                     }}
-                    className={`w-full flex items-center gap-3 px-3 py-2 hover:bg-purple-50 transition-colors ${
-                      value === iconName ? 'bg-purple-100' : ''
+                    className={`w-full flex items-center gap-3 px-3 py-2 hover:bg-blue-50 transition-colors ${
+                      value === iconName ? 'bg-blue-100' : ''
                     }`}
                   >
                     <Icon className="w-5 h-5 text-gray-700" />
@@ -134,42 +159,26 @@ export default function LowCurrentSection({
   };
 
   return (
-    <section className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
-      {/* Section Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white">
-        <div className="flex items-center justify-between">
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="bg-linear-to-br from-blue-50 to-white p-6 rounded-2xl border border-blue-200">
+        <div className="space-y-4">
           <div>
-            <h2 className="text-2xl font-bold mb-1">
-              <LucideIcons.Zap className="inline w-6 h-6 mr-2" />
-              Low Current Systems Section
-            </h2>
-            <p className="text-purple-100 text-sm">Edit integrated security solutions</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="p-8 space-y-8">
-        {/* Header Content */}
-        <div className="text-center space-y-4 pb-6 border-b border-gray-200">
-          <div className="inline-block">
-            <div className="text-xs font-medium text-gray-600 mb-2">📌 BADGE TEXT</div>
-            <div className="px-6 py-2.5 bg-purple-100 border border-purple-300 rounded-full text-purple-700 text-sm font-semibold inline-flex items-center gap-2 min-w-[300px]">
-              <LucideIcons.Zap className="w-4 h-4" />
-              <EditableText
-                value={data.lowCurrentSection.badge}
-                onChange={(value) =>
-                  updateData({
-                    lowCurrentSection: { ...data.lowCurrentSection, badge: value },
-                  })
-                }
-                fieldKey="low-current-badge"
-                className="text-sm bg-transparent flex-1 text-center"
-              />
-            </div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Badge Text</label>
+            <EditableText
+              value={data.lowCurrentSection.badge}
+              onChange={(value) =>
+                updateData({
+                  lowCurrentSection: { ...data.lowCurrentSection, badge: value },
+                })
+              }
+              fieldKey="low-current-badge"
+              className="text-sm font-semibold"
+            />
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-600 mb-2">📝 MAIN TITLE</div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Section Title</label>
             <EditableText
               value={data.lowCurrentSection.title}
               onChange={(value) =>
@@ -178,12 +187,12 @@ export default function LowCurrentSection({
                 })
               }
               fieldKey="low-current-title"
-              className="text-4xl font-bold text-gray-900 text-center"
+              className="text-2xl font-bold"
             />
           </div>
 
           <div>
-            <div className="text-xs font-medium text-gray-600 mb-2">📄 DESCRIPTION</div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
             <EditableText
               value={data.lowCurrentSection.description}
               onChange={(value) =>
@@ -193,514 +202,403 @@ export default function LowCurrentSection({
               }
               fieldKey="low-current-description"
               multiline
-              className="text-lg text-gray-600 max-w-3xl mx-auto text-center"
+              className="text-lg text-gray-600"
             />
-          </div>
-        </div>
-
-        {/* Security Approach Flow */}
-        <div className="bg-gradient-to-br from-purple-50 to-white p-6 rounded-2xl border border-purple-200">
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">🔄 Multi-Layered Security Approach</h3>
-                <p className="text-sm text-gray-600 mt-1">Flow diagram showing security layers</p>
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Section Title</label>
-              <EditableText
-                value={(data.lowCurrentSection.securityApproach || {}).title || ''}
-                onChange={(value) =>
-                  updateData({
-                    lowCurrentSection: {
-                      ...data.lowCurrentSection,
-                      securityApproach: {
-                        ...(data.lowCurrentSection.securityApproach || {}),
-                        title: value,
-                      },
-                    },
-                  })
-                }
-                fieldKey="security-approach-title"
-                className="text-lg font-semibold"
-              />
-            </div>
-          </div>
-
-          {/* Flow Steps */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between mb-4">
-              <label className="text-sm font-semibold text-gray-700">Flow Steps</label>
-              <button
-                onClick={() => {
-                  const newStep = {
-                    number: String(((data.lowCurrentSection.securityApproach || {}).steps || []).length + 1),
-                    title: 'New Step',
-                    subtitle: 'Step description',
-                  };
-                  updateData({
-                    lowCurrentSection: {
-                      ...data.lowCurrentSection,
-                      securityApproach: {
-                        ...(data.lowCurrentSection.securityApproach || {}),
-                        steps: [...((data.lowCurrentSection.securityApproach || {}).steps || []), newStep],
-                      },
-                    },
-                  });
-                }}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium"
-              >
-                <Plus className="w-4 h-4" />
-                Add Step
-              </button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {((data.lowCurrentSection.securityApproach || {}).steps || []).map((step, index) => (
-                <div key={index} className="group relative">
-                  <div className="bg-white border-2 border-purple-200 rounded-xl p-4 hover:border-purple-400 transition-all">
-                    <button
-                      onClick={() => {
-                        const newSteps = ((data.lowCurrentSection.securityApproach || {}).steps || []).filter(
-                          (_, i) => i !== index
-                        );
-                        updateData({
-                          lowCurrentSection: {
-                            ...data.lowCurrentSection,
-                            securityApproach: {
-                              ...(data.lowCurrentSection.securityApproach || {}),
-                              steps: newSteps,
-                            },
-                          },
-                        });
-                      }}
-                      className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-
-                    <div className="space-y-3">
-                      <div>
-                        <label className="text-xs font-medium text-gray-600 mb-1 block">Step Number</label>
-                        <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mb-2">
-                          <input
-                            type="text"
-                            value={step.number}
-                            onChange={(e) => {
-                              const newSteps = [...((data.lowCurrentSection.securityApproach || {}).steps || [])];
-                              newSteps[index] = { ...step, number: e.target.value };
-                              updateData({
-                                lowCurrentSection: {
-                                  ...data.lowCurrentSection,
-                                  securityApproach: {
-                                    ...(data.lowCurrentSection.securityApproach || {}),
-                                    steps: newSteps,
-                                  },
-                                },
-                              });
-                            }}
-                            className="w-6 text-center font-bold text-purple-600 bg-transparent border-none outline-none"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="text-xs font-medium text-gray-600 mb-1 block">Step Title</label>
-                        <EditableText
-                          value={step.title}
-                          onChange={(value) => {
-                            const newSteps = [...((data.lowCurrentSection.securityApproach || {}).steps || [])];
-                            newSteps[index] = { ...step, title: value };
-                            updateData({
-                              lowCurrentSection: {
-                                ...data.lowCurrentSection,
-                                securityApproach: {
-                                  ...(data.lowCurrentSection.securityApproach || {}),
-                                  steps: newSteps,
-                                },
-                              },
-                            });
-                          }}
-                          fieldKey={`step-title-${index}`}
-                          className="text-sm font-semibold"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-xs font-medium text-gray-600 mb-1 block">Subtitle</label>
-                        <EditableText
-                          value={step.subtitle}
-                          onChange={(value) => {
-                            const newSteps = [...((data.lowCurrentSection.securityApproach || {}).steps || [])];
-                            newSteps[index] = { ...step, subtitle: value };
-                            updateData({
-                              lowCurrentSection: {
-                                ...data.lowCurrentSection,
-                                securityApproach: {
-                                  ...(data.lowCurrentSection.securityApproach || {}),
-                                  steps: newSteps,
-                                },
-                              },
-                            });
-                          }}
-                          fieldKey={`step-subtitle-${index}`}
-                          className="text-xs text-gray-600"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {index < ((data.lowCurrentSection.securityApproach || {}).steps || []).length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-2 transform -translate-y-1/2 translate-x-1/2 z-10">
-                      <ArrowRight className="w-5 h-5 text-purple-400" />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Main Solutions (4 Cards) */}
-        <div>
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h3 className="text-xl font-bold text-gray-900">📦 Main Solution Cards</h3>
-              <p className="text-sm text-gray-600">Four main security solutions with features</p>
-            </div>
-            <button
-              onClick={() => {
-                const newSolution = {
-                  icon: 'Shield',
-                  title: 'New Solution',
-                  description: 'Solution description',
-                  features: ['Feature 1', 'Feature 2', 'Feature 3'],
-                };
-                updateData({
-                  lowCurrentSection: {
-                    ...data.lowCurrentSection,
-                    mainSolutions: [...(data.lowCurrentSection.mainSolutions || []), newSolution],
-                  },
-                });
-              }}
-              className="flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all shadow-lg hover:shadow-xl font-semibold"
-            >
-              <Plus className="w-5 h-5" />
-              Add Solution Card
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(data.lowCurrentSection.mainSolutions || []).map((solution, index) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const Icon = (LucideIcons as any)[solution.icon] || LucideIcons.Shield;
-              return (
-                <div
-                  key={index}
-                  className="group relative bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-purple-400 hover:shadow-2xl transition-all"
-                >
-                  <button
-                    onClick={() => {
-                      if (confirm('Delete this solution card?')) {
-                        const newSolutions = (data.lowCurrentSection.mainSolutions || []).filter(
-                          (_, i) => i !== index
-                        );
-                        updateData({
-                          lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
-                        });
-                      }
-                    }}
-                    className="absolute -top-3 -right-3 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-
-                  <div className="space-y-4">
-                    {/* Icon */}
-                    <div className="space-y-2">
-                      <div className="text-xs font-semibold text-gray-600 uppercase">Icon</div>
-                      <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center mb-3">
-                        <Icon className="w-6 h-6 text-purple-600" />
-                      </div>
-                      <IconSelector
-                        value={solution.icon}
-                        onChange={(icon) => {
-                          const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
-                          newSolutions[index] = { ...solution, icon };
-                          updateData({
-                            lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
-                          });
-                        }}
-                      />
-                    </div>
-
-                    {/* Title */}
-                    <div>
-                      <div className="text-xs font-semibold text-gray-600 mb-1 uppercase">Card Title</div>
-                      <EditableText
-                        value={solution.title}
-                        onChange={(value) => {
-                          const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
-                          newSolutions[index] = { ...solution, title: value };
-                          updateData({
-                            lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
-                          });
-                        }}
-                        fieldKey={`low-current-solution-title-${index}`}
-                        className="text-lg font-bold text-gray-900"
-                      />
-                    </div>
-
-                    {/* Description */}
-                    <div>
-                      <div className="text-xs font-semibold text-gray-600 mb-1 uppercase">Description</div>
-                      <EditableText
-                        value={solution.description}
-                        onChange={(value) => {
-                          const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
-                          newSolutions[index] = { ...solution, description: value };
-                          updateData({
-                            lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
-                          });
-                        }}
-                        fieldKey={`low-current-solution-desc-${index}`}
-                        multiline
-                        className="text-sm text-gray-600"
-                      />
-                    </div>
-
-                    {/* Features */}
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="text-xs font-semibold text-gray-600 uppercase">Features List</div>
-                        <button
-                          onClick={() => {
-                            const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
-                            newSolutions[index] = {
-                              ...solution,
-                              features: [...(solution.features || []), 'New Feature'],
-                            };
-                            updateData({
-                              lowCurrentSection: { ...data.lowCurrentSection, mainSolutions: newSolutions },
-                            });
-                          }}
-                          className="text-xs px-2 py-1 bg-purple-500 text-white rounded-md hover:bg-purple-600 font-medium"
-                        >
-                          + Feature
-                        </button>
-                      </div>
-                      <div className="space-y-2">
-                        {(solution.features || []).map((feature, fIndex) => (
-                          <div key={fIndex} className="flex items-center gap-2 text-sm">
-                            <span className="text-purple-600">•</span>
-                            <input
-                              type="text"
-                              value={feature}
-                              onChange={(e) => {
-                                const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
-                                const newFeatures = [...(solution.features || [])];
-                                newFeatures[fIndex] = e.target.value;
-                                newSolutions[index] = { ...solution, features: newFeatures };
-                                updateData({
-                                  lowCurrentSection: {
-                                    ...data.lowCurrentSection,
-                                    mainSolutions: newSolutions,
-                                  },
-                                });
-                              }}
-                              className="flex-1 px-2 py-1 text-xs border border-gray-200 rounded bg-white text-gray-900"
-                            />
-                            <button
-                              onClick={() => {
-                                const newSolutions = [...(data.lowCurrentSection.mainSolutions || [])];
-                                const newFeatures = (solution.features || []).filter((_, i) => i !== fIndex);
-                                newSolutions[index] = { ...solution, features: newFeatures };
-                                updateData({
-                                  lowCurrentSection: {
-                                    ...data.lowCurrentSection,
-                                    mainSolutions: newSolutions,
-                                  },
-                                });
-                              }}
-                              className="text-red-500 hover:text-red-700"
-                            >
-                              <LucideIcons.X className="w-3 h-3" />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Additional Services Section */}
-        <div className="bg-gradient-to-br from-gray-50 to-white p-6 rounded-2xl border border-gray-200">
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">🔧 Additional Services</h3>
-            <EditableText
-              value={(data.lowCurrentSection.additionalServices || {}).title || ''}
-              onChange={(value) =>
-                updateData({
-                  lowCurrentSection: {
-                    ...data.lowCurrentSection,
-                    additionalServices: {
-                      ...(data.lowCurrentSection.additionalServices || {}),
-                      title: value,
-                    },
-                  },
-                })
-              }
-              fieldKey="additional-services-title"
-              className="text-lg font-semibold"
-            />
-          </div>
-
-          <div className="flex items-center justify-between mb-4">
-            <label className="text-sm font-semibold text-gray-700">Service Cards</label>
-            <button
-              onClick={() => {
-                const newService = {
-                  icon: 'Zap',
-                  title: 'New Service',
-                  description: 'Service description',
-                };
-                updateData({
-                  lowCurrentSection: {
-                    ...data.lowCurrentSection,
-                    additionalServices: {
-                      ...(data.lowCurrentSection.additionalServices || {}),
-                      services: [
-                        ...((data.lowCurrentSection.additionalServices || {}).services || []),
-                        newService,
-                      ],
-                    },
-                  },
-                });
-              }}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium"
-            >
-              <Plus className="w-4 h-4" />
-              Add Service
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {((data.lowCurrentSection.additionalServices || {}).services || []).map((service, index) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const Icon = (LucideIcons as any)[service.icon] || LucideIcons.Zap;
-              return (
-                <div
-                  key={index}
-                  className="group relative bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-all"
-                >
-                  <button
-                    onClick={() => {
-                      const newServices = ((data.lowCurrentSection.additionalServices || {}).services || []).filter(
-                        (_, i) => i !== index
-                      );
-                      updateData({
-                        lowCurrentSection: {
-                          ...data.lowCurrentSection,
-                          additionalServices: {
-                            ...(data.lowCurrentSection.additionalServices || {}),
-                            services: newServices,
-                          },
-                        },
-                      });
-                    }}
-                    className="absolute top-2 right-2 p-2 bg-red-100 text-red-600 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-200"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Icon</label>
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-purple-100 rounded-lg">
-                          <Icon className="w-6 h-6 text-purple-600" />
-                        </div>
-                        <IconSelector
-                          value={service.icon}
-                          onChange={(icon) => {
-                            const newServices = [
-                              ...((data.lowCurrentSection.additionalServices || {}).services || []),
-                            ];
-                            newServices[index] = { ...service, icon };
-                            updateData({
-                              lowCurrentSection: {
-                                ...data.lowCurrentSection,
-                                additionalServices: {
-                                  ...(data.lowCurrentSection.additionalServices || {}),
-                                  services: newServices,
-                                },
-                              },
-                            });
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Title</label>
-                      <EditableText
-                        value={service.title}
-                        onChange={(value) => {
-                          const newServices = [
-                            ...((data.lowCurrentSection.additionalServices || {}).services || []),
-                          ];
-                          newServices[index] = { ...service, title: value };
-                          updateData({
-                            lowCurrentSection: {
-                              ...data.lowCurrentSection,
-                              additionalServices: {
-                                ...(data.lowCurrentSection.additionalServices || {}),
-                                services: newServices,
-                              },
-                            },
-                          });
-                        }}
-                        fieldKey={`additional-service-title-${index}`}
-                        className="font-semibold"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">Description</label>
-                      <EditableText
-                        value={service.description}
-                        onChange={(value) => {
-                          const newServices = [
-                            ...((data.lowCurrentSection.additionalServices || {}).services || []),
-                          ];
-                          newServices[index] = { ...service, description: value };
-                          updateData({
-                            lowCurrentSection: {
-                              ...data.lowCurrentSection,
-                              additionalServices: {
-                                ...(data.lowCurrentSection.additionalServices || {}),
-                                services: newServices,
-                              },
-                            },
-                          });
-                        }}
-                        fieldKey={`additional-service-desc-${index}`}
-                        multiline
-                        className="text-sm"
-                      />
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
-    </section>
+
+      {/* Security Flow Section */}
+      <div className="bg-linear-to-br from-blue-50 to-white p-6 rounded-2xl border border-blue-200">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-xl font-bold text-slate-900">🔄 Security Flow</h3>
+            <p className="text-sm text-slate-600 mt-1">Multi-layered security approach steps</p>
+          </div>
+          <Button
+            onClick={() => {
+              const newStep = {
+                step: (data.lowCurrentSection.securityFlow || []).length + 1,
+                title: 'New Security Step',
+                description: 'Step description',
+              };
+              updateData({
+                lowCurrentSection: {
+                  ...data.lowCurrentSection,
+                  securityFlow: [...(data.lowCurrentSection.securityFlow || []), newStep],
+                },
+              });
+            }}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            <Plus className="w-4 h-4" />
+            Add Step
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {(data.lowCurrentSection.securityFlow || []).map((flowStep, index) => (
+            <div key={index} className="group relative">
+              <div className="bg-white border-2 border-blue-200 rounded-xl p-4 hover:border-blue-400 transition-all">
+                <Button
+                  onClick={() => {
+                    const newSteps = (data.lowCurrentSection.securityFlow || []).filter(
+                      (_, i) => i !== index
+                    );
+                    updateData({
+                      lowCurrentSection: { ...data.lowCurrentSection, securityFlow: newSteps },
+                    });
+                  }}
+                  variant="destructive"
+                  size="icon-sm"
+                  className="absolute -top-2 -right-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+                >
+                  <Trash2 className="w-3 h-3" />
+                </Button>
+
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-xs font-medium text-gray-600 mb-1 block">Step Number</label>
+                    <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                      <input
+                        type="number"
+                        value={flowStep.step}
+                        onChange={(e) => {
+                          const newSteps = [...(data.lowCurrentSection.securityFlow || [])];
+                          newSteps[index] = { ...flowStep, step: parseInt(e.target.value) || 1 };
+                          updateData({
+                            lowCurrentSection: { ...data.lowCurrentSection, securityFlow: newSteps },
+                          });
+                        }}
+                        className="w-6 text-center font-bold text-blue-600 bg-transparent border-none outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-medium text-gray-600 mb-1 block">Title</label>
+                    <EditableText
+                      value={flowStep.title}
+                      onChange={(value) => {
+                        const newSteps = [...(data.lowCurrentSection.securityFlow || [])];
+                        newSteps[index] = { ...flowStep, title: value };
+                        updateData({
+                          lowCurrentSection: { ...data.lowCurrentSection, securityFlow: newSteps },
+                        });
+                      }}
+                      fieldKey={`flow-step-title-${index}`}
+                      className="text-sm font-semibold"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-xs font-medium text-gray-600 mb-1 block">Description</label>
+                    <EditableText
+                      value={flowStep.description}
+                      onChange={(value) => {
+                        const newSteps = [...(data.lowCurrentSection.securityFlow || [])];
+                        newSteps[index] = { ...flowStep, description: value };
+                        updateData({
+                          lowCurrentSection: { ...data.lowCurrentSection, securityFlow: newSteps },
+                        });
+                      }}
+                      fieldKey={`flow-step-desc-${index}`}
+                      className="text-xs text-gray-600"
+                    />
+                  </div>
+                </div>
+              </div>
+              {index < (data.lowCurrentSection.securityFlow || []).length - 1 && (
+                <div className="hidden md:block absolute top-1/2 -right-2 transform -translate-y-1/2 translate-x-1/2 z-10">
+                  <ArrowRight className="w-5 h-5 text-blue-400" />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Solutions Section */}
+      <div className="bg-linear-to-br from-green-50 to-white p-6 rounded-2xl border border-green-200">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-xl font-bold text-slate-900">📦 Main Solutions</h3>
+            <p className="text-sm text-slate-600 mt-1">Four main security solutions with features</p>
+          </div>
+          <Button
+            onClick={() => {
+              const newSolution = {
+                icon: 'Shield',
+                title: 'New Solution',
+                description: 'Solution description',
+                features: ['Feature 1', 'Feature 2'],
+              };
+              updateData({
+                lowCurrentSection: {
+                  ...data.lowCurrentSection,
+                  solutions: [...(data.lowCurrentSection.solutions || []), newSolution],
+                },
+              });
+            }}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            <Plus className="w-4 h-4" />
+            Add Solution Card
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {(data.lowCurrentSection.solutions || []).map((solution, index) => (
+            <div
+              key={index}
+              className="group relative bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-300 transition-all"
+            >
+              <Button
+                onClick={() => {
+                  const newSolutions = (data.lowCurrentSection.solutions || []).filter(
+                    (_, i) => i !== index
+                  );
+                  updateData({
+                    lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
+                  });
+                }}
+                variant="destructive"
+                size="icon-sm"
+                className="absolute -top-2 -right-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+              >
+                <Trash2 className="w-3 h-3" />
+              </Button>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs font-medium text-gray-600 mb-2 block">Icon</label>
+                  <IconSelector
+                    value={solution.icon}
+                    onChange={(icon) => {
+                      const newSolutions = [...(data.lowCurrentSection.solutions || [])];
+                      newSolutions[index] = { ...solution, icon };
+                      updateData({
+                        lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
+                      });
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-medium text-gray-600 mb-2 block">Title</label>
+                  <EditableText
+                    value={solution.title}
+                    onChange={(value) => {
+                      const newSolutions = [...(data.lowCurrentSection.solutions || [])];
+                      newSolutions[index] = { ...solution, title: value };
+                      updateData({
+                        lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
+                      });
+                    }}
+                    fieldKey={`solution-title-${index}`}
+                    className="font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-medium text-gray-600 mb-2 block">Description</label>
+                  <EditableText
+                    value={solution.description}
+                    onChange={(value) => {
+                      const newSolutions = [...(data.lowCurrentSection.solutions || [])];
+                      newSolutions[index] = { ...solution, description: value };
+                      updateData({
+                        lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
+                      });
+                    }}
+                    fieldKey={`solution-desc-${index}`}
+                    multiline
+                    className="text-sm text-gray-600"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-medium text-gray-600">Features</label>
+                    <Button
+                      onClick={() => {
+                        const newSolutions = [...(data.lowCurrentSection.solutions || [])];
+                        newSolutions[index] = {
+                          ...solution,
+                          features: [...solution.features, 'New Feature'],
+                        };
+                        updateData({
+                          lowCurrentSection: { ...data.lowCurrentSection, solutions: newSolutions },
+                        });
+                      }}
+                      variant="outline"
+                      size="sm"
+                    >
+                      + Add Feature
+                    </Button>
+                  </div>
+                  <div className="space-y-2">
+                    {solution.features.map((feature, fIdx) => (
+                      <div key={fIdx} className="flex gap-2 items-center">
+                        <Input
+                          type="text"
+                          value={feature}
+                          onChange={(e) => {
+                            const newSolutions = [...(data.lowCurrentSection.solutions || [])];
+                            const newFeatures = [...solution.features];
+                            newFeatures[fIdx] = e.target.value;
+                            newSolutions[index] = { ...solution, features: newFeatures };
+                            updateData({
+                              lowCurrentSection: {
+                                ...data.lowCurrentSection,
+                                solutions: newSolutions,
+                              },
+                            });
+                          }}
+                          className="flex-1 bg-white"
+                        />
+                        <Button
+                          onClick={() => {
+                            const newSolutions = [...(data.lowCurrentSection.solutions || [])];
+                            const newFeatures = solution.features.filter((_, i) => i !== fIdx);
+                            newSolutions[index] = { ...solution, features: newFeatures };
+                            updateData({
+                              lowCurrentSection: {
+                                ...data.lowCurrentSection,
+                                solutions: newSolutions,
+                              },
+                            });
+                          }}
+                          variant="ghost"
+                          size="icon-sm"
+                          className="text-red-600 hover:bg-red-50"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Additional Solutions Section */}
+      <div className="bg-linear-to-br from-purple-50 to-white p-6 rounded-2xl border border-purple-200">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-xl font-bold text-slate-900">🔧 Additional Solutions</h3>
+            <p className="text-sm text-slate-600 mt-1">Extra services and solutions</p>
+          </div>
+          <Button
+            onClick={() => {
+              const newService = {
+                icon: 'Zap',
+                title: 'New Service',
+                description: 'Service description',
+              };
+              updateData({
+                lowCurrentSection: {
+                  ...data.lowCurrentSection,
+                  additionalSolutions: [
+                    ...(data.lowCurrentSection.additionalSolutions || []),
+                    newService,
+                  ],
+                },
+              });
+            }}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            <Plus className="w-4 h-4" />
+            Add Service
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {(data.lowCurrentSection.additionalSolutions || []).map((service, index) => (
+            <div
+              key={index}
+              className="group relative bg-white border border-gray-200 rounded-xl p-6 hover:border-blue-300 transition-all"
+            >
+              <Button
+                onClick={() => {
+                  const newServices = (data.lowCurrentSection.additionalSolutions || []).filter(
+                    (_, i) => i !== index
+                  );
+                  updateData({
+                    lowCurrentSection: { ...data.lowCurrentSection, additionalSolutions: newServices },
+                  });
+                }}
+                variant="destructive"
+                size="icon-sm"
+                className="absolute -top-2 -right-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+              >
+                <Trash2 className="w-3 h-3" />
+              </Button>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs font-medium text-gray-600 mb-2 block">Icon</label>
+                  <IconSelector
+                    value={service.icon}
+                    onChange={(icon) => {
+                      const newServices = [...(data.lowCurrentSection.additionalSolutions || [])];
+                      newServices[index] = { ...service, icon };
+                      updateData({
+                        lowCurrentSection: {
+                          ...data.lowCurrentSection,
+                          additionalSolutions: newServices,
+                        },
+                      });
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-medium text-gray-600 mb-2 block">Title</label>
+                  <EditableText
+                    value={service.title}
+                    onChange={(value) => {
+                      const newServices = [...(data.lowCurrentSection.additionalSolutions || [])];
+                      newServices[index] = { ...service, title: value };
+                      updateData({
+                        lowCurrentSection: {
+                          ...data.lowCurrentSection,
+                          additionalSolutions: newServices,
+                        },
+                      });
+                    }}
+                    fieldKey={`service-title-${index}`}
+                    className="font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-medium text-gray-600 mb-2 block">Description</label>
+                  <EditableText
+                    value={service.description}
+                    onChange={(value) => {
+                      const newServices = [...(data.lowCurrentSection.additionalSolutions || [])];
+                      newServices[index] = { ...service, description: value };
+                      updateData({
+                        lowCurrentSection: {
+                          ...data.lowCurrentSection,
+                          additionalSolutions: newServices,
+                        },
+                      });
+                    }}
+                    fieldKey={`service-desc-${index}`}
+                    multiline
+                    className="text-sm text-gray-600"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

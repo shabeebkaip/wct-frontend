@@ -1,53 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-import { Cable, Network, Server, Workflow } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 
-const StructuredCabling = () => {
-  const cablingFlow = [
-    { label: 'Structured cabling', active: true },
-    { label: 'Backbone Cabling' },
-    { label: 'Main Cross-connect (MC)' },
-    { label: 'Interbuilding Backbone Cable', highlight: true },
-    { label: 'Telecommunications Closet (TS)' },
-    { label: 'Equipment Room (ER)' },
-    { label: 'Entrance Facility (EF)' },
-  ];
+interface StructuredCablingProps {
+  data: {
+    badge: string;
+    title: string;
+    description: string;
+    cablingFlow: Array<{ label: string; active?: boolean; highlight?: boolean }>;
+    copperCabling: Array<{ title: string; icon: string }>;
+    fiberCabling: Array<{ title: string; subtitle: string; icon: string }>;
+    features: Array<{ icon: string; title: string; description: string }>;
+  };
+}
 
-  const copperCabling = [
-    { title: 'UTP Cabling', icon: Cable },
-    { title: 'STP Cabling', icon: Network },
-    { title: 'FTP Cabling', icon: Cable },
-    { title: 'Coaxial Cabling', icon: Network },
-  ];
+const StructuredCabling = ({ data }: StructuredCablingProps) => {
+  const content = data;
 
-  const fiberCabling = [
-    { title: 'Single Mode', subtitle: 'Indoor & Outdoor', icon: Server },
-    { title: 'Multi Mode', subtitle: 'Indoor & Outdoor', icon: Server },
-  ];
-
-  const features = [
-    {
-      icon: Workflow,
-      title: 'EIA/TIA-568A Standards',
-      description: 'Following international standards for structured cabling infrastructure design and implementation',
-    },
-    {
-      icon: Cable,
-      title: 'Complete Infrastructure',
-      description: 'End-to-end cabling solutions from backbone to workstation connectivity',
-    },
-    {
-      icon: Network,
-      title: 'Scalable Design',
-      description: 'Future-proof infrastructure that grows with your business requirements',
-    },
-    {
-      icon: Server,
-      title: 'High Performance',
-      description: 'Optimized for speed, reliability, and maximum data throughput',
-    },
-  ];
+  const { Cable } = LucideIcons;
 
   return (
     <section className="relative bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-black dark:via-gray-900 dark:to-black py-20 overflow-hidden">
@@ -68,14 +39,13 @@ const StructuredCabling = () => {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 rounded-full text-blue-700 dark:text-blue-400 text-sm font-semibold tracking-wide mb-6">
             <Cable className="w-4 h-4" />
-            <span>STRUCTURED CABLING</span>
+            <span>{content.badge}</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-slate-900 dark:text-gray-100">
-            Structured Cabling Solutions
+            {content.title}
           </h2>
           <p className="text-slate-600 dark:text-gray-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-            We Care Tech has a concrete design approach for Structured Cabling Solutions. We follow EIA/TIA-568A Standards. 
-            Our design considerations always take into consideration all the sub-elements in the infrastructure.
+            {content.description}
           </p>
         </div>
 
@@ -85,7 +55,7 @@ const StructuredCabling = () => {
           
           {/* Top Row - 5 components */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
-            {cablingFlow.slice(0, 5).map((item, index) => (
+            {content.cablingFlow.slice(0, 5).map((item, index) => (
               <div
                 key={index}
                 className={`
@@ -109,7 +79,7 @@ const StructuredCabling = () => {
 
           {/* Bottom Row - 2 components centered */}
           <div className="flex justify-center gap-4">
-            {cablingFlow.slice(5).map((item, index) => (
+            {content.cablingFlow.slice(5).map((item, index) => (
               <div
                 key={index + 5}
                 className="bg-white dark:bg-gray-900/50 border-2 border-slate-300 dark:border-gray-700/50 rounded-xl p-4 md:p-6 hover:border-blue-400 dark:hover:border-blue-500/40 transition-all duration-300 backdrop-blur-sm hover:bg-slate-50 dark:hover:bg-gray-800/50 w-full md:w-64 shadow-md dark:shadow-none"
@@ -133,8 +103,8 @@ const StructuredCabling = () => {
               <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100">Copper Cabling</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {copperCabling.map((item, index) => {
-                const Icon = item.icon;
+              {content.copperCabling.map((item: any, index: number) => {
+                const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Cable;
                 return (
                   <div
                     key={index}
@@ -152,13 +122,13 @@ const StructuredCabling = () => {
           <div className="bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl p-8 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center">
-                <Server className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                {(() => { const ServerIcon = LucideIcons.Server; return <ServerIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />; })()}
               </div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100">Fiber Cabling</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {fiberCabling.map((item, index) => {
-                const Icon = item.icon;
+              {content.fiberCabling.map((item: any, index: number) => {
+                const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Server;
                 return (
                   <div
                     key={index}
@@ -176,8 +146,8 @@ const StructuredCabling = () => {
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {features.map((feature, index) => {
-            const Icon = feature.icon;
+          {content.features.map((feature: any, index: number) => {
+            const Icon = (LucideIcons as any)[feature.icon] || LucideIcons.Cable;
             return (
               <div
                 key={index}

@@ -10,34 +10,29 @@ declare global {
         description: string;
         color: string;
         features: string[];
+        _id?: string;
       }>;
     };
     lowCurrentSection: {
       badge: string;
       title: string;
       description: string;
-      securityApproach: {
+      securityFlow?: Array<{
+        step: number;
         title: string;
-        steps: Array<{
-          number: string;
-          title: string;
-          subtitle: string;
-        }>;
-      };
-      mainSolutions: Array<{
+        description: string;
+      }>;
+      solutions?: Array<{
         icon: string;
         title: string;
         description: string;
         features: string[];
       }>;
-      additionalServices: {
+      additionalSolutions?: Array<{
+        icon: string;
         title: string;
-        services: Array<{
-          icon: string;
-          title: string;
-          description: string;
-        }>;
-      };
+        description: string;
+      }>;
     };
     structuredCablingSection: {
       badge: string;

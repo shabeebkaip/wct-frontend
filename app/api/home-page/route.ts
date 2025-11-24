@@ -57,6 +57,28 @@ const defaultData = {
     badge: 'LOW CURRENT SYSTEMS',
     title: 'Integrated Security Solutions',
     description: 'Complete low current system integration for comprehensive facility management and security',
+    securityFlow: [
+      {
+        step: 1,
+        title: 'Perimeter Protection System',
+        description: 'First line of defense',
+      },
+      {
+        step: 2,
+        title: 'Access Control System',
+        description: 'Entry point management',
+      },
+      {
+        step: 3,
+        title: 'On Premise Security',
+        description: 'Internal monitoring',
+      },
+      {
+        step: 4,
+        title: 'Public Area Protection',
+        description: 'Comprehensive coverage',
+      },
+    ],
     solutions: [
       {
         icon: 'Shield',
@@ -180,9 +202,10 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader || authHeader !== 'Bearer admin-token') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Check admin authentication
+    const { authorized } = await requireAdmin();
+    if (!authorized) {
+      return forbiddenResponse();
     }
 
     const body = await request.json();

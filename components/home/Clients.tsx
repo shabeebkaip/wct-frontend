@@ -4,35 +4,18 @@ import React from 'react';
 import Image from 'next/image';
 import { Users } from 'lucide-react';
 
-const Clients = () => {
-  const clientLogos = [
-    {
-      src: '/clients/hikvision.png',
-      alt: 'Hikvision',
-    },
-    {
-      src: '/clients/bosch.png',
-      alt: 'Bosch',
-    },
-    {
-      src: '/clients/axis-communications.jpg',
-      alt: 'Axis Communications',
-    },
-    {
-      src: '/clients/samsung.png',
-      alt: 'Samsung',
-    },
-    {
-      src: '/clients/american-dynamics.png',
-      alt: 'American Dynamics',
-    },
-    {
-      src: '/clients/nitgen.jpg',
-      alt: 'Nitgen',
-    },
-  ];
+interface ClientsProps {
+  data: {
+    badge: string;
+    title: string;
+    description: string;
+    logos: Array<{ src: string; alt: string; _id?: string }>;
+  };
+}
 
-  return (
+const Clients = ({ data }: ClientsProps) => {
+  const content = data;
+  return (  
     <section className="relative bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-black dark:via-gray-900 dark:to-black py-20 overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-5 dark:opacity-5">
@@ -51,21 +34,21 @@ const Clients = () => {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 rounded-full text-blue-700 dark:text-blue-400 text-sm font-semibold tracking-wide mb-6">
             <Users className="w-4 h-4" />
-            <span>OUR PARTNERS</span>
+            <span>{content.badge}</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-slate-900 dark:text-gray-100">
-            Trusted by Industry Leaders
+            {content.title}
           </h2>
           <p className="text-slate-600 dark:text-gray-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-            Partnering with world-renowned technology brands to deliver cutting-edge solutions
+            {content.description}
           </p>
         </div>
 
         {/* Clients Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-          {clientLogos.map((client, index) => (
+          {content.logos.map((client, index) => (
             <div
-              key={index}
+              key={client._id || index}
               className="group relative bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl p-6 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 flex items-center justify-center aspect-square"
             >
               {/* Background glow on hover */}

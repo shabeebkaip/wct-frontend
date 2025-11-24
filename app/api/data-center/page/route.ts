@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import { DataCenterPage } from '@/lib/models/DataCenter';
+import { requireAdmin, forbiddenResponse } from '@/lib/api-auth';
 
 const defaultData = {
   hero: {
@@ -253,9 +254,10 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader || authHeader !== 'Bearer admin-token') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Check admin authentication
+    const { authorized } = await requireAdmin();
+    if (!authorized) {
+      return forbiddenResponse();
     }
 
     const body = await request.json();
