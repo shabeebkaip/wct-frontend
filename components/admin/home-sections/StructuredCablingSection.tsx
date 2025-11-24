@@ -3,11 +3,11 @@
 import React from 'react';
 import * as LucideIcons from 'lucide-react';
 import { Plus, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { StructuredCablingData } from '@/types/structuredCabling';
 
 interface StructuredCablingSectionProps {
-  data: HomePageData;
-  updateData: (updates: Partial<HomePageData>) => void;
+  data: { structuredCablingSection: StructuredCablingData };
+  updateData: (updates: { structuredCablingSection: StructuredCablingData }) => void;
   editingField: string | null;
   setEditingField: (field: string | null) => void;
 }
@@ -15,47 +15,31 @@ interface StructuredCablingSectionProps {
 export default function StructuredCablingSection({
   data,
   updateData,
+  editingField,
+  setEditingField,
 }: StructuredCablingSectionProps) {
-  // Initialize arrays if they don't exist
-  React.useEffect(() => {
-    const section = data.structuredCablingSection;
-    const needsUpdate = 
-      !section.cablingFlow || 
-      !section.copperCabling || 
-      !section.fiberCabling || 
-      !section.features;
-
-    if (needsUpdate) {
-      updateData({
-        structuredCablingSection: {
-          ...section,
-          cablingFlow: section.cablingFlow || [],
-          copperCabling: section.copperCabling || [],
-          fiberCabling: section.fiberCabling || [],
-          features: section.features || [],
-        },
-      });
-    }
-  }, [data.structuredCablingSection, updateData]);
-
   const EditableText = ({
     value,
     onChange,
+    fieldKey,
     multiline = false,
     className = '',
   }: {
     value: string;
     onChange: (value: string) => void;
+    fieldKey: string;
     multiline?: boolean;
     className?: string;
   }) => {
     const [localValue, setLocalValue] = React.useState(value);
+    const isEditing = editingField === fieldKey;
 
     React.useEffect(() => {
       setLocalValue(value);
     }, [value]);
 
     const handleBlur = () => {
+      setEditingField(null);
       if (localValue !== value) {
         onChange(localValue);
       }
@@ -66,8 +50,11 @@ export default function StructuredCablingSection({
         <textarea
           value={localValue}
           onChange={(e) => setLocalValue(e.target.value)}
+          onFocus={() => setEditingField(fieldKey)}
           onBlur={handleBlur}
-          className={`${className} w-full px-3 py-2 rounded-lg transition-all bg-white border border-gray-300 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-gray-900 outline-none`}
+          className={`${className} ${
+            isEditing ? 'ring-2 ring-blue-500' : 'ring-1 ring-gray-200'
+          } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
           rows={3}
         />
       );
@@ -78,8 +65,11 @@ export default function StructuredCablingSection({
         type="text"
         value={localValue}
         onChange={(e) => setLocalValue(e.target.value)}
+        onFocus={() => setEditingField(fieldKey)}
         onBlur={handleBlur}
-        className={`${className} w-full px-3 py-2 rounded-lg transition-all bg-white border border-gray-300 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-gray-900 outline-none`}
+        className={`${className} ${
+          isEditing ? 'ring-2 ring-blue-500' : 'ring-1 ring-gray-200'
+        } w-full px-3 py-2 rounded-lg transition-all bg-white/50 hover:bg-white focus:bg-white text-gray-900`}
       />
     );
   };
@@ -93,16 +83,21 @@ export default function StructuredCablingSection({
   }) => {
     const [isOpen, setIsOpen] = React.useState(false);
     const commonIcons = [
+      'Shield',
+      'Zap',
+      'Settings',
       'Network',
       'Cable',
       'Server',
       'Database',
       'Workflow',
-      'Zap',
       'HardDrive',
       'Cpu',
       'Activity',
       'Radio',
+      'Lock',
+      'Eye',
+      'Building',
     ];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -154,25 +149,42 @@ export default function StructuredCablingSection({
   };
 
   return (
-    <div className="space-y-8">
-      {/* Header Section */}
-      <div className="bg-linear-to-br from-gray-50 to-white p-6 rounded-2xl border border-gray-200">
-        <div className="space-y-4">
+    <section className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+      {/* Section Header */}
+      <div className="bg-blue-600 p-4 text-white">
+        <div className="flex items-center justify-between">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Badge Text</label>
-            <EditableText
-              value={data.structuredCablingSection.badge}
-              onChange={(value) =>
-                updateData({
-                  structuredCablingSection: { ...data.structuredCablingSection, badge: value },
-                })
-              }
-              className="text-sm font-semibold"
-            />
+            <h2 className="text-xl font-bold">
+              <LucideIcons.Cable className="inline w-5 h-5 mr-2" />
+              Structured Cabling Section
+            </h2>
+            <p className="text-blue-100 text-xs">Edit as it appears on your website</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-3 space-y-3">
+        {/* Header Section */}
+        <div className="text-center space-y-1.5 pb-2 border-b border-gray-200">
+          <div className="inline-block">
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📌 BADGE</div>
+            <div className="px-3 py-1 bg-blue-100 border border-blue-300 rounded-full text-blue-700 text-xs font-semibold inline-flex items-center gap-1.5 min-w-[200px]">
+              <LucideIcons.Cable className="w-3 h-3" />
+              <EditableText
+                value={data.structuredCablingSection.badge}
+                onChange={(value) =>
+                  updateData({
+                    structuredCablingSection: { ...data.structuredCablingSection, badge: value },
+                  })
+                }
+                fieldKey="structured-cabling-badge"
+                className="text-xs bg-transparent flex-1 text-center"
+              />
+            </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Section Title</label>
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📝 TITLE</div>
             <EditableText
               value={data.structuredCablingSection.title}
               onChange={(value) =>
@@ -180,12 +192,13 @@ export default function StructuredCablingSection({
                   structuredCablingSection: { ...data.structuredCablingSection, title: value },
                 })
               }
-              className="text-2xl font-bold"
+              fieldKey="structured-cabling-title"
+              className="text-xl font-bold text-gray-900 text-center"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+            <div className="text-xs font-medium text-gray-600 mb-0.5">📄 DESCRIPTION</div>
             <EditableText
               value={data.structuredCablingSection.description}
               onChange={(value) =>
@@ -193,62 +206,64 @@ export default function StructuredCablingSection({
                   structuredCablingSection: { ...data.structuredCablingSection, description: value },
                 })
               }
+              fieldKey="structured-cabling-description"
               multiline
-              className="text-lg text-gray-600"
+              className="text-xs text-gray-600 max-w-3xl mx-auto text-center"
             />
           </div>
         </div>
-      </div>
 
-      {/* Cabling Flow Section */}
-      <div className="bg-linear-to-br from-blue-50 to-white p-6 rounded-2xl border border-blue-200">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-xl font-bold text-slate-900">🔄 Infrastructure Components</h3>
-            <p className="text-sm text-slate-600 mt-1">Cabling flow diagram elements</p>
+        {/* Cabling Flow Section */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <h3 className="text-base font-bold text-gray-900">🔄 Infrastructure Components</h3>
+              <p className="text-xs text-gray-600">Cabling flow diagram elements</p>
+            </div>
+            <button
+              onClick={() => {
+                const newItem = {
+                  label: 'New Component',
+                  active: false,
+                  highlight: false,
+                };
+                updateData({
+                  structuredCablingSection: {
+                    ...data.structuredCablingSection,
+                    cablingFlow: [...(data.structuredCablingSection.cablingFlow || []), newItem],
+                  },
+                });
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-medium text-xs"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Add Component
+            </button>
           </div>
-          <Button
-            onClick={() => {
-              const newItem = {
-                label: 'New Component',
-                active: false,
-                highlight: false,
-              };
-              updateData({
-                structuredCablingSection: {
-                  ...data.structuredCablingSection,
-                  cablingFlow: [...data.structuredCablingSection.cablingFlow, newItem],
-                },
-              });
-            }}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4" />
-            Add Component
-          </Button>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {data.structuredCablingSection.cablingFlow.map((item, index) => (
-            <div key={index} className="group relative">
-              <div className="bg-white border-2 border-gray-200 rounded-xl p-4 hover:border-blue-400 transition-all">
-                <Button
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {(data.structuredCablingSection.cablingFlow || []).map((item, index) => (
+              <div
+                key={index}
+                className="group relative bg-white border-2 border-gray-200 rounded-xl p-3 hover:border-blue-400 hover:shadow-xl transition-all"
+              >
+                <button
                   onClick={() => {
-                    const newFlow = data.structuredCablingSection.cablingFlow.filter((_, i) => i !== index);
-                    updateData({
-                      structuredCablingSection: { ...data.structuredCablingSection, cablingFlow: newFlow },
-                    });
+                    if (confirm('Delete this component?')) {
+                      const newFlow = data.structuredCablingSection.cablingFlow.filter((_, i) => i !== index);
+                      updateData({
+                        structuredCablingSection: { ...data.structuredCablingSection, cablingFlow: newFlow },
+                      });
+                    }
                   }}
-                  variant="destructive"
-                  size="icon-sm"
-                  className="absolute -top-2 -right-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+                  className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
                 >
                   <Trash2 className="w-3 h-3" />
-                </Button>
+                </button>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div>
-                    <label className="text-xs font-medium text-gray-600 mb-1 block">Label</label>
+                    <div className="text-xs font-semibold text-gray-600 mb-0.5">Label</div>
                     <EditableText
                       value={item.label}
                       onChange={(value) => {
@@ -258,12 +273,13 @@ export default function StructuredCablingSection({
                           structuredCablingSection: { ...data.structuredCablingSection, cablingFlow: newFlow },
                         });
                       }}
-                      className="text-sm font-semibold"
+                      fieldKey={`cabling-flow-label-${index}`}
+                      className="text-sm font-bold text-gray-900"
                     />
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <label className="flex items-center gap-2 cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <label className="flex items-center gap-1.5 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={item.active || false}
@@ -274,12 +290,12 @@ export default function StructuredCablingSection({
                             structuredCablingSection: { ...data.structuredCablingSection, cablingFlow: newFlow },
                           });
                         }}
-                        className="w-4 h-4 text-blue-600 rounded"
+                        className="w-3.5 h-3.5 text-blue-600 rounded"
                       />
                       <span className="text-xs text-gray-600">Active</span>
                     </label>
 
-                    <label className="flex items-center gap-2 cursor-pointer">
+                    <label className="flex items-center gap-1.5 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={item.highlight || false}
@@ -290,293 +306,334 @@ export default function StructuredCablingSection({
                             structuredCablingSection: { ...data.structuredCablingSection, cablingFlow: newFlow },
                           });
                         }}
-                        className="w-4 h-4 text-blue-600 rounded"
+                        className="w-3.5 h-3.5 text-blue-600 rounded"
                       />
                       <span className="text-xs text-gray-600">Highlight</span>
                     </label>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Copper Cabling Section */}
-      <div className="bg-linear-to-br from-orange-50 to-white p-6 rounded-2xl border border-orange-200">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-xl font-bold text-slate-900">🔌 Copper Cabling</h3>
-            <p className="text-sm text-slate-600 mt-1">UTP, STP, FTP, and Coaxial options</p>
+            ))}
           </div>
-          <Button
-            onClick={() => {
-              const newItem = {
-                title: 'New Cabling Type',
-                icon: 'Cable',
-              };
-              updateData({
-                structuredCablingSection: {
-                  ...data.structuredCablingSection,
-                  copperCabling: [...data.structuredCablingSection.copperCabling, newItem],
-                },
-              });
-            }}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4" />
-            Add Type
-          </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {data.structuredCablingSection.copperCabling.map((item, index) => (
-            <div key={index} className="group relative">
-              <div className="bg-white border border-gray-200 rounded-xl p-4 hover:border-orange-400 transition-all">
-                <Button
-                  onClick={() => {
-                    const newCopper = data.structuredCablingSection.copperCabling.filter((_, i) => i !== index);
-                    updateData({
-                      structuredCablingSection: { ...data.structuredCablingSection, copperCabling: newCopper },
-                    });
-                  }}
-                  variant="destructive"
-                  size="icon-sm"
-                  className="absolute -top-2 -right-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
-                >
-                  <Trash2 className="w-3 h-3" />
-                </Button>
+        {/* Copper Cabling Section */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <h3 className="text-base font-bold text-gray-900">🔌 Copper Cabling</h3>
+              <p className="text-xs text-gray-600">UTP, STP, FTP, and Coaxial options</p>
+            </div>
+            <button
+              onClick={() => {
+                const newItem = {
+                  title: 'New Cabling Type',
+                  icon: 'Cable',
+                };
+                updateData({
+                  structuredCablingSection: {
+                    ...data.structuredCablingSection,
+                    copperCabling: [...(data.structuredCablingSection.copperCabling || []), newItem],
+                  },
+                });
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-medium text-xs"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Add Type
+            </button>
+          </div>
 
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-2 block">Icon</label>
-                    <IconSelector
-                      value={item.icon}
-                      onChange={(icon) => {
-                        const newCopper = [...data.structuredCablingSection.copperCabling];
-                        newCopper[index] = { ...item, icon };
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            {(data.structuredCablingSection.copperCabling || []).map((item, index) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Cable;
+              return (
+                <div
+                  key={index}
+                  className="group relative bg-white border-2 border-gray-200 rounded-xl p-3 hover:border-orange-400 hover:shadow-xl transition-all"
+                >
+                  <button
+                    onClick={() => {
+                      if (confirm('Delete this copper cabling type?')) {
+                        const newCopper = data.structuredCablingSection.copperCabling.filter((_, i) => i !== index);
                         updateData({
                           structuredCablingSection: { ...data.structuredCablingSection, copperCabling: newCopper },
                         });
-                      }}
-                    />
-                  </div>
+                      }
+                    }}
+                    className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
 
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-2 block">Title</label>
-                    <EditableText
-                      value={item.title}
-                      onChange={(value) => {
-                        const newCopper = [...data.structuredCablingSection.copperCabling];
-                        newCopper[index] = { ...item, title: value };
-                        updateData({
-                          structuredCablingSection: { ...data.structuredCablingSection, copperCabling: newCopper },
-                        });
-                      }}
-                      className="font-semibold"
-                    />
+                  <div className="space-y-2">
+                    <div className="space-y-1">
+                      <div className="text-xs font-semibold text-gray-600">Icon</div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center shadow-md">
+                          <Icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <IconSelector
+                            value={item.icon}
+                            onChange={(icon) => {
+                              const newCopper = [...data.structuredCablingSection.copperCabling];
+                              newCopper[index] = { ...item, icon };
+                              updateData({
+                                structuredCablingSection: { ...data.structuredCablingSection, copperCabling: newCopper },
+                              });
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Title</div>
+                      <EditableText
+                        value={item.title}
+                        onChange={(value) => {
+                          const newCopper = [...data.structuredCablingSection.copperCabling];
+                          newCopper[index] = { ...item, title: value };
+                          updateData({
+                            structuredCablingSection: { ...data.structuredCablingSection, copperCabling: newCopper },
+                          });
+                        }}
+                        fieldKey={`copper-title-${index}`}
+                        className="text-sm font-bold text-gray-900"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Fiber Cabling Section */}
-      <div className="bg-linear-to-br from-green-50 to-white p-6 rounded-2xl border border-green-200">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-xl font-bold text-slate-900">📡 Fiber Cabling</h3>
-            <p className="text-sm text-slate-600 mt-1">Single mode and multi mode options</p>
+              );
+            })}
           </div>
-          <Button
-            onClick={() => {
-              const newItem = {
-                title: 'New Fiber Type',
-                subtitle: 'Indoor & Outdoor',
-                icon: 'Server',
-              };
-              updateData({
-                structuredCablingSection: {
-                  ...data.structuredCablingSection,
-                  fiberCabling: [...data.structuredCablingSection.fiberCabling, newItem],
-                },
-              });
-            }}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4" />
-            Add Type
-          </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {data.structuredCablingSection.fiberCabling.map((item, index) => (
-            <div key={index} className="group relative">
-              <div className="bg-white border border-gray-200 rounded-xl p-6 hover:border-green-400 transition-all">
-                <Button
-                  onClick={() => {
-                    const newFiber = data.structuredCablingSection.fiberCabling.filter((_, i) => i !== index);
-                    updateData({
-                      structuredCablingSection: { ...data.structuredCablingSection, fiberCabling: newFiber },
-                    });
-                  }}
-                  variant="destructive"
-                  size="icon-sm"
-                  className="absolute -top-2 -right-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
-                >
-                  <Trash2 className="w-3 h-3" />
-                </Button>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-2 block">Icon</label>
-                    <IconSelector
-                      value={item.icon}
-                      onChange={(icon) => {
-                        const newFiber = [...data.structuredCablingSection.fiberCabling];
-                        newFiber[index] = { ...item, icon };
-                        updateData({
-                          structuredCablingSection: { ...data.structuredCablingSection, fiberCabling: newFiber },
-                        });
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-2 block">Title</label>
-                    <EditableText
-                      value={item.title}
-                      onChange={(value) => {
-                        const newFiber = [...data.structuredCablingSection.fiberCabling];
-                        newFiber[index] = { ...item, title: value };
-                        updateData({
-                          structuredCablingSection: { ...data.structuredCablingSection, fiberCabling: newFiber },
-                        });
-                      }}
-                      className="font-semibold"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-2 block">Subtitle</label>
-                    <EditableText
-                      value={item.subtitle}
-                      onChange={(value) => {
-                        const newFiber = [...data.structuredCablingSection.fiberCabling];
-                        newFiber[index] = { ...item, subtitle: value };
-                        updateData({
-                          structuredCablingSection: { ...data.structuredCablingSection, fiberCabling: newFiber },
-                        });
-                      }}
-                      className="text-sm"
-                    />
-                  </div>
-                </div>
-              </div>
+        {/* Fiber Cabling Section */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <h3 className="text-base font-bold text-gray-900">📡 Fiber Cabling</h3>
+              <p className="text-xs text-gray-600">Single mode and multi mode options</p>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="bg-linear-to-br from-purple-50 to-white p-6 rounded-2xl border border-purple-200">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h3 className="text-xl font-bold text-slate-900">✨ Key Features</h3>
-            <p className="text-sm text-slate-600 mt-1">Highlight main benefits and capabilities</p>
+            <button
+              onClick={() => {
+                const newItem = {
+                  title: 'New Fiber Type',
+                  subtitle: 'Indoor & Outdoor',
+                  icon: 'Server',
+                };
+                updateData({
+                  structuredCablingSection: {
+                    ...data.structuredCablingSection,
+                    fiberCabling: [...(data.structuredCablingSection.fiberCabling || []), newItem],
+                  },
+                });
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-medium text-xs"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Add Type
+            </button>
           </div>
-          <Button
-            onClick={() => {
-              const newFeature = {
-                icon: 'Network',
-                title: 'New Feature',
-                description: 'Feature description',
-              };
-              updateData({
-                structuredCablingSection: {
-                  ...data.structuredCablingSection,
-                  features: [...data.structuredCablingSection.features, newFeature],
-                },
-              });
-            }}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4" />
-            Add Feature
-          </Button>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {data.structuredCablingSection.features.map((feature, index) => (
-            <div key={index} className="group relative">
-              <div className="bg-white border border-gray-200 rounded-xl p-6 hover:border-purple-400 transition-all">
-                <Button
-                  onClick={() => {
-                    const newFeatures = data.structuredCablingSection.features.filter((_, i) => i !== index);
-                    updateData({
-                      structuredCablingSection: { ...data.structuredCablingSection, features: newFeatures },
-                    });
-                  }}
-                  variant="destructive"
-                  size="icon-sm"
-                  className="absolute -top-2 -right-2 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {(data.structuredCablingSection.fiberCabling || []).map((item, index) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Server;
+              return (
+                <div
+                  key={index}
+                  className="group relative bg-white border-2 border-gray-200 rounded-xl p-3 hover:border-green-400 hover:shadow-xl transition-all"
                 >
-                  <Trash2 className="w-3 h-3" />
-                </Button>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-2 block">Icon</label>
-                    <IconSelector
-                      value={feature.icon}
-                      onChange={(icon) => {
-                        const newFeatures = [...data.structuredCablingSection.features];
-                        newFeatures[index] = { ...feature, icon };
+                  <button
+                    onClick={() => {
+                      if (confirm('Delete this fiber cabling type?')) {
+                        const newFiber = data.structuredCablingSection.fiberCabling.filter((_, i) => i !== index);
                         updateData({
-                          structuredCablingSection: { ...data.structuredCablingSection, features: newFeatures },
+                          structuredCablingSection: { ...data.structuredCablingSection, fiberCabling: newFiber },
                         });
-                      }}
-                    />
-                  </div>
+                      }
+                    }}
+                    className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
 
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-2 block">Title</label>
-                    <EditableText
-                      value={feature.title}
-                      onChange={(value) => {
-                        const newFeatures = [...data.structuredCablingSection.features];
-                        newFeatures[index] = { ...feature, title: value };
-                        updateData({
-                          structuredCablingSection: { ...data.structuredCablingSection, features: newFeatures },
-                        });
-                      }}
-                      className="font-semibold"
-                    />
-                  </div>
+                  <div className="space-y-2">
+                    <div className="space-y-1">
+                      <div className="text-xs font-semibold text-gray-600">Icon</div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center shadow-md">
+                          <Icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <IconSelector
+                            value={item.icon}
+                            onChange={(icon) => {
+                              const newFiber = [...data.structuredCablingSection.fiberCabling];
+                              newFiber[index] = { ...item, icon };
+                              updateData({
+                                structuredCablingSection: { ...data.structuredCablingSection, fiberCabling: newFiber },
+                              });
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-                  <div>
-                    <label className="text-xs font-medium text-gray-600 mb-2 block">Description</label>
-                    <EditableText
-                      value={feature.description}
-                      onChange={(value) => {
-                        const newFeatures = [...data.structuredCablingSection.features];
-                        newFeatures[index] = { ...feature, description: value };
-                        updateData({
-                          structuredCablingSection: { ...data.structuredCablingSection, features: newFeatures },
-                        });
-                      }}
-                      multiline
-                      className="text-sm text-gray-600"
-                    />
+                    <div>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Title</div>
+                      <EditableText
+                        value={item.title}
+                        onChange={(value) => {
+                          const newFiber = [...data.structuredCablingSection.fiberCabling];
+                          newFiber[index] = { ...item, title: value };
+                          updateData({
+                            structuredCablingSection: { ...data.structuredCablingSection, fiberCabling: newFiber },
+                          });
+                        }}
+                        fieldKey={`fiber-title-${index}`}
+                        className="text-sm font-bold text-gray-900"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Subtitle</div>
+                      <EditableText
+                        value={item.subtitle}
+                        onChange={(value) => {
+                          const newFiber = [...data.structuredCablingSection.fiberCabling];
+                          newFiber[index] = { ...item, subtitle: value };
+                          updateData({
+                            structuredCablingSection: { ...data.structuredCablingSection, fiberCabling: newFiber },
+                          });
+                        }}
+                        fieldKey={`fiber-subtitle-${index}`}
+                        className="text-xs text-gray-600"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <h3 className="text-base font-bold text-gray-900">✨ Key Features</h3>
+              <p className="text-xs text-gray-600">Highlight main benefits and capabilities</p>
             </div>
-          ))}
+            <button
+              onClick={() => {
+                const newFeature = {
+                  icon: 'Shield',
+                  title: 'New Feature',
+                  description: 'Feature description',
+                };
+                updateData({
+                  structuredCablingSection: {
+                    ...data.structuredCablingSection,
+                    features: [...(data.structuredCablingSection.features || []), newFeature],
+                  },
+                });
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all font-medium text-xs"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              Add Feature
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {(data.structuredCablingSection.features || []).map((feature, index) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const Icon = (LucideIcons as any)[feature.icon] || LucideIcons.Shield;
+              return (
+                <div
+                  key={index}
+                  className="group relative bg-white border-2 border-gray-200 rounded-xl p-3 hover:border-purple-400 hover:shadow-xl transition-all"
+                >
+                  <button
+                    onClick={() => {
+                      if (confirm('Delete this feature?')) {
+                        const newFeatures = data.structuredCablingSection.features.filter((_, i) => i !== index);
+                        updateData({
+                          structuredCablingSection: { ...data.structuredCablingSection, features: newFeatures },
+                        });
+                      }
+                    }}
+                    className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all hover:scale-110 shadow-lg z-10"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+
+                  <div className="space-y-2">
+                    <div className="space-y-1">
+                      <div className="text-xs font-semibold text-gray-600">Icon</div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center shadow-md">
+                          <Icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <IconSelector
+                            value={feature.icon}
+                            onChange={(icon) => {
+                              const newFeatures = [...data.structuredCablingSection.features];
+                              newFeatures[index] = { ...feature, icon };
+                              updateData({
+                                structuredCablingSection: { ...data.structuredCablingSection, features: newFeatures },
+                              });
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Title</div>
+                      <EditableText
+                        value={feature.title}
+                        onChange={(value) => {
+                          const newFeatures = [...data.structuredCablingSection.features];
+                          newFeatures[index] = { ...feature, title: value };
+                          updateData({
+                            structuredCablingSection: { ...data.structuredCablingSection, features: newFeatures },
+                          });
+                        }}
+                        fieldKey={`feature-title-${index}`}
+                        className="text-sm font-bold text-gray-900"
+                      />
+                    </div>
+
+                    <div>
+                      <div className="text-xs font-semibold text-gray-600 mb-0.5">Description</div>
+                      <EditableText
+                        value={feature.description}
+                        onChange={(value) => {
+                          const newFeatures = [...data.structuredCablingSection.features];
+                          newFeatures[index] = { ...feature, description: value };
+                          updateData({
+                            structuredCablingSection: { ...data.structuredCablingSection, features: newFeatures },
+                          });
+                        }}
+                        fieldKey={`feature-desc-${index}`}
+                        multiline
+                        className="text-xs text-gray-600"
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

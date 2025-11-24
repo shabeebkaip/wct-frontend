@@ -94,7 +94,7 @@ export default function LowCurrentSectionPage() {
         title="Low Current Solutions Section"
         description="Manage low current systems and security flow"
         backHref="/admin/dashboard"
-        previewHref="/solutions/low-current"
+        previewHref="/"
         hasChanges={hasChanges}
         saving={saving}
         onSave={handleSave}

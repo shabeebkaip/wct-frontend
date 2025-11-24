@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
+import AdminHeader from '@/components/admin/shared/AdminHeader';
 import EditableDataCenterHome from '@/components/admin/EditableDataCenterHome';
 
 export default function DataCenterHomeEditor() {
@@ -31,26 +31,14 @@ export default function DataCenterHomeEditor() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-slate-900 border-b border-slate-700 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => router.push('/admin/dashboard')}
-                className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5 text-slate-300" />
-              </button>
-              <div>
-                <h1 className="text-lg font-bold text-white">Data Center - Live Edit Mode</h1>
-                <p className="text-xs text-slate-400">Click on any text to edit directly</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/30 to-gray-50">
+      <AdminHeader
+        title="Data Center - Live Edit Mode"
+        description="Click on any text to edit directly"
+        backHref="/admin/dashboard"
+        previewHref="/"
+        showSaveButton={false}
+      />
 
       {/* Inline Editable Content */}
       <main>
