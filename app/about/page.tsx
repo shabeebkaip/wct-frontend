@@ -309,8 +309,7 @@ const About = async () => {
       {/* CTA Section */}
       <section className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="relative p-12 rounded-2xl bg-linear-to-br from-blue-100/80 via-blue-50/50 to-transparent dark:from-blue-600/10 dark:via-blue-500/5 dark:to-transparent backdrop-blur-sm border border-blue-300 dark:border-blue-500/30 overflow-hidden shadow-xl dark:shadow-none">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-200/40 via-transparent to-transparent dark:from-blue-500/20 dark:via-transparent dark:to-transparent" />
+          <div className="relative p-12 rounded-2xl bg-blue-50/50 dark:bg-blue-500/5 backdrop-blur-sm border border-blue-300 dark:border-blue-500/30 overflow-hidden shadow-xl dark:shadow-none">
             <div className="relative text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4">
                 {aboutData.cta.title}

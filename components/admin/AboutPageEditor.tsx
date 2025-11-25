@@ -28,8 +28,8 @@ export default function AboutPageEditor({ data, updateData }: AboutPageEditorPro
 
       if (!response.ok) throw new Error('Upload failed');
 
-      const result = await response.json();
-      const imageUrl = result.url;
+      const data = await response.json();
+      const imageUrl = data.url;
 
       const newMembers = [...data.aboutPage.teamMembers];
       newMembers[memberIndex] = { ...newMembers[memberIndex], image: imageUrl };
@@ -545,22 +545,36 @@ export default function AboutPageEditor({ data, updateData }: AboutPageEditorPro
                 </div>
                 
                 <div className="mb-3">
-                  <label className="flex items-center justify-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg border border-blue-200 cursor-pointer hover:bg-blue-100 transition-colors">
-                    <LucideIcons.Upload className="w-4 h-4 mr-2" />
-                    <span className="text-xs font-medium">
-                      {uploadingImage === `member-${index}` ? 'Uploading...' : 'Upload Photo'}
-                    </span>
+                  <label className="block text-xs font-medium text-slate-700 mb-2 text-center">Profile Image</label>
+                  <div className="space-y-2">
+                    <label className="flex items-center justify-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg border border-blue-200 cursor-pointer hover:bg-blue-100 transition-colors">
+                      <LucideIcons.Upload className="w-4 h-4 mr-2" />
+                      <span className="text-xs font-medium">
+                        {uploadingImage === `member-${index}` ? 'Uploading...' : 'Upload Image'}
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleImageUpload(file, index);
+                        }}
+                        className="hidden"
+                        disabled={uploadingImage === `member-${index}`}
+                      />
+                    </label>
                     <input
-                      type="file"
-                      accept="image/*"
+                      type="text"
+                      value={member.image || ''}
                       onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) handleImageUpload(file, index);
+                        const newMembers = [...data.aboutPage.teamMembers];
+                        newMembers[index] = { ...member, image: e.target.value || null };
+                        updateData({ aboutPage: { ...data.aboutPage, teamMembers: newMembers } });
                       }}
-                      className="hidden"
-                      disabled={uploadingImage === `member-${index}`}
+                      placeholder="Or paste image URL"
+                      className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded text-center bg-white text-slate-900"
                     />
-                  </label>
+                  </div>
                 </div>
                 
                 <div className="mb-2">
@@ -648,111 +662,121 @@ export default function AboutPageEditor({ data, updateData }: AboutPageEditorPro
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-8 text-center text-white">
-        <div className="max-w-2xl mx-auto space-y-6">
-          <EditableText
-            value={data.aboutPage.cta.title}
-            onChange={(value) =>
-              updateData({
-                aboutPage: { ...data.aboutPage, cta: { ...data.aboutPage.cta, title: value } },
-              })
-            }
-            fieldKey="cta-title"
-            placeholder="Call to action title"
-            className="text-3xl md:text-4xl font-bold text-white text-center border-white/30 placeholder:text-white/50 bg-white/10"
-          />
-          
-          <EditableText
-            value={data.aboutPage.cta.description}
-            onChange={(value) =>
-              updateData({
-                aboutPage: { ...data.aboutPage, cta: { ...data.aboutPage.cta, description: value } },
-              })
-            }
-            fieldKey="cta-desc"
-            multiline
-            placeholder="Encouraging message"
-            className="text-lg text-white text-center border-white/30 placeholder:text-white/50 bg-white/10"
-          />
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-start pt-4">
-            <div className="space-y-2 w-full sm:w-auto">
-              <label className="text-xs text-white/70 uppercase tracking-wider block">Primary Button</label>
-              <div className="flex flex-col gap-2">
-                <input
-                  type="text"
-                  value={data.aboutPage.cta.primaryButton.text}
-                  onChange={(e) =>
+      <section className="relative py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative p-12 rounded-2xl bg-blue-50/50 dark:bg-blue-500/5 backdrop-blur-sm border border-blue-300 dark:border-blue-500/30 overflow-hidden shadow-xl dark:shadow-none">
+            <div className="relative text-center space-y-6">
+              <div>
+                <label className="block text-xs font-medium text-slate-700 dark:text-gray-400 mb-2">CTA Title</label>
+                <EditableText
+                  value={data.aboutPage.cta.title}
+                  onChange={(value) =>
                     updateData({
-                      aboutPage: {
-                        ...data.aboutPage,
-                        cta: {
-                          ...data.aboutPage.cta,
-                          primaryButton: { ...data.aboutPage.cta.primaryButton, text: e.target.value },
-                        },
-                      },
+                      aboutPage: { ...data.aboutPage, cta: { ...data.aboutPage.cta, title: value } },
                     })
                   }
-                  placeholder="Button text"
-                  className="px-4 py-2.5 text-sm font-semibold text-blue-600 bg-white rounded-lg border-2 border-white focus:outline-none focus:ring-2 focus:ring-white/50"
-                />
-                <input
-                  type="text"
-                  value={data.aboutPage.cta.primaryButton.link}
-                  onChange={(e) =>
-                    updateData({
-                      aboutPage: {
-                        ...data.aboutPage,
-                        cta: {
-                          ...data.aboutPage.cta,
-                          primaryButton: { ...data.aboutPage.cta.primaryButton, link: e.target.value },
-                        },
-                      },
-                    })
-                  }
-                  placeholder="/contact"
-                  className="px-3 py-1.5 text-xs bg-white/10 border border-white/30 rounded text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
+                  fieldKey="cta-title"
+                  placeholder="Call to action title"
+                  className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-gray-100 text-center"
                 />
               </div>
-            </div>
-            
-            <div className="space-y-2 w-full sm:w-auto">
-              <label className="text-xs text-white/70 uppercase tracking-wider block">Secondary Button</label>
-              <div className="flex flex-col gap-2">
-                <input
-                  type="text"
-                  value={data.aboutPage.cta.secondaryButton.text}
-                  onChange={(e) =>
+              
+              <div>
+                <label className="block text-xs font-medium text-slate-700 dark:text-gray-400 mb-2">CTA Description</label>
+                <EditableText
+                  value={data.aboutPage.cta.description}
+                  onChange={(value) =>
                     updateData({
-                      aboutPage: {
-                        ...data.aboutPage,
-                        cta: {
-                          ...data.aboutPage.cta,
-                          secondaryButton: { ...data.aboutPage.cta.secondaryButton, text: e.target.value },
-                        },
-                      },
+                      aboutPage: { ...data.aboutPage, cta: { ...data.aboutPage.cta, description: value } },
                     })
                   }
-                  placeholder="Button text"
-                  className="px-4 py-2.5 text-sm font-semibold text-white bg-white/10 border-2 border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50"
+                  fieldKey="cta-desc"
+                  multiline
+                  placeholder="Encouraging message"
+                  className="text-lg text-slate-600 dark:text-gray-400 text-center"
                 />
-                <input
-                  type="text"
-                  value={data.aboutPage.cta.secondaryButton.link}
-                  onChange={(e) =>
-                    updateData({
-                      aboutPage: {
-                        ...data.aboutPage,
-                        cta: {
-                          ...data.aboutPage.cta,
-                          secondaryButton: { ...data.aboutPage.cta.secondaryButton, link: e.target.value },
-                        },
-                      },
-                    })
-                  }
-                  placeholder="/projects"
-                  className="px-3 py-1.5 text-xs bg-white/10 border border-white/30 rounded text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50"
-                />
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-start pt-4">
+                <div className="space-y-2 w-full sm:w-auto">
+                  <label className="text-xs font-medium text-slate-700 dark:text-gray-400 uppercase tracking-wider block">Primary Button</label>
+                  <div className="flex flex-col gap-2">
+                    <input
+                      type="text"
+                      value={data.aboutPage.cta.primaryButton.text}
+                      onChange={(e) =>
+                        updateData({
+                          aboutPage: {
+                            ...data.aboutPage,
+                            cta: {
+                              ...data.aboutPage.cta,
+                              primaryButton: { ...data.aboutPage.cta.primaryButton, text: e.target.value },
+                            },
+                          },
+                        })
+                      }
+                      placeholder="Button text"
+                      className="px-4 py-2.5 text-sm font-semibold text-white bg-blue-600 rounded-lg border-2 border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
+                      type="text"
+                      value={data.aboutPage.cta.primaryButton.link}
+                      onChange={(e) =>
+                        updateData({
+                          aboutPage: {
+                            ...data.aboutPage,
+                            cta: {
+                              ...data.aboutPage.cta,
+                              primaryButton: { ...data.aboutPage.cta.primaryButton, link: e.target.value },
+                            },
+                          },
+                        })
+                      }
+                      placeholder="/contact"
+                      className="px-3 py-1.5 text-xs bg-white border border-slate-300 rounded text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2 w-full sm:w-auto">
+                  <label className="text-xs font-medium text-slate-700 dark:text-gray-400 uppercase tracking-wider block">Secondary Button</label>
+                  <div className="flex flex-col gap-2">
+                    <input
+                      type="text"
+                      value={data.aboutPage.cta.secondaryButton.text}
+                      onChange={(e) =>
+                        updateData({
+                          aboutPage: {
+                            ...data.aboutPage,
+                            cta: {
+                              ...data.aboutPage.cta,
+                              secondaryButton: { ...data.aboutPage.cta.secondaryButton, text: e.target.value },
+                            },
+                          },
+                        })
+                      }
+                      placeholder="Button text"
+                      className="px-4 py-2.5 text-sm font-semibold text-slate-900 bg-slate-200 border-2 border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
+                      type="text"
+                      value={data.aboutPage.cta.secondaryButton.link}
+                      onChange={(e) =>
+                        updateData({
+                          aboutPage: {
+                            ...data.aboutPage,
+                            cta: {
+                              ...data.aboutPage.cta,
+                              secondaryButton: { ...data.aboutPage.cta.secondaryButton, link: e.target.value },
+                            },
+                          },
+                        })
+                      }
+                      placeholder="/projects"
+                      className="px-3 py-1.5 text-xs bg-white border border-slate-300 rounded text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
