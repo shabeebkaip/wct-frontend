@@ -182,6 +182,15 @@ export default function AdminDashboard() {
                     </a>
                   ))}
                 </div>
+                
+                {/* About Page */}
+                <a
+                  href="/admin/about-page"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                >
+                  <UsersRound className="w-5 h-5" />
+                  <span className="font-medium">About Us Page</span>
+                </a>
               </div>
             </div>
 

@@ -39,8 +39,6 @@ export default function DataCenterHomeEditor() {
         previewHref="/"
         showSaveButton={false}
       />
-
-      {/* Inline Editable Content */}
       <main>
         <EditableDataCenterHome isEditMode={true} />
       </main>
