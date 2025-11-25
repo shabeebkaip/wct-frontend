@@ -1,100 +1,35 @@
-"use client";
-import {
-  Award,
-  Target,
-  Eye,
-  Users,
-  Shield,
-  Zap,
-  TrendingUp,
-  Globe,
-  Building2,
-  Briefcase,
-  Star,
-  UserCircle2,
-} from "lucide-react";
+import * as LucideIcons from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const About = () => {
-  const leadership = [
-    {
-      name: "Sheriff",
-      role: "Co-Founder & Managing Director",
-      image: null,
-      description:
-        "Leading WeCare Technology with strategic vision and extensive industry expertise.",
-    },
-    {
-      name: "Harris",
-      role: "Co-Founder & Technical Director",
-      image: null,
-      description:
-        "Driving technical excellence and innovation across all our infrastructure solutions.",
-    },
-  ];
+async function getAboutPageData() {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const res = await fetch(`${baseUrl}/api/about-page`, {
+      cache: 'no-store',
+    });
+    
+    if (!res.ok) {
+      throw new Error('Failed to fetch about page data');
+    }
+    
+    return res.json();
+  } catch (error) {
+    console.error('Error fetching about page data:', error);
+    return null;
+  }
+}
 
-  const team = [
-    {
-      name: "Fasal Sheriff",
-      role: "Sales and Design Engineer",
-      image: "/members/fasal.jpeg",
-      description:
-        "Specialized in solution design and client relationship management.",
-    },
-    {
-      name: "Nawas Sheriff",
-      role: "Design Engineer",
-      image: "/members/navas.jpeg",
-      description:
-        "Expert in infrastructure design and technical specifications.",
-    },
-    {
-      name: "Faizan Solanki",
-      role: "Sales Account Manager",
-      image: "/members/faizan.jpeg",
-      description: "Managing key accounts and ensuring client satisfaction.",
-    },
-  ];
+const About = async () => {
+  const aboutData = await getAboutPageData();
 
-  const values = [
-    {
-      icon: Shield,
-      title: "Reliability",
-      description:
-        "We deliver dependable solutions that our clients can trust, backed by proven expertise and industry certifications.",
-    },
-    {
-      icon: Zap,
-      title: "Innovation",
-      description:
-        "Staying ahead with cutting-edge technologies and innovative approaches to solve complex infrastructure challenges.",
-    },
-    {
-      icon: Users,
-      title: "Client Focus",
-      description:
-        "Your success is our priority. We work closely with clients to understand and exceed their expectations.",
-    },
-    {
-      icon: Award,
-      title: "Excellence",
-      description:
-        "Committed to delivering exceptional quality in every project, from design to implementation and support.",
-    },
-    {
-      icon: TrendingUp,
-      title: "Growth",
-      description:
-        "Continuously evolving and expanding our capabilities to meet the changing needs of the industry.",
-    },
-    {
-      icon: Globe,
-      title: "Integrity",
-      description:
-        "Operating with transparency, honesty, and ethical practices in all our business relationships.",
-    },
-  ];
+  if (!aboutData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-slate-600">Unable to load about page content.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 text-slate-900 dark:text-gray-100">
@@ -111,18 +46,16 @@ const About = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
-              <Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <LucideIcons.Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span className="text-sm font-medium text-blue-700 dark:text-blue-400">
-                About WeCare Technology
+                {aboutData.hero.badge}
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-slate-900 via-blue-700 to-slate-900 dark:from-gray-100 dark:via-blue-100 dark:to-gray-100 bg-clip-text text-transparent">
-              Building Tomorrow&apos;s Infrastructure
+              {aboutData.hero.title}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              For over 20 years, WeCare Technology has been at the forefront of
-              delivering world-class IT infrastructure solutions across Saudi
-              Arabia and the GCC region.
+              {aboutData.hero.description}
             </p>
           </div>
         </div>
@@ -134,38 +67,18 @@ const About = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
-                <Briefcase className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <LucideIcons.Briefcase className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 <span className="text-sm font-medium text-blue-700 dark:text-blue-400">
-                  Our Story
+                  {aboutData.companyStory.badge}
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-slate-900 dark:text-gray-100">
-                Pioneering Excellence in IT Infrastructure
+                {aboutData.companyStory.title}
               </h2>
               <div className="space-y-4 text-slate-600 dark:text-gray-400 leading-relaxed">
-                <p>
-                  Founded in 2005, WeCare Technology emerged with a clear
-                  mission: to provide exceptional IT infrastructure solutions
-                  that empower businesses to thrive in the digital age. Our
-                  journey began in Riyadh, and over the years, we&apos;ve grown
-                  to become one of the most trusted names in the industry.
-                </p>
-                <p>
-                  We specialize in comprehensive solutions spanning Data
-                  Centers, Structured Cabling, Security Systems, Audio-Visual
-                  Integration, and Low Current Systems. Our team of certified
-                  engineers brings decades of combined experience, ensuring
-                  every project meets the highest standards of quality and
-                  reliability.
-                </p>
-                <p>
-                  Today, we serve a diverse portfolio of clients across
-                  government, healthcare, education, corporate, and hospitality
-                  sectors. Our commitment to innovation, quality, and customer
-                  satisfaction has made us the partner of choice for
-                  mission-critical infrastructure projects throughout the
-                  Kingdom and beyond.
-                </p>
+                {aboutData.companyStory.paragraphs.map((paragraph: string, index: number) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
               </div>
             </div>
             <div className="relative">
@@ -192,18 +105,16 @@ const About = () => {
               <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
               <div className="relative">
                 <div className="w-16 h-16 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-6">
-                  <Target className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  {(() => {
+                    const MissionIcon = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[aboutData.mission.icon] || LucideIcons.Target;
+                    return <MissionIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />;
+                  })()}
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-4">
-                  Our Mission
+                  {aboutData.mission.title}
                 </h3>
                 <p className="text-slate-600 dark:text-gray-400 leading-relaxed">
-                  To deliver innovative, reliable, and scalable IT
-                  infrastructure solutions that empower organizations to achieve
-                  their strategic objectives. We are committed to excellence in
-                  every aspect of our work, from initial consultation to ongoing
-                  support, ensuring our clients receive solutions that drive
-                  real business value.
+                  {aboutData.mission.description}
                 </p>
               </div>
             </div>
@@ -213,18 +124,16 @@ const About = () => {
               <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
               <div className="relative">
                 <div className="w-16 h-16 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-6">
-                  <Eye className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  {(() => {
+                    const VisionIcon = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[aboutData.vision.icon] || LucideIcons.Eye;
+                    return <VisionIcon className="w-8 h-8 text-blue-600 dark:text-blue-400" />;
+                  })()}
                 </div>
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-4">
-                  Our Vision
+                  {aboutData.vision.title}
                 </h3>
                 <p className="text-slate-600 dark:text-gray-400 leading-relaxed">
-                  To be the leading technology partner in the region, recognized
-                  for our innovation, reliability, and commitment to customer
-                  success. We envision a future where every organization,
-                  regardless of size, has access to world-class infrastructure
-                  solutions that enable them to compete and succeed in the
-                  global marketplace.
+                  {aboutData.vision.description}
                 </p>
               </div>
             </div>
@@ -237,7 +146,7 @@ const About = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
-              <Star className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <LucideIcons.Star className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span className="text-sm font-medium text-blue-700 dark:text-blue-400">
                 Core Values
               </span>
@@ -252,25 +161,28 @@ const About = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {values.map((value, index) => (
-              <div
-                key={index}
-                className="group relative p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
-              >
-                <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-                <div className="relative">
-                  <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <value.icon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+            {aboutData.coreValues.map((value: { icon: string; title: string; description: string }, index: number) => {
+              const ValueIcon = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[value.icon] || LucideIcons.Star;
+              return (
+                <div
+                  key={index}
+                  className="group relative p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
+                >
+                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+                  <div className="relative">
+                    <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <ValueIcon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-3">
+                      {value.title}
+                    </h3>
+                    <p className="text-slate-600 dark:text-gray-400 leading-relaxed">
+                      {value.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-3">
-                    {value.title}
-                  </h3>
-                  <p className="text-slate-600 dark:text-gray-400 leading-relaxed">
-                    {value.description}
-                  </p>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -280,7 +192,7 @@ const About = () => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
-              <Users className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <LucideIcons.Users className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span className="text-sm font-medium text-blue-700 dark:text-blue-400">
                 Our Team
               </span>
@@ -294,95 +206,99 @@ const About = () => {
             </p>
           </div>
 
-          {/* Leadership */}
+          {/* Leadership Team */}
           <div className="mb-16">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-8 text-center">
-              Leadership Team
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {leadership.map((leader, index) => (
-                <div
-                  key={index}
-                  className="group relative p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
-                >
-                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-                  <div className="relative">
-                    <div className="flex flex-col items-center text-center">
-                      {/* Avatar */}
-                      <div className="w-32 h-32 rounded-full bg-linear-to-br from-blue-200 to-blue-100 dark:from-blue-500/20 dark:to-blue-600/10 border-2 border-blue-400 dark:border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-105 transition-transform duration-300">
-                        {leader.image ? (
-                          <div className="relative w-full h-full rounded-full overflow-hidden">
-                            <Image
-                              src={leader.image}
-                              alt={leader.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
+            <div className="flex items-center justify-center gap-2 mb-12">
+              <div className="h-px w-12 bg-linear-to-r from-transparent to-blue-300 dark:to-blue-500/30" />
+              <LucideIcons.Crown className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Leadership</span>
+              <div className="h-px w-12 bg-linear-to-l from-transparent to-blue-300 dark:to-blue-500/30" />
+            </div>
+            <div className="flex flex-wrap justify-center gap-12 max-w-4xl mx-auto">
+              {aboutData.teamMembers
+                .filter((member: { isLeadership: boolean; order: number; name: string; role: string; image?: string }) => member.isLeadership)
+                .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
+                .map((member: { name: string; role: string; image?: string }, index: number) => (
+                  <div
+                    key={index}
+                    className="group flex flex-col items-center"
+                  >
+                    {/* Avatar */}
+                    <div className="relative mb-4">
+                      <div className="absolute -inset-1 rounded-full bg-linear-to-r from-blue-600 via-blue-500 to-blue-400 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500" />
+                      <div className="relative w-28 h-28 rounded-full overflow-hidden ring-4 ring-white dark:ring-gray-900 shadow-xl group-hover:scale-105 transition-transform duration-300">
+                        {member.image ? (
+                          <Image
+                            src={member.image}
+                            alt={member.name}
+                            width={112}
+                            height={112}
+                            className="object-cover w-full h-full"
+                          />
                         ) : (
-                          <UserCircle2 className="w-20 h-20 text-blue-600 dark:text-blue-400" />
+                          <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-blue-100 to-blue-50 dark:from-blue-500/20 dark:to-blue-500/10">
+                            <LucideIcons.UserCircle2 className="w-16 h-16 text-blue-600 dark:text-blue-400" />
+                          </div>
                         )}
                       </div>
-
-                      {/* Info */}
-                      <h4 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-2">
-                        {leader.name}
-                      </h4>
-                      <p className="text-blue-600 dark:text-blue-400 font-medium mb-4">
-                        {leader.role}
-                      </p>
-                      <p className="text-slate-600 dark:text-gray-400 leading-relaxed">
-                        {leader.description}
-                      </p>
                     </div>
+
+                    {/* Info */}
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-1">
+                      {member.name}
+                    </h4>
+                    <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                      {member.role}
+                    </p>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
 
           {/* Team Members */}
           <div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-8 text-center">
-              Our Team
-            </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {team.map((member, index) => (
+            <div className="flex items-center justify-center gap-2 mb-12">
+              <div className="h-px w-12 bg-linear-to-r from-transparent to-slate-300 dark:to-gray-700" />
+              <LucideIcons.Users className="w-4 h-4 text-slate-600 dark:text-gray-400" />
+              <span className="text-sm font-semibold text-slate-600 dark:text-gray-400 uppercase tracking-wider">Our Team</span>
+              <div className="h-px w-12 bg-linear-to-l from-transparent to-slate-300 dark:to-gray-700" />
+            </div>
+            <div className="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
+              {aboutData.teamMembers
+                .filter((member: { isLeadership: boolean; order: number; name: string; role: string; image?: string }) => !member.isLeadership)
+                .sort((a: { order: number }, b: { order: number }) => a.order - b.order)
+                .map((member: { name: string; role: string; image?: string }, index: number) => (
                 <div
                   key={index}
-                  className="group relative p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
+                  className="group flex flex-col items-center"
                 >
-                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-                  <div className="relative">
-                    <div className="flex flex-col items-center text-center">
-                      {/* Avatar */}
-                      <div className="w-24 h-24 rounded-full bg-linear-to-br from-blue-200 to-blue-100 dark:from-blue-500/20 dark:to-blue-600/10 border-2 border-blue-400 dark:border-blue-500/30 flex items-center justify-center mb-4 group-hover:scale-105 transition-transform duration-300">
-                        {member.image ? (
-                          <div className="relative w-full h-full rounded-full overflow-hidden">
-                            <Image
-                              src={member.image}
-                              alt={member.name}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <UserCircle2 className="w-16 h-16 text-blue-600 dark:text-blue-400" />
-                        )}
-                      </div>
-
-                      {/* Info */}
-                      <h4 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-1">
-                        {member.name}
-                      </h4>
-                      <p className="text-blue-600 dark:text-blue-400 text-sm font-medium mb-3">
-                        {member.role}
-                      </p>
-                      <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed">
-                        {member.description}
-                      </p>
+                  {/* Avatar */}
+                  <div className="relative mb-3">
+                    <div className="absolute -inset-0.5 rounded-full bg-linear-to-r from-slate-300 to-slate-200 dark:from-gray-700 dark:to-gray-800 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300" />
+                    <div className="relative w-20 h-20 rounded-full overflow-hidden ring-2 ring-white dark:ring-gray-900 shadow-lg group-hover:scale-105 transition-transform duration-300">
+                      {member.image ? (
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          width={80}
+                          height={80}
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-linear-to-br from-slate-100 to-slate-50 dark:from-gray-800 dark:to-gray-900">
+                          <LucideIcons.User className="w-10 h-10 text-slate-400 dark:text-gray-500" />
+                        </div>
+                      )}
                     </div>
                   </div>
+
+                  {/* Info */}
+                  <h4 className="text-sm font-semibold text-slate-900 dark:text-gray-100 mb-0.5 text-center max-w-[100px]">
+                    {member.name}
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-gray-400 text-center max-w-[100px]">
+                    {member.role}
+                  </p>
                 </div>
               ))}
             </div>
@@ -397,24 +313,23 @@ const About = () => {
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-200/40 via-transparent to-transparent dark:from-blue-500/20 dark:via-transparent dark:to-transparent" />
             <div className="relative text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4">
-                Ready to Transform Your Infrastructure?
+                {aboutData.cta.title}
               </h2>
               <p className="text-slate-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-                Let&apos;s discuss how our expertise can help your organization
-                achieve its technology goals.
+                {aboutData.cta.description}
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link
-                  href="/contact"
+                  href={aboutData.cta.primaryButton.link}
                   className="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-blue-500/20"
                 >
-                  Get in Touch
+                  {aboutData.cta.primaryButton.text}
                 </Link>
                 <Link
-                  href="/projects"
+                  href={aboutData.cta.secondaryButton.link}
                   className="px-8 py-3 rounded-xl bg-slate-200 dark:bg-gray-800 hover:bg-slate-300 dark:hover:bg-gray-700 text-slate-900 dark:text-white font-medium border border-slate-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500/50 transition-all duration-300"
                 >
-                  View Our Work
+                  {aboutData.cta.secondaryButton.text}
                 </Link>
               </div>
             </div>
