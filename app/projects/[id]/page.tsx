@@ -1,209 +1,73 @@
-'use client';
-
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import {
   ArrowLeft,
   Calendar,
   MapPin,
   Building2,
   CheckCircle,
-  Server,
-  Network,
+  Target,
+  Award,
+  Zap,
   Shield,
-  ChevronLeft,
-  ChevronRight
+  TrendingUp,
+  Settings,
+  MessageSquare,
+  Star,
 } from 'lucide-react';
+import { Project } from '@/types/project';
+import ProjectDetailClient from '@/components/projects/ProjectDetailClient';
 
-const ProjectDetailPage = () => {
-  const params = useParams();
-  const projectId = parseInt(params.id as string);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Project data (should ideally be in a shared file or fetched from API)
-  const projects = [
-    // Data Center Projects
-    {
-      id: 1,
-      title: 'Quara Finance Data Center',
-      category: 'data-center',
-      client: 'Quara Finance',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2024',
-      description: 'Complete data center infrastructure design and implementation with redundant power systems, advanced cooling solutions, and tier-3 compliance.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.38.37.jpeg', '/projects/WhatsApp Image 2025-10-26 at 21.38.44.jpeg'],
-      tags: ['Infrastructure Design', 'Power Systems', 'Cooling', 'Tier-3'],
-      scope: ['Data Center Design', 'Power Infrastructure', 'Cooling Systems', 'Network Cabling', 'Security Integration']
-    },
-    {
-      id: 2,
-      title: 'Royal Court IT Infrastructure',
-      category: 'data-center',
-      client: 'Royal Court',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2023',
-      description: 'Mission-critical data center with highest security standards, redundant systems, and 24/7 monitoring capabilities.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.38.44.jpeg'],
-      tags: ['Mission Critical', 'High Security', 'Redundancy', 'Monitoring'],
-      scope: ['Data Center Build', 'Security Systems', 'Network Infrastructure', 'Backup Systems', 'NOC Setup']
-    },
-    {
-      id: 3,
-      title: 'Ministry of Defense Data Center',
-      category: 'data-center',
-      client: 'Ministry of Defense',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2023',
-      description: 'High-security government data center with military-grade specifications and compliance requirements.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.38.49.jpeg'],
-      tags: ['Government', 'Military Grade', 'Compliance', 'High Security'],
-      scope: ['Secure Infrastructure', 'Access Control', 'Network Design', 'Power Backup', 'Environmental Control']
-    },
-    {
-      id: 4,
-      title: 'GOSI Enterprise Data Center',
-      category: 'data-center',
-      client: 'GOSI',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2022',
-      description: 'Large-scale enterprise data center supporting critical government services with high availability requirements.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.38.54.jpeg'],
-      tags: ['Enterprise', 'High Availability', 'Scalable', 'Government'],
-      scope: ['Data Center Infrastructure', 'Storage Solutions', 'Network Architecture', 'Disaster Recovery', 'Monitoring Systems']
-    },
-    {
-      id: 5,
-      title: 'Makkah Bus Company ICT Infrastructure',
-      category: 'ict',
-      client: 'Makkah Bus Company',
-      location: 'Makkah, Saudi Arabia',
-      year: '2024',
-      description: 'Comprehensive ICT infrastructure including structured cabling, network systems, and communications setup for transportation hub.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.39.16.jpeg'],
-      tags: ['Structured Cabling', 'Network', 'Communications', 'Transport'],
-      scope: ['Network Infrastructure', 'Structured Cabling', 'WiFi Systems', 'Voice Systems', 'CCTV Integration']
-    },
-    {
-      id: 6,
-      title: 'NCMS Network Infrastructure',
-      category: 'ict',
-      client: 'NCMS',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2024',
-      description: 'Advanced network infrastructure with fiber optics, structured cabling, and enterprise networking solutions.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.39.20.jpeg'],
-      tags: ['Fiber Optics', 'Enterprise Network', 'Infrastructure', 'Connectivity'],
-      scope: ['Fiber Optic Cabling', 'Network Design', 'Switching Infrastructure', 'Wireless Solutions', 'Cable Management']
-    },
-    {
-      id: 7,
-      title: 'Dallah Hospital ICT Systems',
-      category: 'ict',
-      client: 'Dallah Hospital',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2023',
-      description: 'Healthcare-grade ICT infrastructure with structured cabling, network systems, and integrated communication platforms.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.39.27.jpeg'],
-      tags: ['Healthcare', 'Structured Cabling', 'Network', 'Communications'],
-      scope: ['Hospital Network', 'Medical Systems Integration', 'Structured Cabling', 'Wireless Coverage', 'Voice Systems']
-    },
-    {
-      id: 8,
-      title: 'Ericsson Office Network',
-      category: 'ict',
-      client: 'Ericsson',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2023',
-      description: 'Corporate office network infrastructure with advanced cabling systems and high-speed connectivity.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.39.32.jpeg'],
-      tags: ['Corporate', 'High Speed', 'Structured Cabling', 'Office Network'],
-      scope: ['Office Cabling', 'Network Setup', 'Access Points', 'Phone Systems', 'Conference Systems']
-    },
-    {
-      id: 9,
-      title: 'NCMS Security Systems',
-      category: 'security',
-      client: 'NCMS',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2024',
-      description: 'Comprehensive security solution including CCTV surveillance, access control, and intrusion detection systems.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.38.37.jpeg'],
-      tags: ['CCTV', 'Access Control', 'Intrusion Detection', 'Monitoring'],
-      scope: ['CCTV Systems', 'Access Control', 'Alarm Systems', 'Perimeter Security', 'Control Room Setup']
-    },
-    {
-      id: 10,
-      title: 'King Khalid Masjid Security',
-      category: 'security',
-      client: 'King Khalid Masjid',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2023',
-      description: 'Advanced security infrastructure for religious facility with crowd management and safety systems.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.38.44.jpeg'],
-      tags: ['CCTV', 'Crowd Management', 'Public Safety', 'Monitoring'],
-      scope: ['Video Surveillance', 'Public Address System', 'Emergency Systems', 'Access Management', 'Monitoring Center']
-    },
-    {
-      id: 11,
-      title: 'Hitachi Facility Security',
-      category: 'security',
-      client: 'Hitachi',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2023',
-      description: 'Corporate facility security with integrated CCTV, access control, and perimeter protection systems.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.38.49.jpeg'],
-      tags: ['Corporate Security', 'CCTV', 'Access Control', 'Perimeter'],
-      scope: ['Surveillance Systems', 'Access Control', 'Visitor Management', 'Parking Security', 'Integration Platform']
-    },
-    {
-      id: 12,
-      title: 'ABB Security Infrastructure',
-      category: 'security',
-      client: 'ABB',
-      location: 'Riyadh, Saudi Arabia',
-      year: '2022',
-      description: 'Industrial facility security with advanced monitoring, access control, and safety integration systems.',
-      images: ['/projects/WhatsApp Image 2025-10-26 at 21.38.54.jpeg'],
-      tags: ['Industrial', 'CCTV', 'Safety', 'Monitoring'],
-      scope: ['Industrial CCTV', 'Access Control', 'Safety Integration', 'Analytics', 'Central Monitoring']
+async function getProject(id: string): Promise<Project | null> {
+  try {
+    // Validate ObjectId format
+    if (!id || !/^[0-9a-fA-F]{24}$/.test(id)) {
+      console.error('Invalid project ID format:', id);
+      return null;
     }
-  ];
 
-  const project = projects.find(p => p.id === projectId);
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const ProjectModel = (await import('@/lib/models/Project')).default;
+    await connectDB();
+    
+    const project = await ProjectModel.findById(id).lean();
+    if (project) {
+      // Convert MongoDB document to plain object with _id as string
+      return {
+        ...project,
+        _id: project._id.toString(),
+      };
+    }
+    
+    console.error('Project not found with ID:', id);
+  } catch (error) {
+    console.error('Error fetching project from database:', error);
+  }
+  return null;
+}
 
+interface ProjectDetailPageProps {
+  params: Promise<{ id: string }>;
+}
+
+const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
+  const { id } = await params;
+  const project = await getProject(id);
+  console.log('Fetched project:', project);
   if (!project) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-950 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-4">Project Not Found</h1>
-          <Link href="/projects" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+          <p className="text-slate-600 dark:text-gray-400 mb-6">The project you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+          <Link href="/projects" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium transition-all">
+            <ArrowLeft className="w-5 h-5" />
             Back to Projects
           </Link>
         </div>
       </div>
     );
   }
-
-  const getCategoryIcon = (category: string) => {
-    switch(category) {
-      case 'data-center': return Server;
-      case 'ict': return Network;
-      case 'security': return Shield;
-      default: return Building2;
-    }
-  };
-
-  const categoryIcon = getCategoryIcon(project.category);
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % project.images.length);
-  };
-
-  const previousImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + project.images.length) % project.images.length);
-  };
 
   return (
     <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 text-slate-900 dark:text-gray-100">
@@ -214,7 +78,7 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Back Button */}
-      <div className="max-w-7xl mx-auto px-6 pt-36 pb-8">
+      <div className="container mx-auto px-6 pt-36 pb-8">
         <Link 
           href="/projects"
           className="inline-flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -225,127 +89,278 @@ const ProjectDetailPage = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="relative px-6 pb-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Project Image Gallery */}
-            <div className="relative">
-              <div className="relative h-[500px] rounded-2xl overflow-hidden border border-slate-200 dark:border-gray-800/50 shadow-2xl dark:shadow-none">
-                <Image
-                  src={project.images[currentImageIndex]}
-                  alt={`${project.title} - Image ${currentImageIndex + 1}`}
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-white/50 via-transparent to-transparent dark:from-gray-900/50 dark:via-transparent dark:to-transparent" />
-                
-                <div className="absolute top-6 left-6">
-                  <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/90 backdrop-blur-sm text-sm font-medium text-white">
-                    {React.createElement(categoryIcon, { className: "w-4 h-4" })}
-                    <span>{project.category.replace('-', ' ').toUpperCase()}</span>
-                  </div>
+      <section className="relative px-6 pb-12">
+        <div className="container mx-auto">
+          {/* Project Header - Two Column Layout */}
+          <div className="grid lg:grid-cols-12 gap-8 mb-8">
+            
+            {/* Left - Title & Description */}
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
+                <Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <span className="text-sm font-medium text-blue-700 dark:text-blue-400">
+                  {project.category === 'data-center' ? 'Data Center' : project.category === 'ict' ? 'ICT Solutions' : 'Security'}
+                </span>
+              </div>
+              
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4 leading-tight">
+                {project.title}
+              </h1>
+
+              <p className="text-base text-slate-600 dark:text-gray-400 leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+
+            {/* Right - Meta Info Cards */}
+            <div className="lg:col-span-5">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-sm dark:shadow-none">
+                  <Building2 className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-2" />
+                  <div className="text-xs text-slate-500 dark:text-gray-500 mb-0.5">Client</div>
+                  <div className="text-sm font-semibold text-slate-900 dark:text-gray-100">{project.client}</div>
                 </div>
+                
+                <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-sm dark:shadow-none">
+                  <Calendar className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-2" />
+                  <div className="text-xs text-slate-500 dark:text-gray-500 mb-0.5">Year</div>
+                  <div className="text-sm font-semibold text-slate-900 dark:text-gray-100">{project.year}</div>
+                </div>
+                
+                <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-sm dark:shadow-none">
+                  <MapPin className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-2" />
+                  <div className="text-xs text-slate-500 dark:text-gray-500 mb-0.5">Location</div>
+                  <div className="text-sm font-semibold text-slate-900 dark:text-gray-100">{project.location}</div>
+                </div>
+                
+                {project.status && (
+                  <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-sm dark:shadow-none">
+                    <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mb-2" />
+                    <div className="text-xs text-slate-500 dark:text-gray-500 mb-0.5">Status</div>
+                    <div className="text-sm font-semibold text-slate-900 dark:text-gray-100 capitalize">{project.status}</div>
+                  </div>
+                )}
+                
+                {project.complexity && (
+                  <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-sm dark:shadow-none">
+                    <Zap className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-2" />
+                    <div className="text-xs text-slate-500 dark:text-gray-500 mb-0.5">Complexity</div>
+                    <div className="text-sm font-semibold text-slate-900 dark:text-gray-100 capitalize">{project.complexity}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
 
-                {/* Navigation Arrows - Only show if multiple images */}
-                {project.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={previousImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-slate-900 dark:text-white hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-lg dark:shadow-none"
-                      aria-label="Previous image"
-                    >
-                      <ChevronLeft className="w-6 h-6" />
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-slate-900 dark:text-white hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-lg dark:shadow-none"
-                      aria-label="Next image"
-                    >
-                      <ChevronRight className="w-6 h-6" />
-                    </button>
+          {/* Main Content Grid - Two Column Layout */}
+          <div className="grid lg:grid-cols-12 gap-8">
+            
+            {/* Left Column - Main Content */}
+            <div className="lg:col-span-8 space-y-5">
+              
+              {/* Project Image Gallery - First */}
+              <div className="rounded-xl overflow-hidden">
+                <ProjectDetailClient project={project} />
+              </div>
 
-                    {/* Image Counter */}
-                    <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-white/90 dark:bg-gray-900/80 backdrop-blur-sm text-sm text-slate-900 dark:text-white shadow-lg dark:shadow-none">
-                      {currentImageIndex + 1} / {project.images.length}
+              {/* Overview */}
+              {project.overview && (
+                <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-5 shadow-sm dark:shadow-none">
+                  <h2 className="text-base font-bold text-slate-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                    <Target className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    Overview
+                  </h2>
+                  <div 
+                    className="prose prose-sm prose-slate dark:prose-invert max-w-none prose-headings:text-sm prose-headings:font-semibold prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-p:text-slate-700 dark:prose-p:text-gray-300 prose-p:text-xs"
+                    dangerouslySetInnerHTML={{ __html: project.overview }}
+                  />
+                </div>
+              )}
+
+              {/* Challenge & Solution */}
+              {(project.challenge || project.solution) && (
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {project.challenge && (
+                    <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-sm dark:shadow-none">
+                      <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-2 flex items-center gap-2">
+                        <Shield className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
+                        Challenge
+                      </h3>
+                      <div 
+                        className="prose prose-sm prose-slate dark:prose-invert max-w-none prose-p:text-slate-600 dark:prose-p:text-gray-400 prose-p:text-xs"
+                        dangerouslySetInnerHTML={{ __html: project.challenge }}
+                      />
                     </div>
-                  </>
+                  )}
+                  {project.solution && (
+                    <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-sm dark:shadow-none">
+                      <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-2 flex items-center gap-2">
+                        <CheckCircle className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
+                        Solution
+                      </h3>
+                      <div 
+                        className="prose prose-sm prose-slate dark:prose-invert max-w-none prose-p:text-slate-600 dark:prose-p:text-gray-400 prose-p:text-xs"
+                        dangerouslySetInnerHTML={{ __html: project.solution }}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Scope & Results */}
+              <div className="grid sm:grid-cols-2 gap-3">
+                {/* Project Scope */}
+                {project.scope && project.scope.length > 0 && (
+                  <div className="rounded-lg bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-sm dark:shadow-none">
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-2 flex items-center gap-2">
+                      <CheckCircle className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                      Scope
+                    </h3>
+                    <div className="space-y-1.5">
+                      {project.scope.slice(0, 5).map((item: string, idx: number) => (
+                        <div key={idx} className="flex items-start gap-2">
+                          <div className="w-1 h-1 rounded-full bg-blue-600 dark:bg-blue-400 mt-1.5 shrink-0" />
+                          <span className="text-xs text-slate-700 dark:text-gray-300 leading-tight">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Results */}
+                {project.results && project.results.length > 0 && (
+                  <div className="rounded-lg bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-500/5 dark:to-emerald-500/5 backdrop-blur-sm border border-green-200 dark:border-green-500/20 p-4 shadow-sm dark:shadow-none">
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-2 flex items-center gap-2">
+                      <TrendingUp className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
+                      Results
+                    </h3>
+                    <div className="space-y-1.5">
+                      {project.results.slice(0, 5).map((result: string, idx: number) => (
+                        <div key={idx} className="flex items-start gap-2">
+                          <Star className="w-3 h-3 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
+                          <span className="text-xs text-slate-700 dark:text-gray-300 leading-tight font-medium">{result}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
 
-              {/* Thumbnail Gallery - Only show if multiple images */}
-              {project.images.length > 1 && (
-                <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-                  {project.images.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentImageIndex(idx)}
-                      className={`relative w-20 h-20 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
-                        currentImageIndex === idx 
-                          ? 'border-blue-500 ring-2 ring-blue-500/50' 
-                          : 'border-slate-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-gray-500'
-                      }`}
-                    >
-                      <Image
-                        src={img}
-                        alt={`Thumbnail ${idx + 1}`}
-                        fill
-                        className="object-cover"
-                      />
-                    </button>
-                  ))}
+              {/* Testimonial */}
+              {project.testimonial && project.testimonial.quote && (
+                <div className="rounded-lg bg-linear-to-br from-blue-50 to-indigo-50 dark:from-blue-500/5 dark:to-indigo-500/5 backdrop-blur-sm border border-blue-200 dark:border-blue-500/30 p-4 shadow-sm dark:shadow-none">
+                  <MessageSquare className="w-5 h-5 text-blue-600 dark:text-blue-400 mb-2" />
+                  <blockquote className="text-sm italic text-slate-700 dark:text-gray-300 leading-relaxed mb-3">
+                    &quot;{project.testimonial.quote}&quot;
+                  </blockquote>
+                  <div className="flex items-center gap-2 pt-2 border-t border-blue-200 dark:border-blue-500/20">
+                    <div className="h-8 w-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
+                    <div>
+                      <div className="font-semibold text-xs text-slate-900 dark:text-gray-100">{project.testimonial.author}</div>
+                      <div className="text-xs text-slate-600 dark:text-gray-400">{project.testimonial.position}</div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Project Info */}
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-gray-100 mb-6">
-                {project.title}
-              </h1>
-
-              <div className="flex flex-wrap gap-6 mb-8">
-                <div className="flex items-center gap-2 text-slate-600 dark:text-gray-400">
-                  <Building2 className="w-5 h-5" />
-                  <span>{project.client}</span>
+            {/* Right Sidebar - Quick Info */}
+            <div className="lg:col-span-4 space-y-4">
+              
+              {/* Services */}
+              {project.services && project.services.length > 0 && (
+                <div className="rounded-xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-lg dark:shadow-none">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                    <Target className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    Services
+                  </h3>
+                  <div className="space-y-1.5">
+                    {project.services.slice(0, 6).map((service: string, idx: number) => (
+                      <div key={idx} className="flex items-start gap-2 text-xs text-slate-600 dark:text-gray-400">
+                        <div className="w-1 h-1 rounded-full bg-blue-600 dark:bg-blue-400 mt-1.5 shrink-0" />
+                        <span className="leading-tight">{service}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 text-slate-600 dark:text-gray-400">
-                  <Calendar className="w-5 h-5" />
-                  <span>{project.year}</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-600 dark:text-gray-400">
-                  <MapPin className="w-5 h-5" />
-                  <span>{project.location}</span>
-                </div>
-              </div>
+              )}
 
-              <p className="text-lg text-slate-700 dark:text-gray-300 leading-relaxed mb-8">
-                {project.description}
-              </p>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2 mb-8">
-                {project.tags.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className="px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 text-sm text-blue-700 dark:text-blue-400"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              {/* Project Scope */}
-              <div className="rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-6 shadow-lg dark:shadow-none">
-                <h2 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-4">Project Scope</h2>
-                <div className="space-y-3">
-                  {project.scope.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                      <span className="text-slate-700 dark:text-gray-300">{item}</span>
-                    </div>
-                  ))}
+              {/* Technologies */}
+              {project.technologies && project.technologies.length > 0 && (
+                <div className="rounded-xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-lg dark:shadow-none">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                    <Settings className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    Technologies
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.technologies.map((tech: string, idx: number) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-gray-800/50 text-xs font-medium text-slate-700 dark:text-gray-300"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* Key Features */}
+              {project.keyFeatures && project.keyFeatures.length > 0 && (
+                <div className="rounded-xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-lg dark:shadow-none">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                    <Star className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    Key Features
+                  </h3>
+                  <div className="space-y-1.5">
+                    {project.keyFeatures.map((feature: string, idx: number) => (
+                      <div key={idx} className="flex items-start gap-2">
+                        <CheckCircle className="w-3 h-3 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                        <span className="text-xs text-slate-600 dark:text-gray-400 leading-tight">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Technical Specifications */}
+              {project.specifications && Object.keys(project.specifications).length > 0 && (
+                <div className="rounded-xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-lg dark:shadow-none">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                    <Settings className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                    Specifications
+                  </h3>
+                  <div className="space-y-2">
+                    {Object.entries(project.specifications).map(([key, value], idx) => (
+                      <div key={idx} className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-gray-800 last:border-0">
+                        <span className="text-xs text-slate-500 dark:text-gray-500">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                        <span className="text-xs font-semibold text-slate-900 dark:text-gray-100">{String(value)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Certifications */}
+              {project.certifications && project.certifications.length > 0 && (
+                <div className="rounded-xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 p-4 shadow-lg dark:shadow-none">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                    <Award className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    Certifications
+                  </h3>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.certifications.map((cert: string, idx: number) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-500/5 border border-blue-200 dark:border-blue-500/20 text-xs font-medium text-blue-700 dark:text-blue-400"
+                      >
+                        <Award className="w-2.5 h-2.5" />
+                        {cert}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -354,7 +369,7 @@ const ProjectDetailPage = () => {
       {/* CTA Section */}
       <section className="relative py-20 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="relative p-12 rounded-2xl bg-linear-to-br from-blue-100/80 via-blue-50/50 to-transparent dark:from-blue-600/10 dark:via-blue-500/5 dark:to-transparent backdrop-blur-sm border border-blue-300 dark:border-blue-500/30 text-center shadow-xl dark:shadow-none">
+          <div className="relative p-12 rounded-2xl bg-blue-50/50 dark:bg-blue-500/5 backdrop-blur-sm border border-blue-300 dark:border-blue-500/30 text-center shadow-xl dark:shadow-none">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               Interested in a Similar Project?
             </h2>
