@@ -42,10 +42,11 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
         <div className="absolute top-6 left-6">
           <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600/90 backdrop-blur-sm text-sm font-medium text-white">
             {project.category === 'data-center' && <Server className="w-4 h-4" />}
-            {project.category === 'ict' && <Network className="w-4 h-4" />}
-            {project.category === 'security' && <Shield className="w-4 h-4" />}
-            {!['data-center', 'ict', 'security'].includes(project.category) && <Building2 className="w-4 h-4" />}
-            <span>{project.category.replace('-', ' ').toUpperCase()}</span>
+            {project.category === 'structured-cabling' && <Network className="w-4 h-4" />}
+            {project.category === 'low-current-solutions' && <Shield className="w-4 h-4" />}
+            {project.category === 'low-voltage' && <Building2 className="w-4 h-4" />}
+            {project.category === 'control-rooms' && <Building2 className="w-4 h-4" />}
+            <span>{project.category.replace(/-/g, ' ').toUpperCase()}</span>
           </div>
         </div>
 
