@@ -22,7 +22,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
 
   return (
     <div className="relative">
-      <div className="relative h-[500px] rounded-2xl overflow-hidden border border-slate-200 dark:border-gray-800/50 shadow-2xl dark:shadow-none">
+      <div className="relative h-[350px] rounded-xl overflow-hidden border border-slate-200 dark:border-gray-800/50 shadow-lg dark:shadow-none">
         {project.images[currentImageIndex] ? (
           <>
             <Image

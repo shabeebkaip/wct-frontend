@@ -8,25 +8,106 @@ import StructuredCabling from "@/components/home/StructuredCabling";
 import ProjectList from "@/components/home/ProjectList";
 import ContactUs from "@/components/home/ContactUs";
 
-async function getHomePageData() {
+// Helper function to serialize ObjectIds in nested objects
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function serializeData(data: any): any {
+  if (!data) return data;
+  if (Array.isArray(data)) {
+    return data.map(item => serializeData(item));
+  }
+  if (typeof data === 'object' && data !== null) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const serialized: any = {};
+    for (const key in data) {
+      if (key === '_id' && data[key] && typeof data[key] === 'object' && data[key].toString) {
+        serialized[key] = data[key].toString();
+      } else if (typeof data[key] === 'object') {
+        serialized[key] = serializeData(data[key]);
+      } else {
+        serialized[key] = data[key];
+      }
+    }
+    return serialized;
+  }
+  return data;
+}
+
+async function getCCTVSection() {
   try {
     const connectDB = (await import('@/lib/mongodb')).default;
-    const { HomePage } = await import('@/lib/models/HomePage');
+    const { CCTVSection } = await import('@/lib/models/CCTVSection');
     await connectDB();
-    const data = await HomePage.findOne().lean();
-    if (data) {
-      // Convert to plain object
-      const { ...plainData } = data;
-      return plainData;
-    }
+    const data = await CCTVSection.findOne().lean();
+    return serializeData(data);
   } catch (error) {
-    console.error('Error fetching home page data from database:', error);
+    console.error('Error fetching CCTV section:', error);
   }
   return null;
 }
 
+async function getLowCurrentSection() {
+  try {
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const { LowCurrentSection } = await import('@/lib/models/LowCurrentSection');
+    await connectDB();
+    const data = await LowCurrentSection.findOne().lean();
+    return serializeData(data);
+  } catch (error) {
+    console.error('Error fetching Low Current section:', error);
+  }
+  return null;
+}
+
+async function getStructuredCablingSection() {
+  try {
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const { StructuredCablingSection } = await import('@/lib/models/StructuredCablingSection');
+    await connectDB();
+    const data = await StructuredCablingSection.findOne().lean();
+    return serializeData(data);
+  } catch (error) {
+    console.error('Error fetching Structured Cabling section:', error);
+  }
+  return null;
+}
+
+async function getClientsSection() {
+  try {
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const { ClientsSection } = await import('@/lib/models/ClientsSection');
+    await connectDB();
+    const data = await ClientsSection.findOne().lean();
+    return serializeData(data);
+  } catch (error) {
+    console.error('Error fetching Clients section:', error);
+  }
+  return null;
+}
+
+async function getProjects() {
+  try {
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const Project = (await import('@/lib/models/Project')).default;
+    await connectDB();
+    const projects = await Project.find().sort({ order: 1 }).lean();
+    if (projects && projects.length > 0) {
+      return projects.map((project) => serializeData(project));
+    }
+  } catch (error) {
+    console.error('Error fetching projects from database:', error);
+  }
+  return [];
+}
+
 export default async function Home() {
-  const homeData = await getHomePageData();
+  const [cctvSection, lowCurrentSection, structuredCablingSection, clientsSection, projects] = await Promise.all([
+    getCCTVSection(),
+    getLowCurrentSection(),
+    getStructuredCablingSection(),
+    getClientsSection(),
+    getProjects()
+  ]);
+
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
       {/* Navigation - Floating over Hero */}
@@ -36,11 +117,11 @@ export default async function Home() {
       {/* <BusinessVerticals  /> */}
       {/* <DataCenterBrands /> */}
       <DataCenterImages />
-      <CCTVSurveillance data={homeData?.cctvSection} />
-      <LowCurrentSolution data={homeData?.lowCurrentSection} />
-      <StructuredCabling data={homeData?.structuredCablingSection} />
-      <ProjectList />
-      <Clients data={homeData?.clientsSection} />
+      <CCTVSurveillance data={cctvSection} />
+      <LowCurrentSolution data={lowCurrentSection} />
+      <StructuredCabling data={structuredCablingSection} />
+      <ProjectList projects={projects} />
+      <Clients data={clientsSection} />
       <ContactUs />
 
       {/* Footer */}

@@ -10,7 +10,7 @@ export default function AdminProjectsPage() {
   const router = useRouter();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'data-center' | 'ict' | 'security'>('all');
+  const [filter, setFilter] = useState<'all' | 'data-center' | 'structured-cabling' | 'low-current-solutions' | 'low-voltage' | 'control-rooms'>('all');
 
   useEffect(() => {
     fetchProjects();
@@ -33,7 +33,7 @@ export default function AdminProjectsPage() {
   const createNewProject = async () => {
     const newProject = {
       title: 'New Project',
-      category: 'data-center' as const,
+      category: 'data-center' as 'data-center' | 'structured-cabling' | 'low-current-solutions' | 'low-voltage' | 'control-rooms',
       client: 'Client Name',
       location: 'City, Country',
       year: new Date().getFullYear().toString(),
@@ -87,13 +87,17 @@ export default function AdminProjectsPage() {
   const getCategoryBadge = (category: string) => {
     const colors = {
       'data-center': 'bg-blue-100 text-blue-700 border-blue-300',
-      'ict': 'bg-green-100 text-green-700 border-green-300',
-      'security': 'bg-purple-100 text-purple-700 border-purple-300',
+      'structured-cabling': 'bg-green-100 text-green-700 border-green-300',
+      'low-current-solutions': 'bg-purple-100 text-purple-700 border-purple-300',
+      'low-voltage': 'bg-orange-100 text-orange-700 border-orange-300',
+      'control-rooms': 'bg-indigo-100 text-indigo-700 border-indigo-300',
     };
     const labels = {
       'data-center': 'Data Center',
-      'ict': 'ICT Solutions',
-      'security': 'Security',
+      'structured-cabling': 'Structured Cabling',
+      'low-current-solutions': 'Low Current Solutions',
+      'low-voltage': 'Low Voltage',
+      'control-rooms': 'Control Rooms',
     };
     return (
       <span className={`px-3 py-1 rounded-full text-xs font-medium border ${colors[category as keyof typeof colors]}`}>
@@ -140,12 +144,14 @@ export default function AdminProjectsPage() {
           </div>
 
           {/* Filters */}
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {[
               { value: 'all', label: 'All Projects' },
               { value: 'data-center', label: 'Data Center' },
-              { value: 'ict', label: 'ICT' },
-              { value: 'security', label: 'Security' },
+              { value: 'structured-cabling', label: 'Structured Cabling' },
+              { value: 'low-current-solutions', label: 'Low Current' },
+              { value: 'low-voltage', label: 'Low Voltage' },
+              { value: 'control-rooms', label: 'Control Rooms' },
             ].map((item) => (
               <button
                 key={item.value}

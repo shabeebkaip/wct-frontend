@@ -1,7 +1,7 @@
 export interface Project {
   _id?: string;
   title: string;
-  category: 'data-center' | 'ict' | 'security';
+  category: 'data-center' | 'structured-cabling' | 'low-current-solutions' | 'low-voltage' | 'control-rooms';
   client: string;
   location: string;
   year: string;

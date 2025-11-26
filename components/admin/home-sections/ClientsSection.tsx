@@ -107,6 +107,49 @@ export default function ClientsSection({
       </div>
 
       <div className="space-y-6">
+        {/* Badge */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Badge</label>
+          <EditableText
+            value={data.clientsSection.badge || ''}
+            onChange={(value) =>
+              updateData({
+                clientsSection: { ...data.clientsSection, badge: value },
+              })
+            }
+            fieldKey="clients-badge"
+          />
+        </div>
+
+        {/* Title */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+          <EditableText
+            value={data.clientsSection.title || ''}
+            onChange={(value) =>
+              updateData({
+                clientsSection: { ...data.clientsSection, title: value },
+              })
+            }
+            fieldKey="clients-title"
+          />
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+          <EditableText
+            value={data.clientsSection.description || ''}
+            onChange={(value) =>
+              updateData({
+                clientsSection: { ...data.clientsSection, description: value },
+              })
+            }
+            fieldKey="clients-description"
+            multiline
+          />
+        </div>
+
         <div>
           <div className="flex items-center justify-between mb-4">
             <label className="text-sm font-semibold text-gray-700">Client Logos</label>

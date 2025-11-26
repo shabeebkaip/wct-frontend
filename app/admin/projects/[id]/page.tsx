@@ -271,8 +271,10 @@ export default function EditProjectPage() {
                     className={inputClass}
                   >
                     <option value="data-center">Data Center</option>
-                    <option value="ict">ICT Solutions</option>
-                    <option value="security">Security & CCTV</option>
+                    <option value="structured-cabling">Structured Cabling</option>
+                    <option value="low-current-solutions">Low Current Solutions</option>
+                    <option value="low-voltage">Low Voltage</option>
+                    <option value="control-rooms">Control Rooms</option>
                   </select>
                 </div>
 

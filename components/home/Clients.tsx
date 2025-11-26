@@ -5,16 +5,21 @@ import Image from 'next/image';
 import { Users } from 'lucide-react';
 
 interface ClientsProps {
-  data: {
+  data?: {
     badge: string;
     title: string;
     description: string;
     logos: Array<{ src: string; alt: string; _id?: string }>;
-  };
+  } | null;
 }
 
 const Clients = ({ data }: ClientsProps) => {
-  const content = data;
+  const content = data || {
+    badge: "OUR CLIENTS",
+    title: "Trusted by Industry Leaders",
+    description: "We partner with leading organizations across multiple sectors to deliver world-class infrastructure solutions.",
+    logos: []
+  };
   return (  
     <section className="relative bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-black dark:via-gray-900 dark:to-black py-20 overflow-hidden">
       {/* Animated Background */}

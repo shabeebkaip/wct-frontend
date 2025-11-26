@@ -22,14 +22,16 @@ interface ProjectsClientProps {
 }
 
 export default function ProjectsClient({ projects }: ProjectsClientProps) {
-  const [activeFilter, setActiveFilter] = useState<'all' | 'data-center' | 'ict' | 'security'>('all');
+  const [activeFilter, setActiveFilter] = useState<'all' | 'data-center' | 'structured-cabling' | 'low-current-solutions' | 'low-voltage' | 'control-rooms'>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   const categories = [
     { id: 'all', label: 'All Projects', icon: Building2 },
     { id: 'data-center', label: 'Data Center', icon: Server },
-    { id: 'ict', label: 'ICT Solutions', icon: Network },
-    { id: 'security', label: 'Security', icon: Shield },
+    { id: 'structured-cabling', label: 'Structured Cabling', icon: Network },
+    { id: 'low-current-solutions', label: 'Low Current Solutions', icon: Shield },
+    { id: 'low-voltage', label: 'Low Voltage', icon: Server },
+    { id: 'control-rooms', label: 'Control Rooms', icon: Building2 },
   ];
 
   const filteredProjects =

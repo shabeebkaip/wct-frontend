@@ -9,7 +9,7 @@ const ProjectSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ['data-center', 'ict', 'security'],
+      enum: ['data-center', 'structured-cabling', 'low-current-solutions', 'low-voltage', 'control-rooms'],
     },
     client: {
       type: String,

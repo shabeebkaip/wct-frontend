@@ -14,10 +14,22 @@ async function getProjects() {
     if (projects && projects.length > 0) {
       // Convert MongoDB documents to plain objects with _id as string
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mappedProjects = projects.map((project: any) => ({
-        ...project,
-        _id: project._id.toString(),
-      }));
+      const mappedProjects = projects.map((project: any) => {
+        const plainProject = {
+          ...project,
+          _id: project._id.toString(),
+        };
+        
+        // Convert testimonial._id to string if it exists
+        if (plainProject.testimonial && plainProject.testimonial._id) {
+          plainProject.testimonial = {
+            ...plainProject.testimonial,
+            _id: plainProject.testimonial._id.toString(),
+          };
+        }
+        
+        return plainProject;
+      });
       console.log(`Fetched ${mappedProjects.length} projects from database`);
       return mappedProjects;
     }
