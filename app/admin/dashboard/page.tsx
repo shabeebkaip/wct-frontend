@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   FileText,
@@ -10,7 +9,6 @@ import {
   Mail,
   TrendingUp,
   CheckCircle,
-  Loader2,
   ExternalLink,
 } from 'lucide-react';
 import AdminSidebar from '@/components/admin/shared/AdminSidebar';

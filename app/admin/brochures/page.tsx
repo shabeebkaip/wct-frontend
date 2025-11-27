@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { Upload, Loader2, Trash2, CheckCircle, FileText, Download, AlertCircle } from 'lucide-react';
 import AdminSidebar from '@/components/admin/shared/AdminSidebar';
 
@@ -18,7 +17,6 @@ interface Brochure {
 }
 
 export default function BrochureManagement() {
-  const router = useRouter();
   const [brochures, setBrochures] = useState<Brochure[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
