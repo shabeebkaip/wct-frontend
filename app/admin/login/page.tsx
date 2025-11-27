@@ -1,28 +1,28 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Shield, Lock, Mail, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { Lock, Mail, AlertCircle, Eye, EyeOff } from "lucide-react";
 
 export default function AdminLogin() {
   const router = useRouter();
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [error, setError] = useState('');
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(credentials),
       });
@@ -31,15 +31,15 @@ export default function AdminLogin() {
 
       if (response.ok) {
         // Store session info in both cookie and sessionStorage
-        document.cookie = 'adminAuth=true; path=/; max-age=28800'; // 8 hours
-        sessionStorage.setItem('adminAuth', 'true');
-        sessionStorage.setItem('adminEmail', data.user.email);
-        router.push('/admin/dashboard');
+        document.cookie = "adminAuth=true; path=/; max-age=28800"; // 8 hours
+        sessionStorage.setItem("adminAuth", "true");
+        sessionStorage.setItem("adminEmail", data.user.email);
+        router.push("/admin/dashboard");
       } else {
-        setError(data.error || 'Login failed');
+        setError(data.error || "Login failed");
       }
     } catch {
-      setError('Network error. Please try again.');
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -59,7 +59,9 @@ export default function AdminLogin() {
               priority
             />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Admin Portal</h1>
+          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+            Admin Portal
+          </h1>
           <p className="text-slate-600">Content Management System</p>
         </div>
 
@@ -76,7 +78,10 @@ export default function AdminLogin() {
 
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-slate-700 mb-2"
+              >
                 Email
               </label>
               <div className="relative">
@@ -87,7 +92,9 @@ export default function AdminLogin() {
                   id="email"
                   type="email"
                   value={credentials.email}
-                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, email: e.target.value })
+                  }
                   className="block w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-900"
                   placeholder="wct@wecaretech.com"
                   required
@@ -97,7 +104,10 @@ export default function AdminLogin() {
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-slate-700 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-slate-700 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -108,7 +118,9 @@ export default function AdminLogin() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   value={credentials.password}
-                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+                  onChange={(e) =>
+                    setCredentials({ ...credentials, password: e.target.value })
+                  }
                   className="block w-full pl-10 pr-12 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-slate-900"
                   placeholder="Enter password"
                   required
@@ -133,7 +145,7 @@ export default function AdminLogin() {
               disabled={loading}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
 
@@ -142,7 +154,10 @@ export default function AdminLogin() {
 
         {/* Back to Site */}
         <div className="text-center mt-6">
-          <Link href="/" className="text-sm text-slate-600 hover:text-blue-600 transition-colors">
+          <Link
+            href="/"
+            className="text-sm text-slate-600 hover:text-blue-600 transition-colors"
+          >
             ← Back to Website
           </Link>
         </div>

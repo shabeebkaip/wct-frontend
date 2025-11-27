@@ -31,6 +31,9 @@ export default function AdminSidebar() {
       label: 'Dashboard', 
       href: '/admin/dashboard',
     },
+  ];
+
+  const contentItems = [
     { 
       icon: FolderOpen, 
       label: 'Projects', 
@@ -82,7 +85,7 @@ export default function AdminSidebar() {
     <aside className="fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 z-40">
       <div className="flex flex-col h-full">
         {/* Logo */}
-        <Link href="/admin/dashboard" className="p-6 border-b border-slate-200 block">
+        <Link href="/admin/dashboard" className="p-4 border-b border-slate-200 block">
           <div className="relative h-12 w-full">
             <Image
               src="/logo.png"
@@ -121,8 +124,24 @@ export default function AdminSidebar() {
               Content Management
             </p>
             
-            {/* Home Sections with Sublists */}
             <div className="space-y-1">
+              {/* Projects & Solutions */}
+              {contentItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    isActive(item.href)
+                      ? 'bg-blue-50 text-blue-600 font-semibold'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                  }`}
+                >
+                  <item.icon className="w-5 h-5" />
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              ))}
+
+              {/* Home Sections with Sublists */}
               <Link
                 href="/admin/home"
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
@@ -206,7 +225,7 @@ export default function AdminSidebar() {
         </nav>
 
         {/* Logout */}
-        <div className="p-4 border-t border-slate-200">
+        <div className="p-2 border-t border-slate-200">
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-3 w-full text-red-600 hover:bg-red-50 rounded-lg transition-all"
