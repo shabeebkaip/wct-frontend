@@ -71,21 +71,6 @@ export default function AdminSidebar() {
       label: 'Enquiries', 
       href: '/admin/enquiries',
     },
-    { 
-      icon: UsersRound, 
-      label: 'Team Members', 
-      href: '/admin/team',
-    },
-    { 
-      icon: ImageIcon, 
-      label: 'Media Library', 
-      href: '/admin/media',
-    },
-    { 
-      icon: Settings, 
-      label: 'Settings', 
-      href: '/admin/settings',
-    },
   ];
 
   return (

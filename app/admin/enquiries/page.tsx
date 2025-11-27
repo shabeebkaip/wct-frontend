@@ -216,7 +216,7 @@ export default function EnquiriesPage() {
                   placeholder="Search by name, email, company..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                 />
               </div>
             </div>
@@ -226,7 +226,7 @@ export default function EnquiriesPage() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
               >
                 <option value="all">All Status</option>
                 <option value="new">New</option>
@@ -241,7 +241,7 @@ export default function EnquiriesPage() {
               <select
                 value={sourceFilter}
                 onChange={(e) => setSourceFilter(e.target.value)}
-                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
               >
                 <option value="all">All Sources</option>
                 <option value="contact-page">Contact Page</option>
@@ -499,7 +499,7 @@ export default function EnquiriesPage() {
                 <select
                   value={selectedEnquiry.status}
                   onChange={(e) => updateStatus(selectedEnquiry._id, e.target.value)}
-                  className={`w-full px-4 py-2 rounded-lg border-2 font-medium ${getStatusColor(
+                  className={`w-full px-4 py-2 rounded-lg border-2 font-medium text-gray-900 ${getStatusColor(
                     selectedEnquiry.status
                   )}`}
                 >
@@ -521,7 +521,7 @@ export default function EnquiriesPage() {
                   onChange={(e) => updateNotes(selectedEnquiry._id, e.target.value)}
                   placeholder="Add internal notes..."
                   rows={4}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                 />
               </div>
 
