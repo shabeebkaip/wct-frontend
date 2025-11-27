@@ -6,10 +6,19 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
 
+interface Solution {
+  _id: string;
+  title: string;
+  slug: string;
+  published: boolean;
+  order: number;
+}
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [solutions, setSolutions] = useState<Solution[]>([]);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -18,6 +27,26 @@ const Header = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Fetch solutions from database
+  useEffect(() => {
+    const fetchSolutions = async () => {
+      try {
+        const response = await fetch('/api/solutions');
+        if (response.ok) {
+          const data = await response.json();
+          // Filter published solutions and sort by order
+          const publishedSolutions = data
+            .filter((solution: Solution) => solution.published)
+            .sort((a: Solution, b: Solution) => a.order - b.order);
+          setSolutions(publishedSolutions);
+        }
+      } catch (error) {
+        console.error('Error fetching solutions:', error);
+      }
+    };
+    fetchSolutions();
   }, []);
 
   // Close mobile menu when clicking outside
@@ -34,13 +63,6 @@ const Header = () => {
     { name: 'About', href: '/about' },
     { name: 'Projects', href: '/projects' },
     { name: 'Contact', href: '/contact' },
-  ];
-
-  const solutions = [
-    { name: 'Data Center Solutions', href: '/solutions/data-center' },
-    { name: 'CCTV Surveillance', href: '/solutions/cctv' },
-    { name: 'Low Current Systems', href: '/solutions/low-current' },
-    { name: 'Structured Cabling', href: '/solutions/structured-cabling' },
   ];
 
   return (
@@ -114,18 +136,18 @@ const Header = () => {
                     onMouseLeave={() => setSolutionsOpen(false)}
                   >
                     {solutions.map((solution) => {
-                      const isActive = pathname === solution.href;
+                      const isActive = pathname === `/solutions/${solution.slug}`;
                       return (
                         <Link
-                          key={solution.name}
-                          href={solution.href}
+                          key={solution._id}
+                          href={`/solutions/${solution.slug}`}
                           className={`block px-4 py-3 text-sm transition-all duration-200 ${
                             isActive
                               ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-l-2 border-blue-600 dark:border-blue-500'
                               : 'text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-blue-50 dark:hover:bg-blue-500/10 hover:border-l-2 hover:border-blue-500'
                           }`}
                         >
-                          {solution.name}
+                          {solution.title}
                         </Link>
                       );
                     })}
@@ -244,11 +266,11 @@ const Header = () => {
                 </p>
                 <div className="space-y-2">
                   {solutions.map((solution) => {
-                    const isActive = pathname === solution.href;
+                    const isActive = pathname === `/solutions/${solution.slug}`;
                     return (
                       <Link
-                        key={solution.name}
-                        href={solution.href}
+                        key={solution._id}
+                        href={`/solutions/${solution.slug}`}
                         onClick={() => setMobileMenuOpen(false)}
                         className={`block px-4 py-3 rounded-lg text-sm transition-all duration-300 ${
                           isActive
@@ -256,7 +278,7 @@ const Header = () => {
                             : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800/50'
                         }`}
                       >
-                        {solution.name}
+                        {solution.title}
                       </Link>
                     );
                   })}

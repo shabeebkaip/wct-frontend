@@ -36,6 +36,11 @@ export default function AdminSidebar() {
       label: 'Projects', 
       href: '/admin/projects',
     },
+    { 
+      icon: FileText, 
+      label: 'Solutions', 
+      href: '/admin/solutions',
+    },
   ];
 
   const homeSubItems = [

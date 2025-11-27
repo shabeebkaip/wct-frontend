@@ -209,38 +209,7 @@ const LowCurrentSolutionPage = () => {
     }
   ];
 
-  /* const standards = [
-    {
-      icon: Award,
-      title: 'ISO/IEC 11801',
-      description: 'International cabling standards compliance'
-    },
-    {
-      icon: Award,
-      title: 'TIA/EIA 568',
-      description: 'Commercial building telecommunications'
-    },
-    {
-      icon: Award,
-      title: 'EN 50173',
-      description: 'European cabling standards'
-    },
-    {
-      icon: Shield,
-      title: 'BICSI Certified',
-      description: 'Industry-certified installation teams'
-    },
-    {
-      icon: CheckCircle2,
-      title: 'Fluke Certified',
-      description: 'Professional testing and certification'
-    },
-    {
-      icon: Award,
-      title: '25-Year Warranty',
-      description: 'Extended warranty on cabling systems'
-    }
-  ]; */
+  
 
   const process = [
     {
