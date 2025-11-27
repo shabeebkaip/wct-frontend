@@ -137,8 +137,7 @@ const SolutionSchema = new mongoose.Schema(
   }
 );
 
-// Create index on slug for faster queries
-SolutionSchema.index({ slug: 1 });
+// Index on slug is already created by unique: true, no need for duplicate
 
 export interface ISolution {
   _id?: string;
