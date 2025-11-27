@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Server, Network, Shield, Building2 } from 'lucide-react';
 import { Project } from '@/types/project';
+import { trackEvent } from '@/lib/hooks/useAnalytics';
 
 interface ProjectDetailClientProps {
   project: Project;
@@ -11,6 +12,20 @@ interface ProjectDetailClientProps {
 
 export default function ProjectDetailClient({ project }: ProjectDetailClientProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Track project view
+  useEffect(() => {
+    trackEvent({
+      eventType: 'project_view',
+      page: `/projects/${project._id}`,
+      metadata: {
+        projectTitle: project.title,
+        projectCategory: project.category,
+        client: project.client,
+        location: project.location,
+      },
+    });
+  }, [project]);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % project.images.length);

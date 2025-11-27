@@ -11,6 +11,7 @@ import {
   UsersRound,
   MessageSquare,
   Mail,
+  BarChart3,
 } from 'lucide-react';
 
 export default function AdminSidebar() {
@@ -74,6 +75,11 @@ export default function AdminSidebar() {
   ];
 
   const systemItems = [
+    { 
+      icon: BarChart3, 
+      label: 'Analytics', 
+      href: '/admin/analytics',
+    },
     { 
       icon: MessageSquare, 
       label: 'Enquiries', 

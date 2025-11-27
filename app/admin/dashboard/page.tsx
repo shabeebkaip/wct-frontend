@@ -51,6 +51,16 @@ interface Analytics {
     recent: RecentEnquiry[];
     responseRate: number;
   };
+  websiteAnalytics: {
+    totalPageViews: number;
+    pageViewsThisWeek: number;
+    totalContactForms: number;
+    totalBrochureDownloads: number;
+    uniqueVisitors: number;
+    topPages: { _id: string; count: number }[];
+    topLocations: { _id: { city: string; country: string }; count: number }[];
+    deviceStats: { _id: string; count: number }[];
+  };
 }
 
 // Cache analytics data in memory
@@ -207,6 +217,51 @@ export default function AdminDashboard() {
             <p className="text-xs text-purple-600">{analytics.enquiries.thisMonth} this month</p>
           </div>
         </div>
+
+        {/* Website Analytics Section */}
+        {analytics.websiteAnalytics && (
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-slate-900">Website Analytics</h2>
+              <Link 
+                href="/admin/analytics"
+                className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
+              >
+                View Details
+                <ExternalLink className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Page Views */}
+              <div className="bg-linear-to-br from-blue-50 to-white rounded-xl p-6 shadow-sm border border-blue-100">
+                <p className="text-sm font-medium text-slate-600 mb-2">Total Page Views</p>
+                <p className="text-3xl font-bold text-blue-600 mb-1">{analytics.websiteAnalytics.totalPageViews.toLocaleString()}</p>
+                <p className="text-xs text-slate-500">{analytics.websiteAnalytics.pageViewsThisWeek} this week</p>
+              </div>
+
+              {/* Unique Visitors */}
+              <div className="bg-linear-to-br from-green-50 to-white rounded-xl p-6 shadow-sm border border-green-100">
+                <p className="text-sm font-medium text-slate-600 mb-2">Unique Visitors</p>
+                <p className="text-3xl font-bold text-green-600 mb-1">{analytics.websiteAnalytics.uniqueVisitors.toLocaleString()}</p>
+                <p className="text-xs text-slate-500">This week</p>
+              </div>
+
+              {/* Contact Forms */}
+              <div className="bg-linear-to-br from-orange-50 to-white rounded-xl p-6 shadow-sm border border-orange-100">
+                <p className="text-sm font-medium text-slate-600 mb-2">Contact Forms</p>
+                <p className="text-3xl font-bold text-orange-600 mb-1">{analytics.websiteAnalytics.totalContactForms}</p>
+                <p className="text-xs text-slate-500">Total submissions</p>
+              </div>
+
+              {/* Brochure Downloads */}
+              <div className="bg-linear-to-br from-purple-50 to-white rounded-xl p-6 shadow-sm border border-purple-100">
+                <p className="text-sm font-medium text-brochure-600 mb-2">Brochure Downloads</p>
+                <p className="text-3xl font-bold text-purple-600 mb-1">{analytics.websiteAnalytics.totalBrochureDownloads}</p>
+                <p className="text-xs text-slate-500">Total downloads</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Enquiries Status Overview */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">

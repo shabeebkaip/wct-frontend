@@ -5,6 +5,7 @@ import Solution from '@/lib/models/Solution';
 import * as Icons from 'lucide-react';
 import Link from 'next/link';
 import { Metadata } from 'next';
+import SolutionTracker from '@/components/SolutionTracker';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -134,6 +135,11 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <SolutionTracker 
+        solutionTitle={solution.title}
+        solutionSlug={solution.slug}
+        category={solution.category}
+      />
       {/* Hero Section */}
       <section 
         className="relative py-24 bg-linear-to-br from-blue-900 via-blue-800 to-blue-900 text-white overflow-hidden"

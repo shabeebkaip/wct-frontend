@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Project from '@/lib/models/Project';
 import { Enquiry } from '@/lib/models/Enquiry';
+import Analytics from '@/lib/models/Analytics';
 
 export async function GET() {
   try {
@@ -84,6 +85,74 @@ export async function GET() {
       ? Math.round((resolvedEnquiries / totalEnquiries) * 100) 
       : 0;
 
+    // Website Analytics (Tracking Data)
+    const totalPageViews = await Analytics.countDocuments({ eventType: 'page_view' });
+    const pageViewsThisWeek = await Analytics.countDocuments({
+      eventType: 'page_view',
+      timestamp: { $gte: startOfWeek }
+    });
+    const totalContactForms = await Analytics.countDocuments({ eventType: 'contact_form' });
+    const totalBrochureDownloads = await Analytics.countDocuments({ eventType: 'brochure_download' });
+    
+    // Unique visitors (by IP)
+    const uniqueVisitors = await Analytics.aggregate([
+      { $match: { timestamp: { $gte: startOfWeek } } },
+      { $group: { _id: '$ipAddress' } },
+      { $count: 'count' }
+    ]);
+
+    // Top pages this week
+    const topPages = await Analytics.aggregate([
+      {
+        $match: {
+          eventType: 'page_view',
+          timestamp: { $gte: startOfWeek }
+        }
+      },
+      {
+        $group: {
+          _id: '$page',
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { count: -1 } },
+      { $limit: 5 }
+    ]);
+
+    // Visitor locations
+    const topLocations = await Analytics.aggregate([
+      {
+        $match: {
+          timestamp: { $gte: startOfWeek },
+          'location.city': { $exists: true, $ne: null }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            city: '$location.city',
+            country: '$location.country'
+          },
+          count: { $sum: 1 }
+        }
+      },
+      { $sort: { count: -1 } },
+      { $limit: 5 }
+    ]);
+
+    // Device breakdown
+    const deviceStats = await Analytics.aggregate([
+      {
+        $match: { timestamp: { $gte: startOfWeek } }
+      },
+      {
+        $group: {
+          _id: '$device.type',
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+
     return NextResponse.json({
       projects: {
         total: totalProjects,
@@ -103,6 +172,16 @@ export async function GET() {
         byService: enquiriesByService,
         recent: recentEnquiries,
         responseRate
+      },
+      websiteAnalytics: {
+        totalPageViews,
+        pageViewsThisWeek,
+        totalContactForms,
+        totalBrochureDownloads,
+        uniqueVisitors: uniqueVisitors[0]?.count || 0,
+        topPages,
+        topLocations,
+        deviceStats
       }
     });
   } catch (error) {

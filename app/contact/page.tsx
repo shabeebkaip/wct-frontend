@@ -116,6 +116,21 @@ const ContactPage = () => {
 
       if (res.ok) {
         setFormStatus("success");
+        
+        // Track contact form submission
+        await fetch('/api/analytics/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            eventType: 'contact_form',
+            page: '/contact',
+            metadata: {
+              service: formData.service,
+              company: formData.company,
+            },
+          }),
+        }).catch(() => {}); // Fail silently
+
         setFormData({
           name: "",
           email: "",

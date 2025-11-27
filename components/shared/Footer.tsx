@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Mail, Phone, MapPin, ArrowRight, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { trackEvent } from '@/lib/hooks/useAnalytics';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -119,6 +120,17 @@ const Footer = () => {
                     <Link
                       href={item.href}
                       className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
+                      onClick={() => {
+                        trackEvent({
+                          eventType: 'footer_click',
+                          page: window.location.pathname,
+                          metadata: {
+                            linkName: item.name,
+                            linkHref: item.href,
+                            section: 'Solutions',
+                          },
+                        });
+                      }}
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       <span>{item.name}</span>
@@ -139,6 +151,17 @@ const Footer = () => {
                     <Link
                       href={item.href}
                       className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
+                      onClick={() => {
+                        trackEvent({
+                          eventType: 'footer_click',
+                          page: window.location.pathname,
+                          metadata: {
+                            linkName: item.name,
+                            linkHref: item.href,
+                            section: 'Company',
+                          },
+                        });
+                      }}
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       <span>{item.name}</span>
@@ -159,6 +182,17 @@ const Footer = () => {
                     <Link
                       href={item.href}
                       className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
+                      onClick={() => {
+                        trackEvent({
+                          eventType: 'footer_click',
+                          page: window.location.pathname,
+                          metadata: {
+                            linkName: item.name,
+                            linkHref: item.href,
+                            section: 'Support',
+                          },
+                        });
+                      }}
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
                       <span>{item.name}</span>

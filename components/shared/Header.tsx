@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, Phone, Mail, Download } from 'lucide-react';
+import { trackEvent } from '@/lib/hooks/useAnalytics';
 
 interface Solution {
   _id: string;
@@ -190,6 +191,22 @@ const Header = () => {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 rounded-lg hover:bg-slate-100 transition-all duration-300"
                     title="Download Company Brochure"
+                    onClick={async (e) => {
+                      // Track the download
+                      try {
+                        await trackEvent({
+                          eventType: 'brochure_download',
+                          page: pathname,
+                          metadata: {
+                            fileName: brochure.fileName,
+                            brochureTitle: brochure.title,
+                          },
+                        });
+                      } catch (error) {
+                        console.error('Failed to track brochure download:', error);
+                      }
+                      // Let the download continue normally
+                    }}
                   >
                     <Download className="w-4 h-4" />
                     <span>Brochure</span>
@@ -316,16 +333,35 @@ const Header = () => {
 
           {/* Mobile Action Buttons */}
           <div className="p-6 border-t border-slate-200 dark:border-gray-800 space-y-3">
-            <a
-              href="/GFS PROFILE.pptx"
-              download="WeCare-Tech-Company-Profile.pptx"
-              className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white rounded-lg border border-slate-300 dark:border-gray-700 hover:border-slate-400 dark:hover:border-gray-600 hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-all duration-300"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <span>Download Brochure</span>
-            </a>
+            {brochure && (
+              <a
+                href={brochure.fileUrl}
+                download={brochure.fileName}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white rounded-lg border border-slate-300 dark:border-gray-700 hover:border-slate-400 dark:hover:border-gray-600 hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-all duration-300"
+                onClick={async (e) => {
+                  // Track the download
+                  try {
+                    await trackEvent({
+                      eventType: 'brochure_download',
+                      page: pathname,
+                      metadata: {
+                        fileName: brochure.fileName,
+                        brochureTitle: brochure.title,
+                        source: 'mobile-menu',
+                      },
+                    });
+                  } catch (error) {
+                    console.error('Failed to track brochure download:', error);
+                  }
+                  // Let the download continue normally
+                }}
+              >
+                <Download className="w-4 h-4" />
+                <span>Download Brochure</span>
+              </a>
+            )}
             <a
               href="tel:+966123456789"
               className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white rounded-lg border border-slate-300 dark:border-gray-700 hover:border-slate-400 dark:hover:border-gray-600 hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-all duration-300"

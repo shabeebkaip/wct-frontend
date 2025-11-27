@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Orb } from "@/components/ui/orb";
 import LayoutWrapper from "@/components/LayoutWrapper";
+import AnalyticsProvider from "@/components/AnalyticsProvider";
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -36,15 +37,17 @@ export default function RootLayout({
         style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
       >
         <ThemeProvider>
-          <Orb 
-            size={200} 
-            color="rgba(59, 130, 246, 0.3)" 
-            blur={100} 
-            opacity={0.4}
-          />
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
+          <AnalyticsProvider>
+            <Orb 
+              size={200} 
+              color="rgba(59, 130, 246, 0.3)" 
+              blur={100} 
+              opacity={0.4}
+            />
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
+          </AnalyticsProvider>
         </ThemeProvider>
       </body>
     </html>
