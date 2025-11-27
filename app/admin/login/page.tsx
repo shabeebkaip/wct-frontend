@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Shield, Lock, Mail, AlertCircle, Eye, EyeOff } from 'lucide-react';
 
 export default function AdminLogin() {
@@ -49,8 +50,14 @@ export default function AdminLogin() {
       <div className="w-full max-w-md">
         {/* Logo/Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-2xl mb-4 shadow-xl">
-            <Shield className="w-8 h-8 text-white" />
+          <div className="relative h-16 w-48 mx-auto mb-4">
+            <Image
+              src="/logo.png"
+              alt="WeCare Tech"
+              fill
+              className="object-contain"
+              priority
+            />
           </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Admin Portal</h1>
           <p className="text-slate-600">Content Management System</p>
@@ -131,13 +138,6 @@ export default function AdminLogin() {
           </form>
 
           {/* Demo Credentials */}
-          <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-            <p className="text-xs font-semibold text-slate-600 mb-2">Demo Credentials:</p>
-            <div className="text-xs text-slate-500 space-y-1">
-              <p>Username: <span className="font-mono font-semibold text-slate-700">admin</span></p>
-              <p>Password: <span className="font-mono font-semibold text-slate-700">admin123</span></p>
-            </div>
-          </div>
         </div>
 
         {/* Back to Site */}
