@@ -1,19 +1,23 @@
 import * as LucideIcons from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import connectDB from "@/lib/mongodb";
+import { AboutPage } from "@/lib/models/AboutPage";
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 async function getAboutPageData() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/about-page`, {
-      cache: 'no-store',
-    });
+    await connectDB();
+    const data = await AboutPage.findOne().lean();
     
-    if (!res.ok) {
-      throw new Error('Failed to fetch about page data');
+    if (!data) {
+      return null;
     }
     
-    return res.json();
+    // Convert MongoDB document to plain object and handle _id
+    return JSON.parse(JSON.stringify(data));
   } catch (error) {
     console.error('Error fetching about page data:', error);
     return null;
