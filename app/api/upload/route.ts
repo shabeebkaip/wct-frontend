@@ -20,11 +20,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate file type
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif'];
+    // Validate file type - allow images and documents
+    const allowedTypes = [
+      'image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif',
+      'application/pdf',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: 'Invalid file type. Only images are allowed.' },
+        { error: 'Invalid file type. Allowed: PDF, PPTX, DOCX, XLSX, and images.' },
         { status: 400 }
       );
     }
@@ -42,18 +51,35 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Upload to Cloudinary
+    // Check if it's a document or image
+    const isDocument = [
+      'application/pdf',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ].includes(file.type);
+
+    // Upload to Cloudinary with appropriate settings
     const uploadResponse = await new Promise<any>((resolve, reject) => {
+      const uploadOptions: any = {
+        folder: 'wecare-tech',
+        resource_type: isDocument ? 'raw' : 'image',
+      };
+
+      // Add transformation only for images
+      if (!isDocument) {
+        uploadOptions.transformation = [
+          { width: 1920, height: 1080, crop: 'limit' },
+          { quality: 'auto:good' },
+          { fetch_format: 'auto' },
+        ];
+      }
+
       cloudinary.uploader.upload_stream(
-        {
-          folder: 'wecare-tech',
-          resource_type: 'auto',
-          transformation: [
-            { width: 1920, height: 1080, crop: 'limit' },
-            { quality: 'auto:good' },
-            { fetch_format: 'auto' },
-          ],
-        },
+        uploadOptions,
         (error, result) => {
           if (error) reject(error);
           else resolve(result);
@@ -64,11 +90,11 @@ export async function POST(request: NextRequest) {
     // Return Cloudinary URL
     return NextResponse.json({
       success: true,
+      secure_url: uploadResponse.secure_url,
       url: uploadResponse.secure_url,
       publicId: uploadResponse.public_id,
       format: uploadResponse.format,
-      width: uploadResponse.width,
-      height: uploadResponse.height,
+      resourceType: uploadResponse.resource_type,
     });
   } catch (error) {
     console.error('Error uploading file:', error);

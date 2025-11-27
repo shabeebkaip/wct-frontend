@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, Phone, Mail } from 'lucide-react';
+import { Menu, X, ChevronDown, Phone, Mail, Download } from 'lucide-react';
 
 interface Solution {
   _id: string;
@@ -14,11 +14,20 @@ interface Solution {
   order: number;
 }
 
+interface Brochure {
+  _id: string;
+  title: string;
+  fileUrl: string;
+  fileName: string;
+  active: boolean;
+}
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [solutions, setSolutions] = useState<Solution[]>([]);
+  const [brochure, setBrochure] = useState<Brochure | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -47,6 +56,22 @@ const Header = () => {
       }
     };
     fetchSolutions();
+  }, []);
+
+  // Fetch active brochure
+  useEffect(() => {
+    const fetchBrochure = async () => {
+      try {
+        const response = await fetch('/api/brochures?active=true');
+        if (response.ok) {
+          const data = await response.json();
+          setBrochure(data);
+        }
+      } catch (error) {
+        console.error('Error fetching brochure:', error);
+      }
+    };
+    fetchBrochure();
   }, []);
 
   // Close mobile menu when clicking outside
@@ -157,17 +182,19 @@ const Header = () => {
 
               {/* Desktop Action Buttons */}
               <div className="hidden lg:flex items-center gap-3">
-                <a
-                  href="/GFS PROFILE.pptx"
-                  download="WeCare-Tech-Company-Profile.pptx"
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 rounded-lg hover:bg-slate-100 transition-all duration-300"
-                  title="Download Company Brochure"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <span>Brochure</span>
-                </a>
+                {brochure && (
+                  <a
+                    href={brochure.fileUrl}
+                    download={brochure.fileName}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 rounded-lg hover:bg-slate-100 transition-all duration-300"
+                    title="Download Company Brochure"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Brochure</span>
+                  </a>
+                )}
                 <a
                   href="tel:+966123456789"
                   className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 rounded-lg hover:bg-slate-100 transition-all duration-300"

@@ -79,6 +79,11 @@ export default function AdminSidebar() {
       label: 'Enquiries', 
       href: '/admin/enquiries',
     },
+    { 
+      icon: FileText, 
+      label: 'Brochures', 
+      href: '/admin/brochures',
+    },
   ];
 
   return (
