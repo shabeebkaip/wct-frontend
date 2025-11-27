@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import connectDB from '@/lib/mongodb';
 import Solution from '@/lib/models/Solution';
 import * as Icons from 'lucide-react';
@@ -195,11 +196,12 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
                   </p>
                 </div>
                 {solution.overview.image && (
-                  <div className="rounded-2xl overflow-hidden shadow-2xl">
-                    <img
+                  <div className="rounded-2xl overflow-hidden shadow-2xl relative h-[400px]">
+                    <Image
                       src={solution.overview.image}
                       alt={solution.overview.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 )}
@@ -244,7 +246,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
                         <ul className="space-y-2">
                           {service.features.map((feature, fIndex) => (
                             <li key={fIndex} className="flex items-start gap-2 text-sm text-gray-700">
-                              <Icons.CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                              <Icons.CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 shrink-0" />
                               <span>{feature}</span>
                             </li>
                           ))}
@@ -281,11 +283,14 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
                   >
                     <div className="text-center">
                       {brand.logo && (
-                        <img
-                          src={brand.logo}
-                          alt={brand.name}
-                          className="w-20 h-20 object-contain mx-auto mb-2 grayscale group-hover:grayscale-0 transition-all"
-                        />
+                        <div className="relative w-20 h-20 mx-auto mb-2">
+                          <Image
+                            src={brand.logo}
+                            alt={brand.name}
+                            fill
+                            className="object-contain grayscale group-hover:grayscale-0 transition-all"
+                          />
+                        </div>
                       )}
                       <p className="text-xs font-semibold text-gray-900">{brand.name}</p>
                       {brand.specialization && (
@@ -323,7 +328,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
                       className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
                           <Icon className="w-6 h-6 text-blue-600" />
                         </div>
                         <div className="flex-1">
@@ -378,7 +383,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
                       key={index}
                       className="flex items-start gap-4 p-6 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
                     >
-                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center shrink-0">
                         <Icon className="w-5 h-5 text-blue-600" />
                       </div>
                       <div>
@@ -461,9 +466,9 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
                   return (
                     <div
                       key={index}
-                      className="flex items-start gap-4 p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border border-blue-100"
+                      className="flex items-start gap-4 p-6 bg-linear-to-br from-blue-50 to-purple-50 rounded-xl border border-blue-100"
                     >
-                      <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shrink-0">
                         <Icon className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -485,7 +490,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
 
       {/* Statistics Section */}
       {solution.stats && solution.stats.length > 0 && (
-        <section className="py-20 bg-gradient-to-br from-blue-900 to-blue-800 text-white">
+        <section className="py-20 bg-linear-to-br from-blue-900 to-blue-800 text-white">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -513,7 +518,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
         <section className="py-20 bg-white">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-12 shadow-2xl">
+              <div className="bg-linear-to-br from-blue-600 to-blue-800 rounded-3xl p-12 shadow-2xl">
                 <h2 className="text-4xl font-bold text-white mb-4">
                   {solution.cta.title}
                 </h2>
