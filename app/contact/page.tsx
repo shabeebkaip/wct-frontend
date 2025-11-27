@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Mail,
   Phone,
@@ -18,6 +18,46 @@ import {
   Instagram,
 } from "lucide-react";
 
+// Icon mapping helper
+const iconMap: Record<string, React.ElementType> = {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  Users,
+  CheckCircle,
+  MessageSquare,
+  Building2,
+};
+
+interface ContactInfo {
+  icon: string;
+  title: string;
+  details: string[];
+  link?: string | null;
+  description?: string;
+}
+
+interface Reason {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface ContactPageData {
+  badge: string;
+  title: string;
+  description: string;
+  contactInfo: ContactInfo[];
+  reasons?: Reason[];
+  socialLinks?: {
+    linkedin?: string;
+    twitter?: string;
+    facebook?: string;
+    instagram?: string;
+  };
+}
+
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -30,6 +70,24 @@ const ContactPage = () => {
   const [formStatus, setFormStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
+  const [pageData, setPageData] = useState<ContactPageData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchContactPageData();
+  }, []);
+
+  const fetchContactPageData = async () => {
+    try {
+      const res = await fetch('/api/contact-page');
+      const data = await res.json();
+      setPageData(data);
+    } catch (error) {
+      console.error('Error fetching contact page data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -46,83 +104,52 @@ const ContactPage = () => {
     e.preventDefault();
     setFormStatus("loading");
 
-    // Simulate API call
-    setTimeout(() => {
-      setFormStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        company: "",
-        service: "",
-        message: "",
+    try {
+      const res = await fetch('/api/enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          source: 'contact-page',
+        }),
       });
+
+      if (res.ok) {
+        setFormStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          company: "",
+          service: "",
+          message: "",
+        });
+        setTimeout(() => setFormStatus("idle"), 5000);
+      } else {
+        setFormStatus("error");
+        setTimeout(() => setFormStatus("idle"), 5000);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setFormStatus("error");
       setTimeout(() => setFormStatus("idle"), 5000);
-    }, 2000);
+    }
   };
 
-  const contactInfo = [
-    {
-      icon: Phone,
-      title: "Phone",
-      details: ["+966 11 206 3919"],
-      link: "tel:+966112063919",
-      description: "Available all time",
-    },
-    {
-      icon: Mail,
-      title: "Email",
-      details: ["wct@wecaretech.com"],
-      link: "mailto:wct@wecaretech.com",
-    },
-    {
-      icon: MapPin,
-      title: "Office",
-      details: ["4310 Jarir, 7476", "Riyadh 12837, Saudi Arabia"],
-      link: "https://maps.google.com",
-      description: "Visit us at our headquarters",
-    },
-    {
-      icon: Clock,
-      title: "Business Hours",
-      details: [
-        "Monday - Thursday: 8:00 AM - 5:00 PM",
-        "Friday: 8:00 AM - 12:00 PM",
-      ],
-      link: null,
-      description: "Weekend: Saturday & Sunday closed",
-    },
-  ];
+  const socialLinksArray = [
+    { icon: Linkedin, link: pageData?.socialLinks?.linkedin || "", label: "LinkedIn" },
+    { icon: Twitter, link: pageData?.socialLinks?.twitter || "", label: "Twitter" },
+    { icon: Facebook, link: pageData?.socialLinks?.facebook || "", label: "Facebook" },
+    { icon: Instagram, link: pageData?.socialLinks?.instagram || "", label: "Instagram" },
+  ].filter(social => social.link);
 
-  const reasons = [
-    {
-      icon: Users,
-      title: "Expert Team",
-      description: "50+ certified engineers ready to assist you",
-    },
-    {
-      icon: CheckCircle,
-      title: "Quick Response",
-      description: "Get replies within 24 hours",
-    },
-    {
-      icon: MessageSquare,
-      title: "Detailed Consultation",
-      description: "Free technical consultation for your project",
-    },
-    {
-      icon: Building2,
-      title: "Site Visit",
-      description: "On-site assessment available in Riyadh",
-    },
-  ];
-
-  const socialLinks = [
-    { icon: Linkedin, link: "https://linkedin.com", label: "LinkedIn" },
-    { icon: Twitter, link: "https://twitter.com", label: "Twitter" },
-    { icon: Facebook, link: "https://facebook.com", label: "Facebook" },
-    { icon: Instagram, link: "https://instagram.com", label: "Instagram" },
-  ];
+  if (loading || !pageData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 text-slate-900 dark:text-gray-100">
@@ -141,15 +168,14 @@ const ContactPage = () => {
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 mb-6">
               <MessageSquare className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               <span className="text-sm font-medium text-blue-700 dark:text-blue-400">
-                Get in Touch
+                {pageData.badge}
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-linear-to-r from-slate-900 via-blue-700 to-slate-900 dark:from-gray-100 dark:via-blue-100 dark:to-gray-100 bg-clip-text text-transparent">
-              Let&apos;s Build Something Great Together
+              {pageData.title}
             </h1>
             <p className="text-lg md:text-xl text-slate-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              Have a project in mind? Our team of experts is ready to help you
-              transform your IT infrastructure.
+              {pageData.description}
             </p>
           </div>
         </div>
@@ -158,31 +184,36 @@ const ContactPage = () => {
       {/* Contact Info Cards */}
       <section className="relative pb-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
-            {contactInfo.map((info, index) => (
-              <div
-                key={index}
-                className="group relative p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
-              >
-                <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-                <div className="relative">
-                  <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <info.icon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+          <div className="flex flex-wrap justify-center gap-6 mb-20">
+            {pageData.contactInfo.map((info, index) => {
+              const IconComponent = iconMap[info.icon] || Phone;
+              return (
+                <div
+                  key={index}
+                  className="group relative p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)] max-w-sm"
+                >
+                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+                  <div className="relative">
+                    <div className="w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <IconComponent className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-3">
+                      {info.title}
+                    </h3>
+                    <div className="space-y-2 mb-4">
+                      {info.details.map((detail, idx) => (
+                        <p key={idx} className="text-slate-600 dark:text-gray-400 text-sm">
+                          {detail}
+                        </p>
+                      ))}
+                    </div>
+                    {info.description && (
+                      <p className="text-xs text-slate-500 dark:text-gray-500">{info.description}</p>
+                    )}
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-3">
-                    {info.title}
-                  </h3>
-                  <div className="space-y-2 mb-4">
-                    {info.details.map((detail, idx) => (
-                      <p key={idx} className="text-slate-600 dark:text-gray-400 text-sm">
-                        {detail}
-                      </p>
-                    ))}
-                  </div>
-                  <p className="text-xs text-slate-500 dark:text-gray-500">{info.description}</p>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -378,31 +409,36 @@ const ContactPage = () => {
             {/* Right Side - Info & Map */}
             <div className="space-y-8">
               {/* Why Contact Us */}
-              <div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6">
-                  Why Contact Us?
-                </h3>
-                <div className="space-y-4">
-                  {reasons.map((reason, index) => (
-                    <div
-                      key={index}
-                      className="group flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
-                        <reason.icon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-semibold text-slate-900 dark:text-gray-100 mb-2">
-                          {reason.title}
-                        </h4>
-                        <p className="text-sm text-slate-600 dark:text-gray-400">
-                          {reason.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
+              {pageData.reasons && pageData.reasons.length > 0 && (
+                <div>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6">
+                    Why Contact Us?
+                  </h3>
+                  <div className="space-y-4">
+                    {pageData.reasons.map((reason, index) => {
+                      const IconComponent = iconMap[reason.icon] || Users;
+                      return (
+                        <div
+                          key={index}
+                          className="group flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none"
+                        >
+                          <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                            <IconComponent className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-semibold text-slate-900 dark:text-gray-100 mb-2">
+                              {reason.title}
+                            </h4>
+                            <p className="text-sm text-slate-600 dark:text-gray-400">
+                              {reason.description}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Map */}
               <div className="relative h-[400px] rounded-2xl overflow-hidden border border-slate-200 dark:border-gray-800/50 shadow-lg dark:shadow-none">
@@ -419,25 +455,27 @@ const ContactPage = () => {
               </div>
 
               {/* Social Links */}
-              <div className="p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 shadow-lg dark:shadow-none">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-6">
-                  Connect With Us
-                </h3>
-                <div className="flex gap-4">
-                  {socialLinks.map((social, index) => (
-                    <a
-                      key={index}
-                      href={social.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center hover:bg-blue-200 dark:hover:bg-blue-500/20 hover:border-blue-400 dark:hover:border-blue-500/50 hover:scale-110 transition-all duration-300"
-                      aria-label={social.label}
-                    >
-                      <social.icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                    </a>
-                  ))}
+              {socialLinksArray.length > 0 && (
+                <div className="p-8 rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 shadow-lg dark:shadow-none">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-6">
+                    Connect With Us
+                  </h3>
+                  <div className="flex gap-4">
+                    {socialLinksArray.map((social, index) => (
+                      <a
+                        key={index}
+                        href={social.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 flex items-center justify-center hover:bg-blue-200 dark:hover:bg-blue-500/20 hover:border-blue-400 dark:hover:border-blue-500/50 hover:scale-110 transition-all duration-300"
+                        aria-label={social.label}
+                      >
+                        <social.icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

@@ -3,18 +3,13 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Home,
   FileText,
   Image as ImageIcon,
-  Settings,
-  LogOut,
   BarChart3,
-  FolderOpen,
   PlusCircle,
-  Layout,
-  Server,
-  UsersRound,
+  FolderOpen,
 } from 'lucide-react';
+import AdminSidebar from '@/components/admin/shared/AdminSidebar';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -34,86 +29,9 @@ export default function AdminDashboard() {
     }
   }, [router]);
 
-  const handleLogout = () => {
-    document.cookie = 'adminAuth=; path=/; max-age=0'; // Clear cookie
-    sessionStorage.removeItem('adminAuth');
-    router.push('/admin/login');
-  };
-
   if (!isAuthenticated) {
     return null; // or loading spinner
   }
-
-  const menuItems = [
-    { 
-      icon: Home, 
-      label: 'Dashboard', 
-      href: '/admin/dashboard', 
-      active: true,
-      section: 'main'
-    },
-    { 
-      icon: FolderOpen, 
-      label: 'Projects', 
-      href: '/admin/projects', 
-      active: false,
-      section: 'main'
-    },
-  ];
-
-  const homeSubItems = [
-    { 
-      label: 'Hero Section', 
-      href: '/admin/hero', 
-      active: false,
-    },
-    { 
-      label: 'CCTV', 
-      href: '/admin/cctv-section', 
-      active: false,
-    },
-    { 
-      label: 'Low Current', 
-      href: '/admin/low-current-section', 
-      active: false,
-    },
-    { 
-      label: 'Cabling', 
-      href: '/admin/structured-cabling-section', 
-      active: false,
-    },
-    { 
-      label: 'Data Center', 
-      href: '/admin/data-center-home', 
-      active: false,
-    },
-    { 
-      label: 'Clients', 
-      href: '/admin/clients-section', 
-      active: false,
-    },
-  ];
-
-  const systemItems = [
-    { 
-      icon: UsersRound, 
-      label: 'Team Members', 
-      href: '/admin/team', 
-      active: false,
-    },
-    { 
-      icon: ImageIcon, 
-      label: 'Media Library', 
-      href: '/admin/media', 
-      active: false,
-    },
-    { 
-      icon: Settings, 
-      label: 'Settings', 
-      href: '/admin/settings', 
-      active: false,
-    },
-  ];
 
   const stats = [
     { label: 'Total Projects', value: '12', change: '+2 this month', color: 'blue' },
@@ -124,108 +42,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Sidebar */}
-      <aside className="fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 z-40">
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="p-6 border-b border-slate-200">
-            <h1 className="text-xl font-bold text-slate-900">WeCare Tech</h1>
-            <p className="text-xs text-slate-500 mt-1">Content Management</p>
-          </div>
-
-          {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
-            {/* Main Section */}
-            <div className="space-y-1">
-              {menuItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                    item.active
-                      ? 'bg-blue-50 text-blue-600 font-semibold'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
-                >
-                  <item.icon className="w-5 h-5" />
-                  <span>{item.label}</span>
-                </a>
-              ))}
-            </div>
-
-            {/* Content Management */}
-            <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-4 mb-2">
-                Content Management
-              </p>
-              
-              {/* Home Sections with Sublists */}
-              <div className="space-y-1">
-                <a
-                  href="/admin/home"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                >
-                  <FileText className="w-5 h-5" />
-                  <span className="font-medium">Home Sections</span>
-                </a>
-                
-                {/* Sublists */}
-                <div className="ml-8 space-y-0.5">
-                  {homeSubItems.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all text-slate-500 hover:bg-slate-50 hover:text-slate-700"
-                    >
-                      <span className="text-slate-400">↳</span>
-                      <span>{item.label}</span>
-                    </a>
-                  ))}
-                </div>
-                
-                {/* About Page */}
-                <a
-                  href="/admin/about-page"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                >
-                  <UsersRound className="w-5 h-5" />
-                  <span className="font-medium">About Us Page</span>
-                </a>
-              </div>
-            </div>
-
-            {/* System Management */}
-            <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-4 mb-2">
-                System
-              </p>
-              <div className="space-y-1">
-                {systemItems.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-                  >
-                    <item.icon className="w-5 h-5" />
-                    <span>{item.label}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </nav>
-
-          {/* Logout */}
-          <div className="p-4 border-t border-slate-200">
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-3 px-4 py-3 w-full text-red-600 hover:bg-red-50 rounded-lg transition-all"
-            >
-              <LogOut className="w-5 h-5" />
-              <span className="font-medium">Logout</span>
-            </button>
-          </div>
-        </div>
-      </aside>
+      <AdminSidebar />
 
       {/* Main Content */}
       <main className="ml-64 p-8">
