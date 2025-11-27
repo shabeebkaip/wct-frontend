@@ -2,11 +2,10 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Home,
   FileText,
-  Image as ImageIcon,
-  Settings,
   LogOut,
   FolderOpen,
   UsersRound,
@@ -83,10 +82,18 @@ export default function AdminSidebar() {
     <aside className="fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 z-40">
       <div className="flex flex-col h-full">
         {/* Logo */}
-        <div className="p-6 border-b border-slate-200">
-          <h1 className="text-xl font-bold text-slate-900">WeCare Tech</h1>
-          <p className="text-xs text-slate-500 mt-1">Content Management</p>
-        </div>
+        <Link href="/admin/dashboard" className="p-6 border-b border-slate-200 block">
+          <div className="relative h-12 w-full">
+            <Image
+              src="/logo.png"
+              alt="WeCare Tech"
+              fill
+              className="object-contain object-left"
+              priority
+            />
+          </div>
+          <p className="text-xs text-slate-500 mt-2">Content Management</p>
+        </Link>
 
         {/* Navigation */}
         <nav className="flex-1 p-4 space-y-6 overflow-y-auto">

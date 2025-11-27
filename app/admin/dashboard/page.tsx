@@ -11,6 +11,7 @@ import {
   TrendingUp,
   CheckCircle,
   Loader2,
+  ExternalLink,
 } from 'lucide-react';
 import AdminSidebar from '@/components/admin/shared/AdminSidebar';
 
@@ -60,7 +61,6 @@ let cacheTime: number = 0;
 const CACHE_DURATION = 30000; // 30 seconds
 
 export default function AdminDashboard() {
-  const router = useRouter();
   const [analytics, setAnalytics] = useState<Analytics | null>(cachedAnalytics);
   const [loading, setLoading] = useState(!cachedAnalytics);
 
@@ -114,9 +114,20 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <main className="ml-64 p-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Dashboard</h1>
-          <p className="text-slate-600">Welcome back! Here&apos;s what&apos;s happening with your website.</p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">Dashboard</h1>
+            <p className="text-slate-600">Welcome back! Here&apos;s what&apos;s happening with your website.</p>
+          </div>
+          <Link
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm hover:shadow-md"
+          >
+            <ExternalLink className="w-5 h-5" />
+            <span>Visit Website</span>
+          </Link>
         </div>
 
         {loading ? (

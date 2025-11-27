@@ -136,7 +136,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section 
-        className="relative py-24 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white overflow-hidden"
+        className="relative py-24 bg-linear-to-br from-blue-900 via-blue-800 to-blue-900 text-white overflow-hidden"
         style={solution.hero.backgroundImage ? {
           backgroundImage: `url(${solution.hero.backgroundImage})`,
           backgroundSize: 'cover',
