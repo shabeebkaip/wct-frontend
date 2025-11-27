@@ -1,24 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import EditableHero from '@/components/admin/EditableHero';
 
 export default function HeroEditor() {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const auth = sessionStorage.getItem('adminAuth');
-    if (auth !== 'true') {
-      router.push('/admin/login');
-    } else {
-      setIsAuthenticated(true);
-    }
-  }, [router]);
-
-  if (!isAuthenticated) return null;
 
   return (
     <div className="min-h-screen bg-white">

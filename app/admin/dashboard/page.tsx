@@ -54,32 +54,36 @@ interface Analytics {
   };
 }
 
+// Cache analytics data in memory
+let cachedAnalytics: Analytics | null = null;
+let cacheTime: number = 0;
+const CACHE_DURATION = 30000; // 30 seconds
+
 export default function AdminDashboard() {
   const router = useRouter();
-  const [isAuthenticated] = useState(() => {
-    // Check authentication on initial render
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('adminAuth') === 'true';
-    }
-    return false;
-  });
-  const [analytics, setAnalytics] = useState<Analytics | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [analytics, setAnalytics] = useState<Analytics | null>(cachedAnalytics);
+  const [loading, setLoading] = useState(!cachedAnalytics);
 
   useEffect(() => {
-    // Redirect if not authenticated
-    const auth = sessionStorage.getItem('adminAuth');
-    if (auth !== 'true') {
-      router.push('/admin/login');
-    } else {
-      fetchAnalytics();
+    const now = Date.now();
+    // Use cache if it's fresh (less than 30 seconds old)
+    if (cachedAnalytics && now - cacheTime < CACHE_DURATION) {
+      setAnalytics(cachedAnalytics);
+      setLoading(false);
+      return;
     }
-  }, [router]);
+    fetchAnalytics();
+  }, []);
 
   const fetchAnalytics = async () => {
     try {
-      const res = await fetch('/api/analytics');
+      const res = await fetch('/api/analytics', {
+        cache: 'force-cache',
+        next: { revalidate: 30 }
+      });
       const data = await res.json();
+      cachedAnalytics = data;
+      cacheTime = Date.now();
       setAnalytics(data);
     } catch (error) {
       console.error('Error fetching analytics:', error);
@@ -87,18 +91,6 @@ export default function AdminDashboard() {
       setLoading(false);
     }
   };
-
-  if (!isAuthenticated || loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-50">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-      </div>
-    );
-  }
-
-  if (!analytics) {
-    return null;
-  }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -127,6 +119,35 @@ export default function AdminDashboard() {
           <p className="text-slate-600">Welcome back! Here&apos;s what&apos;s happening with your website.</p>
         </div>
 
+        {loading ? (
+          /* Skeleton Loading */
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 animate-pulse">
+                  <div className="h-10 bg-slate-200 rounded mb-4 w-10"></div>
+                  <div className="h-8 bg-slate-200 rounded mb-2 w-16"></div>
+                  <div className="h-4 bg-slate-200 rounded w-24"></div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {[1, 2].map((i) => (
+                <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 animate-pulse">
+                  <div className="h-6 bg-slate-200 rounded mb-4 w-32"></div>
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((j) => (
+                      <div key={j} className="h-16 bg-slate-200 rounded"></div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : !analytics ? (
+          <div className="text-center py-12 text-slate-500">Failed to load analytics data</div>
+        ) : (
+          <>
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Total Projects */}
@@ -355,6 +376,8 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
+        </> 
+        )}
       </main>
     </div>
   );

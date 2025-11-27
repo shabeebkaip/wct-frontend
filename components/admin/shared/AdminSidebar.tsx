@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import {
   Home,
   FileText,
@@ -92,7 +93,7 @@ export default function AdminSidebar() {
           {/* Main Section */}
           <div className="space-y-1">
             {menuItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
@@ -103,7 +104,7 @@ export default function AdminSidebar() {
               >
                 <item.icon className="w-5 h-5" />
                 <span>{item.label}</span>
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -115,7 +116,7 @@ export default function AdminSidebar() {
             
             {/* Home Sections with Sublists */}
             <div className="space-y-1">
-              <a
+              <Link
                 href="/admin/home"
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   isActive('/admin/home')
@@ -125,12 +126,12 @@ export default function AdminSidebar() {
               >
                 <FileText className="w-5 h-5" />
                 <span className="font-medium">Home Sections</span>
-              </a>
+              </Link>
               
               {/* Sublists */}
               <div className="ml-8 space-y-0.5">
                 {homeSubItems.map((item) => (
-                  <a
+                  <Link
                     key={item.label}
                     href={item.href}
                     className={`flex items-center gap-2 px-4 py-2 text-sm rounded-lg transition-all ${
@@ -141,12 +142,12 @@ export default function AdminSidebar() {
                   >
                     <span className="text-slate-400">↳</span>
                     <span>{item.label}</span>
-                  </a>
+                  </Link>
                 ))}
               </div>
               
               {/* About Page */}
-              <a
+              <Link
                 href="/admin/about-page"
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   isActive('/admin/about-page')
@@ -156,10 +157,10 @@ export default function AdminSidebar() {
               >
                 <UsersRound className="w-5 h-5" />
                 <span className="font-medium">About Us Page</span>
-              </a>
+              </Link>
 
               {/* Contact Page */}
-              <a
+              <Link
                 href="/admin/contact-page"
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
                   isActive('/admin/contact-page')
@@ -169,7 +170,7 @@ export default function AdminSidebar() {
               >
                 <Mail className="w-5 h-5" />
                 <span className="font-medium">Contact Us Page</span>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -180,7 +181,7 @@ export default function AdminSidebar() {
             </p>
             <div className="space-y-1">
               {systemItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
                   href={item.href}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
@@ -191,7 +192,7 @@ export default function AdminSidebar() {
                 >
                   <item.icon className="w-5 h-5" />
                   <span>{item.label}</span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>

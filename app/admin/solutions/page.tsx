@@ -29,7 +29,10 @@ export default function SolutionsAdmin() {
 
   const fetchSolutions = async () => {
     try {
-      const res = await fetch('/api/solutions');
+      const res = await fetch('/api/solutions', {
+        cache: 'no-store',
+        next: { revalidate: 0 }
+      });
       const data = await res.json();
       setSolutions(data);
     } catch (error) {

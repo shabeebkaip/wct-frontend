@@ -29,7 +29,8 @@ export default function AdminLogin() {
       const data = await response.json();
 
       if (response.ok) {
-        // Store session info
+        // Store session info in both cookie and sessionStorage
+        document.cookie = 'adminAuth=true; path=/; max-age=28800'; // 8 hours
         sessionStorage.setItem('adminAuth', 'true');
         sessionStorage.setItem('adminEmail', data.user.email);
         router.push('/admin/dashboard');

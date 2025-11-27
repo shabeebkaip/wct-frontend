@@ -4,17 +4,14 @@ import type { NextRequest } from 'next/server';
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Protect admin routes - check JWT cookie instead of old adminAuth
-  if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
-    const authToken = request.cookies.get('auth_token')?.value;
+  // Protect admin routes - check adminAuth cookie
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+    const adminAuth = request.cookies.get('adminAuth')?.value;
     
-    if (!authToken) {
+    if (adminAuth !== 'true') {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
   }
-
-  // API routes are now protected by requireAuth/requireAdmin helpers
-  // No need to check authorization header here anymore
 
   return NextResponse.next();
 }
