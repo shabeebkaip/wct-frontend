@@ -1,40 +1,72 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Phone, MapPin, ArrowRight, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, ArrowRight, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 import { trackEvent } from '@/lib/hooks/useAnalytics';
+
+interface ContactInfo {
+  icon: string;
+  title: string;
+  details: string[];
+  link?: string;
+  description?: string;
+}
+
+interface ContactPageData {
+  contactInfo: ContactInfo[];
+  socialLinks?: {
+    linkedin?: string;
+    twitter?: string;
+    facebook?: string;
+    instagram?: string;
+  };
+}
+
+interface Solution {
+  _id: string;
+  title: string;
+  slug: string;
+  published: boolean;
+}
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [contactData, setContactData] = useState<ContactPageData | null>(null);
+  const [solutions, setSolutions] = useState<Solution[]>([]);
 
-  const solutions = [
-    { name: 'Data Center Solutions', href: '/solutions/data-center' },
-    { name: 'CCTV Surveillance', href: '/solutions/cctv' },
-    { name: 'Low Current Systems', href: '/solutions/low-current' },
-    { name: 'Structured Cabling', href: '/solutions/structured-cabling' },
-    { name: 'ICT Infrastructure', href: '/solutions/ict' },
-  ];
+  useEffect(() => {
+    const fetchContactData = async () => {
+      try {
+        const res = await fetch('/api/contact-page');
+        const data = await res.json();
+        setContactData(data);
+      } catch (error) {
+        console.error('Error fetching contact data:', error);
+      }
+    };
+    
+    const fetchSolutions = async () => {
+      try {
+        const res = await fetch('/api/solutions?published=true');
+        const data = await res.json();
+        setSolutions(data);
+      } catch (error) {
+        console.error('Error fetching solutions:', error);
+      }
+    };
+    
+    fetchContactData();
+    fetchSolutions();
+  }, []);
+
+
 
   const company = [
     { name: 'About Us', href: '/about' },
     { name: 'Our Projects', href: '/projects' },
-    { name: 'Careers', href: '/careers' },
     { name: 'Contact', href: '/contact' },
-  ];
-
-  const support = [
-    { name: 'Help Center', href: '/help' },
-    { name: 'Documentation', href: '/docs' },
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Terms of Service', href: '/terms' },
-  ];
-
-  const socialLinks = [
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
   ];
 
   return (
@@ -54,7 +86,7 @@ const Footer = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
         {/* Main Footer Content */}
         <div className="py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {/* Company Info */}
             <div className="lg:col-span-2">
               <Link href="/" className="flex items-center gap-2 mb-6 group">
@@ -79,33 +111,38 @@ const Footer = () => {
                 with 18+ years of expertise.
               </p>              {/* Contact Info */}
               <div className="space-y-3">
-                <a 
-                  href="tel:+966112063919" 
-                  className="flex items-center gap-3 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center group-hover:border-blue-400 dark:group-hover:border-blue-500/30 transition-colors">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <span className="text-sm">+966 11 206 3919</span>
-                </a>
-                <a 
-                  href="mailto:info@wecaretech.com" 
-                  className="flex items-center gap-3 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center group-hover:border-blue-400 dark:group-hover:border-blue-500/30 transition-colors">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <span className="text-sm">info@wecaretech.com</span>
-                </a>
-                <div className="flex items-start gap-3 text-slate-600 dark:text-gray-400">
-                  <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center shrink-0">
-                    <MapPin className="w-4 h-4" />
-                  </div>
-                  <div className="text-sm">
-                    <p>4310 Jarir, 7476</p>
-                    <p>Riyadh 12837, Saudi Arabia</p>
-                  </div>
-                </div>
+                {contactData?.contactInfo.map((item, index) => {
+                  const IconComponent = item.icon === 'Phone' ? Phone : item.icon === 'Mail' ? Mail : item.icon === 'MapPin' ? MapPin : Clock;
+                  const isLink = item.link && (item.icon === 'Phone' || item.icon === 'Mail');
+                  
+                  if (isLink) {
+                    return (
+                      <a 
+                        key={index}
+                        href={item.link} 
+                        className="flex items-center gap-3 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center group-hover:border-blue-400 dark:group-hover:border-blue-500/30 transition-colors">
+                          <IconComponent className="w-4 h-4" />
+                        </div>
+                        <span className="text-sm">{item.details.join(', ')}</span>
+                      </a>
+                    );
+                  }
+                  
+                  return (
+                    <div key={index} className="flex items-start gap-3 text-slate-600 dark:text-gray-400">
+                      <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center shrink-0">
+                        <IconComponent className="w-4 h-4" />
+                      </div>
+                      <div className="text-sm">
+                        {item.details.map((detail, i) => (
+                          <p key={i}>{detail}</p>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -116,24 +153,24 @@ const Footer = () => {
               </h4>
               <ul className="space-y-3">
                 {solutions.map((item) => (
-                  <li key={item.name}>
+                  <li key={item._id}>
                     <Link
-                      href={item.href}
+                      href={`/solutions/${item.slug}`}
                       className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
                       onClick={() => {
                         trackEvent({
                           eventType: 'footer_click',
                           page: window.location.pathname,
                           metadata: {
-                            linkName: item.name,
-                            linkHref: item.href,
+                            linkName: item.title,
+                            linkHref: `/solutions/${item.slug}`,
                             section: 'Solutions',
                           },
                         });
                       }}
                     >
                       <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                      <span>{item.name}</span>
+                      <span>{item.title}</span>
                     </Link>
                   </li>
                 ))}
@@ -159,37 +196,6 @@ const Footer = () => {
                             linkName: item.name,
                             linkHref: item.href,
                             section: 'Company',
-                          },
-                        });
-                      }}
-                    >
-                      <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                      <span>{item.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">
-                Support
-              </h4>
-              <ul className="space-y-3">
-                {support.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
-                      onClick={() => {
-                        trackEvent({
-                          eventType: 'footer_click',
-                          page: window.location.pathname,
-                          metadata: {
-                            linkName: item.name,
-                            linkHref: item.href,
-                            section: 'Support',
                           },
                         });
                       }}
@@ -239,19 +245,42 @@ const Footer = () => {
 
             {/* Social Links */}
             <div className="flex items-center gap-3">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </a>
-                );
-              })}
+              {contactData?.socialLinks?.linkedin && (
+                <a
+                  href={contactData.socialLinks.linkedin}
+                  aria-label="LinkedIn"
+                  className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              )}
+              {contactData?.socialLinks?.twitter && (
+                <a
+                  href={contactData.socialLinks.twitter}
+                  aria-label="Twitter"
+                  className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
+                >
+                  <Twitter className="w-4 h-4" />
+                </a>
+              )}
+              {contactData?.socialLinks?.facebook && (
+                <a
+                  href={contactData.socialLinks.facebook}
+                  aria-label="Facebook"
+                  className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
+                >
+                  <Facebook className="w-4 h-4" />
+                </a>
+              )}
+              {contactData?.socialLinks?.instagram && (
+                <a
+                  href={contactData.socialLinks.instagram}
+                  aria-label="Instagram"
+                  className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+              )}
             </div>
           </div>
         </div>
