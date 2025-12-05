@@ -13,7 +13,26 @@ const AnalyticsSchema = new mongoose.Schema({
   referrer: String,
   userAgent: String,
   ipAddress: String,
-  sessionId: String,
+  sessionId: {
+    type: String,
+    required: true,
+    index: true,
+  },
+  // Session tracking
+  isNewSession: {
+    type: Boolean,
+    default: false,
+  },
+  isEntryPage: {
+    type: Boolean,
+    default: false,
+  },
+  isExitPage: {
+    type: Boolean,
+    default: false,
+  },
+  previousPage: String,
+  timeOnPage: Number, // Duration in milliseconds
   // Location data from IP
   location: {
     type: {
@@ -50,6 +69,8 @@ const AnalyticsSchema = new mongoose.Schema({
 // Index for faster queries
 AnalyticsSchema.index({ timestamp: -1 });
 AnalyticsSchema.index({ eventType: 1, timestamp: -1 });
+AnalyticsSchema.index({ sessionId: 1, timestamp: 1 });
+AnalyticsSchema.index({ ipAddress: 1, timestamp: -1 });
 
 // Delete existing model to force recreation with new schema
 if (mongoose.models.Analytics) {

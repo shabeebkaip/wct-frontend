@@ -11,7 +11,6 @@ import {
   CheckCircle,
   ExternalLink,
 } from 'lucide-react';
-import AdminSidebar from '@/components/admin/shared/AdminSidebar';
 
 interface RecentProject {
   _id: string;
@@ -116,13 +115,9 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <AdminSidebar />
-
-      {/* Main Content */}
-      <main className="ml-64 p-8">
-        {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+    <div className="p-8">
+      {/* Header */}
+      <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-slate-900 mb-2">Dashboard</h1>
             <p className="text-slate-600">Welcome back! Here&apos;s what&apos;s happening with your website.</p>
@@ -442,7 +437,6 @@ export default function AdminDashboard() {
         </div>
         </> 
         )}
-      </main>
     </div>
   );
 }

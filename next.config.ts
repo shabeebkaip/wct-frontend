@@ -10,6 +10,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Ensure headers are properly forwarded for analytics
+  async headers() {
+    return [
+      {
+        source: '/api/analytics/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

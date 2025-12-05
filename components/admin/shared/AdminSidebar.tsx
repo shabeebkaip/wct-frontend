@@ -12,6 +12,7 @@ import {
   MessageSquare,
   Mail,
   BarChart3,
+  Route,
 } from 'lucide-react';
 
 export default function AdminSidebar() {
@@ -79,6 +80,11 @@ export default function AdminSidebar() {
       icon: BarChart3, 
       label: 'Analytics', 
       href: '/admin/analytics',
+    },
+    { 
+      icon: Route, 
+      label: 'User Sessions', 
+      href: '/admin/sessions',
     },
     { 
       icon: MessageSquare, 

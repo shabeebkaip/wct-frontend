@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import AdminSidebar from '@/components/admin/shared/AdminSidebar';
+import Link from 'next/link';
 import {
   Eye,
   Users,
@@ -54,21 +54,21 @@ export default function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState(7);
 
   useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`/api/analytics/track?days=${timeRange}`);
+        const result = await res.json();
+        setData(result);
+      } catch (error) {
+        console.error('Error fetching analytics:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchAnalytics();
   }, [timeRange]);
-
-  const fetchAnalytics = async () => {
-    try {
-      setLoading(true);
-      const res = await fetch(`/api/analytics/track?days=${timeRange}`);
-      const result = await res.json();
-      setData(result);
-    } catch (error) {
-      console.error('Error fetching analytics:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const getEventCount = (eventType: string) => {
     return data?.stats.find((s) => s._id === eventType)?.count || 0;
@@ -98,14 +98,21 @@ export default function AnalyticsPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <AdminSidebar />
-      <div className="flex-1 lg:ml-64">
-        <div className="p-8">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Website Analytics</h1>
-            <p className="text-slate-600">Track visitor behavior, engagement, and conversions</p>
+    <div className="p-8">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">Website Analytics</h1>
+        <p className="text-slate-600">Track visitor behavior, engagement, and conversions</p>
+            {data && (() => {
+              const withLocation = data.analytics.filter(a => a.location?.city).length;
+              const total = data.analytics.length;
+              const percentage = total > 0 ? Math.round((withLocation / total) * 100) : 0;
+              return (
+                <p className="text-sm text-slate-500 mt-1">
+                  Location data: {withLocation}/{total} events ({percentage}%)
+                </p>
+              );
+            })()}
           </div>
 
           {/* Time Range Selector */}
@@ -133,6 +140,24 @@ export default function AnalyticsPage() {
             <div className="text-center py-12 text-slate-500">Failed to load analytics data</div>
           ) : (
             <>
+              {/* Quick Link to Sessions Page */}
+              <Link 
+                href="/admin/sessions"
+                className="block mb-6 p-4 bg-linear-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-1">📊 View User Sessions & Journeys</h3>
+                    <p className="text-sm text-slate-600">
+                      Track session duration, pages per visit, bounce rate, and user navigation patterns
+                    </p>
+                  </div>
+                  <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </Link>
+
               {/* Stats Overview */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
@@ -196,7 +221,7 @@ export default function AnalyticsPage() {
                     {data.topPages.map((page, index) => (
                       <div key={page._id} className="flex items-center justify-between">
                         <div className="flex items-center gap-3 flex-1 min-w-0">
-                          <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-xs font-bold flex items-center justify-center">
+                          <span className="shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-xs font-bold flex items-center justify-center">
                             {index + 1}
                           </span>
                           <span className="text-sm text-slate-700 truncate">{page._id || '/'}</span>
@@ -313,8 +338,6 @@ export default function AnalyticsPage() {
               </div>
             </>
           )}
-        </div>
-      </div>
     </div>
   );
 }

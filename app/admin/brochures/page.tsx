@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Upload, Loader2, Trash2, CheckCircle, FileText, Download, AlertCircle } from 'lucide-react';
-import AdminSidebar from '@/components/admin/shared/AdminSidebar';
 
 interface Brochure {
   _id: string;
@@ -193,12 +192,9 @@ export default function BrochureManagement() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <AdminSidebar />
-
-      <main className="ml-64 p-8">
-        {/* Header */}
-        <div className="mb-8">
+    <div className="p-8">
+      {/* Header */}
+      <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Brochure Management</h1>
           <p className="text-slate-600">Upload and manage company brochures for public download</p>
         </div>
@@ -317,7 +313,6 @@ export default function BrochureManagement() {
             </div>
           )}
         </div>
-      </main>
     </div>
   );
 }

@@ -2,6 +2,12 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import { 
+  getSessionInfo, 
+  setLastPage, 
+  trackPageEnter,
+  getTimeOnPage,
+} from './useSession';
 
 type EventType = 'page_view' | 'contact_form' | 'brochure_download' | 'project_view' | 'solution_view' | 'navigation_click' | 'footer_click';
 
@@ -23,12 +29,29 @@ function getDeviceInfo() {
 export function useAnalytics() {
   const pathname = usePathname();
 
-  // Track page views automatically
+  // Track page views automatically with session info
   useEffect(() => {
+    // Get time on previous page before tracking new page
+    const timeOnPreviousPage = getTimeOnPage();
+    
+    // Track the page view
     trackEvent({
       eventType: 'page_view',
       page: pathname,
     });
+
+    // Set this page as the last page for next navigation
+    setLastPage(pathname);
+    
+    // Track when user enters this page
+    trackPageEnter();
+
+    // Optional: Track exit from previous page if there was one
+    // This helps identify exit pages
+    return () => {
+      // Cleanup runs when component unmounts (user navigates away)
+      // You could track exit event here if needed
+    };
   }, [pathname]);
 
   return { trackEvent };
@@ -44,8 +67,9 @@ export async function trackEvent({ eventType, page, metadata }: TrackEventOption
     }
 
     const device = getDeviceInfo();
+    const sessionInfo = getSessionInfo();
 
-    console.log('Tracking event:', { eventType, page, metadata });
+    console.log('Tracking event:', { eventType, page, metadata, sessionInfo });
 
     const response = await fetch('/api/analytics/track', {
       method: 'POST',
@@ -57,6 +81,12 @@ export async function trackEvent({ eventType, page, metadata }: TrackEventOption
         page: page || window.location.pathname,
         metadata,
         device,
+        session: {
+          sessionId: sessionInfo.sessionId,
+          isNewSession: sessionInfo.isNewSession,
+          previousPage: sessionInfo.previousPage,
+          timeOnPage: sessionInfo.timeOnPage,
+        },
       }),
     });
 
