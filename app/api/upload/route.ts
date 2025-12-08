@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     // Validate file type - allow images and documents
     const allowedTypes = [
-      'image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif',
+      'image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/avif', 'image/svg+xml',
       'application/pdf',
       'application/vnd.ms-powerpoint',
       'application/vnd.openxmlformats-officedocument.presentationml.presentation',
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     ];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { error: 'Invalid file type. Allowed: PDF, PPTX, DOCX, XLSX, and images.' },
+        { error: 'Invalid file type. Allowed: PDF, PPTX, DOCX, XLSX, and images (including SVG).' },
         { status: 400 }
       );
     }

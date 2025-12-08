@@ -57,6 +57,15 @@ export default function HomePage() {
       bgColor: 'bg-orange-50',
       iconColor: 'text-orange-600',
     },
+    {
+      title: 'Trusted Brands',
+      description: 'Manage trusted brand logos and product categories',
+      icon: Users,
+      href: '/admin/trusted-brands-section',
+      color: 'from-blue-500 to-indigo-500',
+      bgColor: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+    },
   ];
 
   return (

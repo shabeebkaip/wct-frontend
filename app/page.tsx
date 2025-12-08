@@ -7,6 +7,7 @@ import LowCurrentSolution from "@/components/home/LowCurrentSolution";
 import StructuredCabling from "@/components/home/StructuredCabling";
 import ProjectList from "@/components/home/ProjectList";
 import ContactUs from "@/components/home/ContactUs";
+import TrustedBrands from "@/components/home/TrustedBrands";
 
 // Helper function to serialize ObjectIds in nested objects
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -84,6 +85,19 @@ async function getClientsSection() {
   return null;
 }
 
+async function getTrustedBrandsSection() {
+  try {
+    const connectDB = (await import('@/lib/mongodb')).default;
+    const { TrustedBrandsSection } = await import('@/lib/models/TrustedBrandsSection');
+    await connectDB();
+    const data = await TrustedBrandsSection.findOne().lean();
+    return serializeData(data);
+  } catch (error) {
+    console.error('Error fetching Trusted Brands section:', error);
+  }
+  return null;
+}
+
 async function getProjects() {
   try {
     const connectDB = (await import('@/lib/mongodb')).default;
@@ -100,11 +114,12 @@ async function getProjects() {
 }
 
 export default async function Home() {
-  const [cctvSection, lowCurrentSection, structuredCablingSection, clientsSection, projects] = await Promise.all([
+  const [cctvSection, lowCurrentSection, structuredCablingSection, clientsSection, trustedBrandsSection, projects] = await Promise.all([
     getCCTVSection(),
     getLowCurrentSection(),
     getStructuredCablingSection(),
     getClientsSection(),
+    getTrustedBrandsSection(),
     getProjects()
   ]);
 
@@ -115,8 +130,8 @@ export default async function Home() {
       {/* Hero Section with Prism Background */}
       <Hero />
       {/* <BusinessVerticals  /> */}
-      {/* <DataCenterBrands /> */}
       <DataCenterImages />
+      <TrustedBrands data={trustedBrandsSection} />
       <CCTVSurveillance data={cctvSection} />
       <LowCurrentSolution data={lowCurrentSection} />
       <StructuredCabling data={structuredCablingSection} />

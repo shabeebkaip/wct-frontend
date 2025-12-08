@@ -67,6 +67,18 @@ declare global {
         alt: string;
       }>;
     };
+    trustedBrandsSection: {
+      title: string;
+      description: string;
+      categories: string[];
+      brands: Array<{
+        src: string;
+        alt: string;
+        width?: number;
+        height?: number;
+      }>;
+      trustBadge: string;
+    };
   }
 }
 

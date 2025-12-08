@@ -73,6 +73,10 @@ export default function AdminSidebar() {
       label: 'Clients', 
       href: '/admin/clients-section',
     },
+    { 
+      label: 'Trusted Brands', 
+      href: '/admin/trusted-brands-section',
+    },
   ];
 
   const systemItems = [

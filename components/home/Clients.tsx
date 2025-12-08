@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { Users } from 'lucide-react';
+import LogoCard from '../shared/LogoCard';
 
 interface ClientsProps {
   data?: {
@@ -50,28 +50,13 @@ const Clients = ({ data }: ClientsProps) => {
         </div>
 
         {/* Clients Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
           {content.logos.map((client, index) => (
-            <div
+            <LogoCard
               key={client._id || index}
-              className="group relative bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl p-6 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 flex items-center justify-center aspect-square"
-            >
-              {/* Background glow on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-5 bg-linear-to-br from-blue-500 to-cyan-500 transition-opacity duration-500 rounded-2xl"></div>
-              
-              <div className="relative w-full h-full flex items-center justify-center">
-                <Image
-                  src={client.src}
-                  alt={client.alt}
-                  width={120}
-                  height={60}
-                  className="object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110"
-                />
-              </div>
-
-              {/* Corner Accent */}
-              <div className="absolute top-0 right-0 w-16 h-16 bg-linear-to-br from-blue-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            </div>
+              src={client.src}
+              alt={client.alt}
+            />
           ))}
         </div>
       </div>
