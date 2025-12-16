@@ -86,6 +86,8 @@ const DataCenterImages = async () => {
         </div>
 
         {/* Features Section */}
+        {
+          data.features && data.features.length > 0 && (
         <div className="bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl p-8 mb-16 shadow-sm">
           <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6 text-center">Key Features & Capabilities</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -99,39 +101,14 @@ const DataCenterImages = async () => {
               </div>
             ))}
           </div>
-        </div>
+        </div>  )
+        }
 
         {/* Image Gallery */}
         <ImageGallery images={data.images} />
 
         {/* CTA Section */}
-        <div className="relative bg-linear-to-r from-slate-100/80 via-blue-50/80 to-slate-100/80 dark:from-gray-900/60 dark:via-gray-800/60 dark:to-gray-900/60 backdrop-blur-sm border border-slate-200 dark:border-gray-700/50 rounded-2xl p-8 md:p-12 overflow-hidden mt-16 shadow-sm">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
-          
-          <div className="relative z-10 text-center">
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-gray-100 mb-4">
-              {data.cta.title}
-            </h3>
-            <p className="text-slate-700 dark:text-gray-400 mb-6 leading-relaxed max-w-2xl mx-auto">
-              {data.cta.description}
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href={data.cta.primaryButton.link}
-                className="px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40"
-              >
-                {data.cta.primaryButton.text}
-              </a>
-              <a
-                href={data.cta.secondaryButton.link}
-                download="WeCare-Tech-Company-Profile.pptx"
-                className="inline-block px-8 py-3 bg-white dark:bg-gray-800/80 border border-slate-300 dark:border-gray-700 hover:bg-slate-50 dark:hover:bg-gray-700/80 rounded-xl font-semibold text-slate-700 dark:text-gray-200 transition-all duration-300"
-              >
-                {data.cta.secondaryButton.text}
-              </a>
-            </div>
-          </div>
-        </div>
+        
       </div>
     </section>
   );

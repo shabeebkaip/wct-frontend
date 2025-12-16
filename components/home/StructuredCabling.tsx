@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import * as LucideIcons from 'lucide-react';
 
 interface StructuredCablingProps {
@@ -103,8 +102,8 @@ const StructuredCabling = ({ data }: StructuredCablingProps) => {
               <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100">Copper Cabling</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {content.copperCabling.map((item: any, index: number) => {
-                const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Cable;
+              {content.copperCabling.map((item: { title: string; icon: string }, index: number) => {
+                const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[item.icon] || LucideIcons.Cable;
                 return (
                   <div
                     key={index}
@@ -127,8 +126,8 @@ const StructuredCabling = ({ data }: StructuredCablingProps) => {
               <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100">Fiber Cabling</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {content.fiberCabling.map((item: any, index: number) => {
-                const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Server;
+              {content.fiberCabling.map((item: { title: string; subtitle: string; icon: string }, index: number) => {
+                const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[item.icon] || LucideIcons.Server;
                 return (
                   <div
                     key={index}
@@ -146,8 +145,8 @@ const StructuredCabling = ({ data }: StructuredCablingProps) => {
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {content.features.map((feature: any, index: number) => {
-            const Icon = (LucideIcons as any)[feature.icon] || LucideIcons.Cable;
+          {content.features.map((feature: { icon: string; title: string; description: string }, index: number) => {
+            const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[feature.icon] || LucideIcons.Cable;
             return (
               <div
                 key={index}
@@ -170,35 +169,6 @@ const StructuredCabling = ({ data }: StructuredCablingProps) => {
               </div>
             );
           })}
-        </div>
-
-        {/* CTA Section */}
-        <div className="relative bg-linear-to-r from-slate-100/80 via-blue-50/80 to-slate-100/80 dark:from-gray-900/60 dark:via-gray-800/60 dark:to-gray-900/60 backdrop-blur-sm border border-slate-200 dark:border-gray-700/50 rounded-2xl p-8 md:p-12 overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
-          
-          <div className="relative z-10 text-center">
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-gray-100 mb-4">
-              Need a Structured Cabling Solution?
-            </h3>
-            <p className="text-slate-600 dark:text-gray-400 mb-6 leading-relaxed max-w-2xl mx-auto">
-              Our expert team designs and implements comprehensive structured cabling infrastructure 
-              that meets international standards and ensures optimal performance.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                href="/contact"
-                className="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40"
-              >
-                Request Quote
-              </Link>
-              <Link
-                href="/projects"
-                className="inline-block px-8 py-3 bg-slate-200 dark:bg-gray-800/80 border border-slate-300 dark:border-gray-700 hover:bg-slate-300 dark:hover:bg-gray-700/80 rounded-xl font-semibold text-slate-900 dark:text-gray-200 transition-all duration-300"
-              >
-                View Projects
-              </Link>
-            </div>
-          </div>
         </div>
       </div>
     </section>

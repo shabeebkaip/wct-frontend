@@ -129,14 +129,29 @@ export default async function Home() {
 
       {/* Hero Section with Prism Background */}
       <Hero />
-      {/* <BusinessVerticals  /> */}
+      
+      {/* Data Center Solutions */}
       <DataCenterImages />
+      
+      {/* Trusted Brands */}
       <TrustedBrands data={trustedBrandsSection} />
+      
+      {/* CCTV Surveillance - Reduced to 3 solutions */}
       <CCTVSurveillance data={cctvSection} />
+      
+      {/* Low Current Solutions - Simplified */}
       <LowCurrentSolution data={lowCurrentSection} />
+      
+      {/* Structured Cabling - Limited to 4 features */}
       <StructuredCabling data={structuredCablingSection} />
-      <ProjectList projects={projects} />
+      
+      {/* Projects - Max 3 per category */}
+      {/* <ProjectList projects={projects} /> */}
+      
+      {/* Clients Section */}
       <Clients data={clientsSection} />
+      
+      {/* Contact Form */}
       <ContactUs />
 
       {/* Footer */}

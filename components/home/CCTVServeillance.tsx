@@ -103,70 +103,7 @@ const CCTVSurveillance = ({ data }: CCTVSurveillanceProps) => {
         </div>
 
         {/* Bottom CTA Section */}
-        <div className="relative bg-linear-to-r from-slate-100/80 via-blue-50/80 to-slate-100/80 dark:from-gray-900/60 dark:via-gray-800/60 dark:to-gray-900/60 backdrop-blur-sm border border-slate-200 dark:border-gray-700/50 rounded-2xl p-8 md:p-12 overflow-hidden">
-          {/* Decorative Elements */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl"></div>
-          
-          <div className="relative z-10 grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-gray-100 mb-4">
-                Need a Custom Security Solution?
-              </h3>
-              <p className="text-slate-600 dark:text-gray-400 mb-6 leading-relaxed">
-                Our expert team will assess your requirements and design a comprehensive 
-                surveillance system tailored to your specific needs and budget.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/contact"
-                  className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold text-white transition-colors duration-300 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40"
-                >
-                  Get Free Consultation
-                </Link>
-                <Link
-                  href="/projects"
-                  className="inline-block px-6 py-3 bg-slate-200 dark:bg-gray-800/80 border border-slate-300 dark:border-gray-700 hover:bg-slate-300 dark:hover:bg-gray-700/80 rounded-xl font-semibold text-slate-900 dark:text-gray-200 transition-all duration-300"
-                >
-                  View Projects
-                </Link>
-              </div>
-            </div>
-
-            {/* Right Side - Key Benefits */}
-            <div className="space-y-4">
-              <div className="flex items-start gap-4 p-4 bg-white/50 dark:bg-gray-800/30 rounded-xl border border-slate-200 dark:border-gray-700/50">
-                <div className="shrink-0 w-10 h-10 bg-blue-100 dark:bg-blue-500/20 rounded-lg flex items-center justify-center">
-                  <Camera className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 dark:text-gray-100 mb-1">24/7 Expert Support</h4>
-                  <p className="text-sm text-slate-600 dark:text-gray-400">Round-the-clock technical assistance and monitoring</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 p-4 bg-white/50 dark:bg-gray-800/30 rounded-xl border border-slate-200 dark:border-gray-700/50">
-                <div className="shrink-0 w-10 h-10 bg-purple-100 dark:bg-purple-500/20 rounded-lg flex items-center justify-center">
-                  <LucideIcons.Award className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 dark:text-gray-100 mb-1">Industry Expertise</h4>
-                  <p className="text-sm text-slate-600 dark:text-gray-400">15+ years experience with top-tier brands and solutions</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 p-4 bg-white/50 dark:bg-gray-800/30 rounded-xl border border-slate-200 dark:border-gray-700/50">
-                <div className="shrink-0 w-10 h-10 bg-green-100 dark:bg-green-500/20 rounded-lg flex items-center justify-center">
-                  <LucideIcons.CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-slate-900 dark:text-gray-100 mb-1">Certified Installation</h4>
-                  <p className="text-sm text-slate-600 dark:text-gray-400">Professional setup by certified technicians</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+       
       </div>
 
       {/* CSS Animation */}

@@ -28,9 +28,10 @@ export default function AboutPageEditor({ data, updateData }: AboutPageEditorPro
 
       if (!response.ok) throw new Error('Upload failed');
 
-      const data = await response.json();
-      const imageUrl = data.url;
+      const uploadResult = await response.json();
+      const imageUrl = uploadResult.url;
 
+      // Update member image using existing aboutPage data
       const newMembers = [...data.aboutPage.teamMembers];
       newMembers[memberIndex] = { ...newMembers[memberIndex], image: imageUrl };
       updateData({ aboutPage: { ...data.aboutPage, teamMembers: newMembers } });
