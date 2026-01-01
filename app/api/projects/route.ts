@@ -49,6 +49,19 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     const project = await Project.create(body);
+
+    // Trigger revalidation
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/projects/revalidate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': request.headers.get('Authorization') || '',
+        },
+      });
+    } catch (e) {
+      console.log('Revalidation trigger failed:', e);
+    }
+
     return NextResponse.json({ project }, { status: 201 });
   } catch (error) {
     console.error('Error creating project:', error);
@@ -98,6 +111,18 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // Trigger revalidation
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/projects/revalidate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': request.headers.get('Authorization') || '',
+        },
+      });
+    } catch (e) {
+      console.log('Revalidation trigger failed:', e);
+    }
+
     console.log('Project updated successfully');
     return NextResponse.json({ project }, { status: 200 });
   } catch (error) {
@@ -135,6 +160,18 @@ export async function DELETE(request: NextRequest) {
         { error: 'Project not found' },
         { status: 404 }
       );
+    }
+
+    // Trigger revalidation
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/projects/revalidate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': request.headers.get('Authorization') || '',
+        },
+      });
+    } catch (e) {
+      console.log('Revalidation trigger failed:', e);
     }
 
     return NextResponse.json(

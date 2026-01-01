@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, forbiddenResponse } from '@/lib/api-auth';
 
 export async function POST(request: NextRequest) {
@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
       return forbiddenResponse();
     }
 
-    await revalidateTag('data-center-home', 'default');
+    revalidatePath('/', 'page');
     
     return NextResponse.json({
       success: true,

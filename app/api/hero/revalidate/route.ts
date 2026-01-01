@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 import { requireAdmin, forbiddenResponse } from '@/lib/api-auth';
 
 export async function POST(request: NextRequest) {
@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
       return forbiddenResponse();
     }
 
-    // Revalidate the hero tag
-    await revalidateTag('hero', 'default');
+    // Revalidate the home page where hero section appears
+    revalidatePath('/', 'page');
 
     return NextResponse.json({
       success: true,

@@ -9,6 +9,10 @@ import ProjectList from "@/components/home/ProjectList";
 import ContactUs from "@/components/home/ContactUs";
 import TrustedBrands from "@/components/home/TrustedBrands";
 
+// Force dynamic rendering to ensure CMS changes are reflected immediately
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 // Helper function to serialize ObjectIds in nested objects
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function serializeData(data: any): any {

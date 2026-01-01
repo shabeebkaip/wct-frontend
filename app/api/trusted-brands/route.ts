@@ -62,6 +62,18 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // Trigger revalidation
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/trusted-brands/revalidate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': request.headers.get('Authorization') || '',
+        },
+      });
+    } catch (e) {
+      console.log('Revalidation trigger failed:', e);
+    }
+
     return NextResponse.json(section);
   } catch (error) {
     console.error('Error updating trusted brands section:', error);

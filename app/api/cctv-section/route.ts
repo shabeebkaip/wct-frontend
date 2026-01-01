@@ -35,6 +35,18 @@ export async function POST(request: NextRequest) {
       runValidators: true,
     });
 
+    // Trigger revalidation
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/cctv-section/revalidate`, {
+        method: 'POST',
+        headers: {
+          'Authorization': request.headers.get('Authorization') || '',
+        },
+      });
+    } catch (e) {
+      console.log('Revalidation trigger failed:', e);
+    }
+
     return NextResponse.json({
       success: true,
       message: 'CCTV section updated successfully',
