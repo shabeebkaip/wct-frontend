@@ -210,27 +210,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="border-t border-slate-200 dark:border-gray-800/50 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-center md:text-left">
-              <h4 className="text-slate-900 dark:text-white font-bold mb-2">Stay Updated</h4>
-              <p className="text-slate-600 dark:text-gray-400 text-sm">
-                Subscribe to our newsletter for latest updates and insights
-              </p>
-            </div>
-            <div className="flex gap-2 w-full md:w-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 md:w-64 px-4 py-2.5 bg-white dark:bg-gray-900/50 border border-slate-300 dark:border-gray-800/50 rounded-lg text-slate-900 dark:text-white text-sm placeholder-slate-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500 dark:focus:ring-blue-500/50 transition-all"
-              />
-              <button className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-white text-sm font-semibold transition-colors whitespace-nowrap">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </div>
 
         {/* Bottom Footer */}
         <div className="border-t border-slate-200 dark:border-gray-800/50 py-8">
