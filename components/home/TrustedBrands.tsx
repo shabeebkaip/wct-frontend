@@ -49,15 +49,16 @@ const TrustedBrands = ({ data }: TrustedBrandsProps) => {
         )}
 
         {/* Brand Grid - Compact Card Design */}
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4 max-w-6xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4 max-w-6xl mx-auto">
           {brands.map((brand, index) => (
-            <LogoCard
-              key={index}
-              src={brand.src}
-              alt={brand.alt}
-              width={brand.width}
-              height={brand.height}
-            />
+            <div className="w-[calc(33.333%-0.5rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(16.666%-0.67rem)]" key={index}>
+              <LogoCard
+                src={brand.src}
+                alt={brand.alt}
+                width={brand.width}
+                height={brand.height}
+              />
+            </div>
           ))}
         </div>
 

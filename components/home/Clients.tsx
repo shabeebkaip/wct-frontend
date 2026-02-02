@@ -50,13 +50,15 @@ const Clients = ({ data }: ClientsProps) => {
         </div>
 
         {/* Clients Grid */}
-        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
+        <div className="flex flex-wrap justify-center gap-3 md:gap-4">
           {content.logos.map((client, index) => (
-            <LogoCard
-              key={client._id || index}
-              src={client.src}
-              alt={client.alt}
-            />
+            <div className="w-[calc(33.333%-0.5rem)] md:w-[calc(25%-0.75rem)] lg:w-[calc(16.666%-0.67rem)]" key={client._id || index}>
+              <LogoCard
+                
+                src={client.src}
+                alt={client.alt}
+              />
+            </div>
           ))}
         </div>
       </div>
