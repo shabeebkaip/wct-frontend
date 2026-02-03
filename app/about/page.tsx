@@ -249,7 +249,7 @@ const About = async () => {
       </section>
 
       {/* Team */}
-      <section className="relative py-20 px-6">
+      {/* <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-700 shadow-sm mb-4">
@@ -340,7 +340,7 @@ const About = async () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA */}
       <section className="relative pb-24 px-6">
@@ -374,7 +374,7 @@ const About = async () => {
                 </div>
                 <p className="text-lg leading-relaxed">
                   We design, implement, and sustain critical environments with 24/7 coverage, documented change control, and transparent reporting.
-                </p>
+                </p>gi
                 <div className="flex items-center gap-2 text-sm text-white/80">
                   <LucideIcons.MessageCircle className="w-4 h-4" />
                   Talk with our delivery leads today.
