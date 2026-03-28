@@ -249,7 +249,7 @@ const About = async () => {
       </section>
 
       {/* Team */}
-      {/* <section className="relative py-20 px-6">
+      <section className="relative py-20 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-700 shadow-sm mb-4">
@@ -340,9 +340,9 @@ const About = async () => {
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
 
-      {/* CTA */}
+      {/* CTA */}§
       <section className="relative pb-24 px-6">
         <div className="max-w-5xl mx-auto overflow-hidden rounded-3xl border border-slate-200 bg-white/90 backdrop-blur-xl shadow-2xl">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.10),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.10),transparent_30%)]" />
