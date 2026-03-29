@@ -1,6 +1,8 @@
 'use client';
 
+import React from 'react';
 import * as LucideIcons from 'lucide-react';
+import Link from 'next/link';
 
 interface StructuredCablingProps {
   data: {
@@ -16,126 +18,110 @@ interface StructuredCablingProps {
 
 const StructuredCabling = ({ data }: StructuredCablingProps) => {
   const content = data;
-
   const { Cable } = LucideIcons;
 
   return (
-    <section className="relative bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-black dark:via-gray-900 dark:to-black py-20 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-5 dark:opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.3) 1px, transparent 0)',
-          backgroundSize: '50px 50px',
-        }}></div>
-      </div>
-
-      {/* Gradient Orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 dark:bg-blue-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/10 rounded-full blur-3xl"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+    <section className="py-28 px-6 bg-slate-50 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 rounded-full text-blue-700 dark:text-blue-400 text-sm font-semibold tracking-wide mb-6">
-            <Cable className="w-4 h-4" />
-            <span>{content.badge}</span>
+        <div className="mb-16 max-w-2xl">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px w-8 bg-blue-600" />
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600">
+              {content.badge}
+            </span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-slate-900 dark:text-gray-100">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
             {content.title}
           </h2>
-          <p className="text-slate-600 dark:text-gray-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
+          <p className="text-slate-500 text-lg leading-relaxed">
             {content.description}
           </p>
         </div>
 
-        {/* Cabling Flow Diagram */}
-        <div className="mb-16">
-          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-gray-100 text-center mb-8">Infrastructure Components</h3>
-          
-          {/* Top Row - 5 components */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
+        {/* Infrastructure Components */}
+        <div className="mb-14">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-px w-8 bg-slate-300" />
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-slate-400">
+              Infrastructure Components
+            </span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
             {content.cablingFlow.slice(0, 5).map((item, index) => (
               <div
                 key={index}
-                className={`
-                  bg-white dark:bg-gray-900/50 border-2 rounded-xl p-4 md:p-6 
-                  transition-all duration-300 backdrop-blur-sm
-                  ${item.active ? 'border-blue-500 dark:border-blue-500/60 bg-blue-100 dark:bg-blue-500/10 shadow-lg dark:shadow-none' : 
-                    item.highlight ? 'border-blue-400 dark:border-blue-400/60 bg-blue-50 dark:bg-blue-400/10 shadow-md dark:shadow-none' : 
-                    'border-slate-300 dark:border-gray-700/50 hover:border-blue-400 dark:hover:border-blue-500/40'}
-                  hover:bg-slate-50 dark:hover:bg-gray-800/50
-                `}
+                className={`rounded-xl px-4 py-5 text-center font-bold text-sm border-2 transition-all duration-200 ${
+                  item.active
+                    ? 'border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+                    : item.highlight
+                    ? 'border-blue-300 bg-blue-50 text-blue-700'
+                    : 'border-slate-200 bg-white text-slate-700 hover:border-blue-200'
+                }`}
               >
-                <h4 className={`
-                  text-sm md:text-base font-bold text-center
-                  ${item.active || item.highlight ? 'text-blue-700 dark:text-blue-300' : 'text-slate-700 dark:text-gray-300'}
-                `}>
-                  {item.label}
-                </h4>
+                {item.label}
               </div>
             ))}
           </div>
-
-          {/* Bottom Row - 2 components centered */}
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-3">
             {content.cablingFlow.slice(5).map((item, index) => (
               <div
                 key={index + 5}
-                className="bg-white dark:bg-gray-900/50 border-2 border-slate-300 dark:border-gray-700/50 rounded-xl p-4 md:p-6 hover:border-blue-400 dark:hover:border-blue-500/40 transition-all duration-300 backdrop-blur-sm hover:bg-slate-50 dark:hover:bg-gray-800/50 w-full md:w-64 shadow-md dark:shadow-none"
+                className="w-full md:w-64 rounded-xl px-4 py-5 text-center font-bold text-sm border-2 border-slate-200 bg-white text-slate-700 hover:border-blue-200 transition-all duration-200"
               >
-                <h4 className="text-sm md:text-base font-bold text-center text-slate-700 dark:text-gray-300">
-                  {item.label}
-                </h4>
+                {item.label}
               </div>
             ))}
           </div>
         </div>
 
-        {/* Cabling Types Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-          {/* Copper Cabling */}
-          <div className="bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl p-8 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center">
-                <Cable className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+        {/* Cabling types */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-14">
+          {/* Copper */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30">
+                <Cable className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100">Copper Cabling</h3>
+              <h3 className="text-xl font-bold text-slate-900">Copper Cabling</h3>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {content.copperCabling.map((item: { title: string; icon: string }, index: number) => {
-                const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[item.icon] || LucideIcons.Cable;
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {content.copperCabling.map((item, index) => {
+                const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[item.icon] || Cable;
                 return (
                   <div
                     key={index}
-                    className="bg-slate-50 dark:bg-gray-800/40 border border-slate-200 dark:border-gray-700/50 rounded-xl p-4 hover:border-blue-400 dark:hover:border-blue-500/40 hover:bg-slate-100 dark:hover:bg-gray-800/60 transition-all duration-300 group"
+                    className="group flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-200 hover:bg-blue-50 transition-all duration-200"
                   >
-                    <Icon className="w-8 h-8 text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
-                    <h4 className="text-slate-900 dark:text-white font-bold text-sm">{item.title}</h4>
+                    <Icon className="w-7 h-7 text-blue-600 shrink-0 group-hover:scale-110 transition-transform" />
+                    <span className="text-slate-900 font-semibold text-sm">{item.title}</span>
                   </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Fiber Cabling */}
-          <div className="bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl p-8 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 shadow-lg dark:shadow-none">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center">
-                {(() => { const ServerIcon = LucideIcons.Server; return <ServerIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />; })()}
+          {/* Fiber */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-8">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30">
+                <LucideIcons.Server className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100">Fiber Cabling</h3>
+              <h3 className="text-xl font-bold text-slate-900">Fiber Cabling</h3>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {content.fiberCabling.map((item: { title: string; subtitle: string; icon: string }, index: number) => {
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {content.fiberCabling.map((item, index) => {
                 const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[item.icon] || LucideIcons.Server;
                 return (
                   <div
                     key={index}
-                    className="bg-slate-50 dark:bg-gray-800/40 border border-slate-200 dark:border-gray-700/50 rounded-xl p-4 hover:border-blue-400 dark:hover:border-blue-500/40 hover:bg-slate-100 dark:hover:bg-gray-800/60 transition-all duration-300 group"
+                    className="group flex items-start gap-3 bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-blue-200 hover:bg-blue-50 transition-all duration-200"
                   >
-                    <Icon className="w-8 h-8 text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
-                    <h4 className="text-slate-900 dark:text-white font-bold text-sm mb-1">{item.title}</h4>
-                    <p className="text-slate-600 dark:text-gray-400 text-xs">{item.subtitle}</p>
+                    <Icon className="w-7 h-7 text-blue-600 mt-0.5 shrink-0 group-hover:scale-110 transition-transform" />
+                    <div>
+                      <p className="text-slate-900 font-semibold text-sm">{item.title}</p>
+                      <p className="text-slate-500 text-xs mt-0.5">{item.subtitle}</p>
+                    </div>
                   </div>
                 );
               })}
@@ -143,32 +129,38 @@ const StructuredCabling = ({ data }: StructuredCablingProps) => {
           </div>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {content.features.map((feature: { icon: string; title: string; description: string }, index: number) => {
-            const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[feature.icon] || LucideIcons.Cable;
+        {/* Features */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
+          {content.features.map((feature, index) => {
+            const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[feature.icon] || Cable;
             return (
               <div
                 key={index}
-                className="group relative bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl p-6 hover:border-slate-300 dark:hover:border-gray-700/80 transition-all duration-500 hover:bg-slate-50 dark:hover:bg-gray-800/50 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden"
+                className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/8 transition-all duration-300"
               >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-5 bg-linear-to-br from-blue-500 to-cyan-500 transition-opacity duration-500"></div>
-                
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-500/10 mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30 mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Icon className="w-6 h-6" />
                 </div>
-
-                <h3 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-3 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                  {feature.title}
-                </h3>
-                <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
-
-                <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-blue-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">{feature.title}</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">{feature.description}</p>
               </div>
             );
           })}
+        </div>
+
+        {/* Bottom CTA bar */}
+        <div className="flex items-center justify-between flex-wrap gap-6 pt-10 border-t border-slate-200">
+          <div>
+            <p className="text-slate-900 font-bold text-xl mb-1">Future-proof connectivity starts here.</p>
+            <p className="text-slate-500 text-sm">Cat6A, OM4 fiber, and end-to-end structured cabling delivery.</p>
+          </div>
+          <Link
+            href="/solutions"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30 shrink-0"
+          >
+            View Cabling Solutions
+            <LucideIcons.ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </section>

@@ -34,7 +34,7 @@ const About = async () => {
 
   if (!aboutData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-700">
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-400">
         Unable to load about page content.
       </div>
     );
@@ -44,202 +44,214 @@ const About = async () => {
   const VisionIcon = getIcon(aboutData.vision.icon, LucideIcons.Eye);
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-white via-slate-50 to-blue-50 text-slate-900">
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.12),transparent_38%),radial-gradient(circle_at_80%_0%,rgba(236,72,153,0.08),transparent_32%),radial-gradient(circle_at_50%_80%,rgba(56,189,248,0.10),transparent_38%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,23,42,0.05)_1px,transparent_1px),linear-gradient(0deg,rgba(15,23,42,0.05)_1px,transparent_1px)] bg-size-[72px_72px] opacity-60" />
-      </div>
+    <div className="min-h-screen bg-white text-slate-900">
 
-      {/* Hero */}
-      <section className="relative overflow-hidden px-6 pt-40 pb-16">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
-          <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-700 shadow-sm">
-              <LucideIcons.Building2 className="w-4 h-4" />
-              <span>{aboutData.hero.badge}</span>
-            </div>
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight text-slate-900">
-                {aboutData.hero.title}
-              </h1>
-              <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
-                {aboutData.hero.description}
-              </p>
-            </div>
+      {/* ─── HERO ─────────────────────────────────────────────── */}
+      <section className="relative min-h-[92vh] flex flex-col justify-end overflow-hidden bg-slate-950">
+        {/* mesh background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(37,99,235,0.35),transparent)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_80%_60%,rgba(99,102,241,0.18),transparent)]" />
+          {/* subtle grid */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+          {/* bottom fade */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-linear-to-b from-transparent to-slate-950" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-40 pb-20 w-full">
+          {/* eyebrow */}
+          <div className="flex items-center gap-3 mb-8">
+            <div className="h-px w-8 bg-blue-500" />
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-400">
+              {aboutData.hero.badge}
+            </span>
           </div>
 
-          <div className="relative">
-            <div className="absolute -inset-6 bg-linear-to-br from-blue-200/60 via-indigo-200/40 to-cyan-200/40 blur-3xl" />
-            <div className="relative rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-xl overflow-hidden shadow-xl">
-              <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.08),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.08),transparent_40%)]" />
+          {/* headline */}
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.08] tracking-tight max-w-4xl mb-6">
+            {aboutData.hero.title}
+          </h1>
 
-              <div className="relative p-8 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50/80 border border-blue-100 text-xs font-semibold text-blue-700 shadow-sm">
-                  <LucideIcons.ShieldCheck className="w-4 h-4" />
-                  <span>Trusted Delivery</span>
-                </div>
+          {/* dot-separated descriptor row */}
+          <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-blue-300 mb-8">
+            <span>Infrastructure-first</span>
+            <span className="text-blue-600">•</span>
+            <span>Reliability-driven</span>
+            <span className="text-blue-600">•</span>
+            <span>Built to last</span>
+          </div>
 
-                <div className="space-y-3">
-                  <h3 className="text-2xl font-semibold text-slate-900">Proof over promises</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    Disciplined execution, certified engineers, and uptime-first design across critical infrastructure. No vanity numbers; just capability and track record.
-                  </p>
-                </div>
+          <p className="text-lg text-slate-400 max-w-2xl leading-relaxed mb-12">
+            {aboutData.hero.description}
+          </p>
 
-                <div className="flex flex-wrap gap-3 text-sm text-slate-700">
-                  <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-slate-100/80 border border-slate-200">
-                    <LucideIcons.BadgeCheck className="w-4 h-4 text-blue-600" />
-                    Tier-III aligned designs
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-slate-100/80 border border-slate-200">
-                    <LucideIcons.Clock4 className="w-4 h-4 text-blue-600" />
-                    24/7 support SLAs
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-slate-100/80 border border-slate-200">
-                    <LucideIcons.Shield className="w-4 h-4 text-blue-600" />
-                    Security-first delivery
-                  </span>
-                </div>
+          <div className="flex flex-wrap gap-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30"
+            >
+              Start a Conversation
+              <LucideIcons.ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/solutions"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-white/80 hover:text-white hover:border-white/30 font-semibold text-sm transition-colors duration-200"
+            >
+              Our Solutions
+            </Link>
+          </div>
+        </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-sm">
-                  <p className="text-sm text-slate-700 leading-relaxed">
-                    We architect and support environments where downtime is not an option. Our team leads with process, documentation, and accountability to keep you online.
-                  </p>
-                </div>
+        {/* stats strip */}
+        <div className="relative z-10 border-t border-white/8">
+          <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { value: "10+", label: "Years delivering" },
+              { value: "500+", label: "Projects completed" },
+              { value: "99.9%", label: "Uptime SLA" },
+              { value: "24/7", label: "Support coverage" },
+            ].map((stat) => (
+              <div key={stat.label} className="space-y-1">
+                <div className="text-3xl font-bold text-white">{stat.value}</div>
+                <div className="text-xs font-medium tracking-widest uppercase text-slate-500">{stat.label}</div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Company Story */}
-      <section className="relative pt-10 pb-20 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-700 shadow-sm">
-              <LucideIcons.Sparkles className="w-4 h-4" />
-              <span>{aboutData.companyStory.badge}</span>
+      {/* ─── COMPANY STORY ────────────────────────────────────── */}
+      <section className="py-28 px-6 bg-white">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1px_1fr] gap-0 items-start">
+          {/* left */}
+          <div className="lg:pr-20 space-y-6 pb-12 lg:pb-0">
+            <div className="flex items-center gap-3">
+              <div className="h-px w-8 bg-blue-600" />
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600">
+                {aboutData.companyStory.badge}
+              </span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-semibold text-slate-900">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
               {aboutData.companyStory.title}
             </h2>
-            <div className="space-y-4 text-slate-600 leading-relaxed">
+            <div className="space-y-4 text-slate-600 leading-relaxed text-[1.0625rem]">
               {aboutData.companyStory.paragraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
-            <div className="flex flex-wrap gap-3 text-sm text-blue-700">
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100">
-                <LucideIcons.Bolt className="w-4 h-4" />
-                Rapid rollout
-              </span>
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100">
-                <LucideIcons.Server className="w-4 h-4" />
-                Data center expertise
-              </span>
-              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100">
-                <LucideIcons.Headset className="w-4 h-4" />
-                24/7 response
-              </span>
-            </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute -inset-4 bg-blue-200/40 blur-3xl" />
-            <div className="relative overflow-hidden rounded-3xl border border-slate-200 shadow-2xl bg-linear-to-br from-white via-blue-50 to-blue-100 p-8">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.12),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(56,189,248,0.10),transparent_42%)]" />
-              <div className="relative space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 border border-blue-100 text-sm text-blue-700 shadow-sm">
-                  <LucideIcons.Sparkles className="w-4 h-4" />
-                  <span>Delivery you can see</span>
+          {/* divider */}
+          <div className="hidden lg:block bg-slate-100 mx-0" />
+
+          {/* right */}
+          <div className="lg:pl-20 space-y-6 pt-12 lg:pt-0">
+            <p className="text-xs font-bold tracking-[0.2em] uppercase text-slate-400">What sets us apart</p>
+            <div className="space-y-0 divide-y divide-slate-100">
+              {[
+                {
+                  icon: LucideIcons.BadgeCheck,
+                  title: "Tier-III Aligned Designs",
+                  desc: "Every data center and network environment is engineered to meet the highest reliability benchmarks.",
+                },
+                {
+                  icon: LucideIcons.Clock,
+                  title: "24/7 Support SLAs",
+                  desc: "Round-the-clock monitoring, response, and escalation paths — not just a helpdesk number.",
+                },
+                {
+                  icon: LucideIcons.Shield,
+                  title: "Security-First Delivery",
+                  desc: "Physical and logical security integrated at the architecture phase, not bolted on after.",
+                },
+                {
+                  icon: LucideIcons.Rocket,
+                  title: "Rapid Rollout Playbooks",
+                  desc: "Documented, repeatable deployment processes that cut go-live risk and commissioning time.",
+                },
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} className="flex gap-5 py-6 group">
+                  <div className="mt-0.5 flex-shrink-0 w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-900 mb-1">{title}</p>
+                    <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-semibold text-slate-900">Built for uptime</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Engineered rollouts, documented change control, and SLAs that keep critical environments online without relying on vanity numbers or logos.
-                </p>
-                <div className="grid md:grid-cols-2 gap-3 text-sm text-slate-700">
-                  <div className="flex items-center gap-2 rounded-2xl bg-white/80 border border-slate-200 px-4 py-3">
-                    <LucideIcons.BadgeCheck className="w-4 h-4 text-blue-600" />
-                    Tier-III aligned designs
-                  </div>
-                  <div className="flex items-center gap-2 rounded-2xl bg-white/80 border border-slate-200 px-4 py-3">
-                    <LucideIcons.Clock4 className="w-4 h-4 text-blue-600" />
-                    24/7 support SLAs
-                  </div>
-                  <div className="flex items-center gap-2 rounded-2xl bg-white/80 border border-slate-200 px-4 py-3">
-                    <LucideIcons.Shield className="w-4 h-4 text-blue-600" />
-                    Security-first delivery
-                  </div>
-                  <div className="flex items-center gap-2 rounded-2xl bg-white/80 border border-slate-200 px-4 py-3">
-                    <LucideIcons.Rocket className="w-4 h-4 text-blue-600" />
-                    Rapid rollout playbooks
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mission and Vision */}
-      <section className="relative py-16 px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
-          {[{
-            label: "Mission",
-            item: aboutData.mission,
-            Icon: MissionIcon,
-          }, {
-            label: "Vision",
-            item: aboutData.vision,
-            Icon: VisionIcon,
-          }].map(({ label, item, Icon }) => (
-            <div
-              key={label}
-              className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-xl p-8 shadow-lg"
-            >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.08),transparent_50%)]" />
-              <div className="relative space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-700">
-                  <Icon className="w-4 h-4" />
-                  <span className="font-semibold">{label}</span>
-                </div>
-                <h3 className="text-2xl font-semibold text-slate-900">{item.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{item.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Core Values */}
-      <section className="relative py-20 px-6">
+      {/* ─── MISSION & VISION ─────────────────────────────────── */}
+      <section className="py-28 px-6 bg-slate-950">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-700 shadow-sm mb-4">
-              <LucideIcons.HeartHandshake className="w-4 h-4" />
-              <span>Core Values</span>
+          <div className="mb-16 flex flex-col items-center text-center">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-blue-500" />
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-400">Purpose</span>
+              <div className="h-px w-8 bg-blue-500" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-semibold text-slate-900">How we operate</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto mt-3">
-              Principles that shape our partnerships and delivery approach.
+            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight max-w-2xl">
+              Why we exist — and where we&apos;re headed
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { label: "Mission", item: aboutData.mission, Icon: MissionIcon, accent: "from-blue-600 to-blue-700" },
+              { label: "Vision", item: aboutData.vision, Icon: VisionIcon, accent: "from-indigo-600 to-violet-700" },
+            ].map(({ label, item, Icon, accent }) => (
+              <div key={label} className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-10 group hover:border-white/20 transition-colors duration-300">
+                <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-blue-500/50 to-transparent" />
+                <div className={`w-14 h-14 rounded-xl bg-linear-to-br ${accent} flex items-center justify-center text-white mb-8 shadow-lg`}>
+                  <Icon className="w-7 h-7" />
+                </div>
+                <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-400 mb-3">{label}</p>
+                <h3 className="text-2xl font-bold text-white mb-4">{item.title}</h3>
+                <p className="text-slate-400 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── CORE VALUES ──────────────────────────────────────── */}
+      <section className="py-28 px-6 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 max-w-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-blue-600" />
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600">Core Values</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+              How we operate every day
+            </h2>
+            <p className="text-slate-500 mt-4 leading-relaxed">
+              Principles that shape every engagement, every deployment, and every relationship.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {aboutData.coreValues.map((value, index) => {
               const ValueIcon = getIcon(value.icon, LucideIcons.Star);
               return (
                 <div
                   key={value._id || index}
-                  className="group relative p-6 rounded-2xl bg-white border border-slate-200 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                  className="group relative bg-white border border-slate-200 rounded-2xl p-8 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/8 transition-all duration-300"
                 >
-                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
-                  <div className="relative space-y-3">
-                    <div className="w-12 h-12 rounded-xl bg-blue-100 border border-blue-200 flex items-center justify-center text-blue-700">
+                  {/* number */}
+                  <div className="absolute top-8 right-8 text-4xl font-black text-slate-100 group-hover:text-blue-50 transition-colors select-none leading-none">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <div className="relative space-y-4">
+                    <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30 group-hover:scale-110 transition-transform duration-300">
                       <ValueIcon className="w-6 h-6" />
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-900">{value.title}</h3>
-                    <p className="text-slate-600 leading-relaxed">{value.description}</p>
+                    <h3 className="text-xl font-bold text-slate-900">{value.title}</h3>
+                    <p className="text-slate-500 leading-relaxed text-sm">{value.description}</p>
                   </div>
                 </div>
               );
@@ -248,142 +260,168 @@ const About = async () => {
         </div>
       </section>
 
-      {/* Team */}
-      <section className="relative py-20 px-6">
+      {/* ─── TEAM ─────────────────────────────────────────────── */}
+      <section className="py-28 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-sm text-blue-700 shadow-sm mb-4">
-              <LucideIcons.Users className="w-4 h-4" />
-              <span>Our Team</span>
+          <div className="mb-16 flex flex-col items-center text-center">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-blue-600" />
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600">Our Team</span>
+              <div className="h-px w-8 bg-blue-600" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-semibold text-slate-900">People who ship reliability</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto mt-3">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight max-w-2xl">
+              People who ship reliability
+            </h2>
+            <p className="text-slate-500 mt-4 max-w-xl leading-relaxed">
               Certified specialists and disciplined operators focused on uptime and accountability.
             </p>
           </div>
 
-          <div className="space-y-16">
-            <div>
-              <div className="flex items-center justify-center gap-2 mb-10 text-sm font-semibold text-blue-700 uppercase tracking-wider">
-                <div className="h-px w-10 bg-linear-to-r from-transparent to-blue-300" />
-                Leadership
-                <div className="h-px w-10 bg-linear-to-l from-transparent to-blue-300" />
+          {/* Leadership */}
+          {aboutData.teamMembers.filter((m) => m.isLeadership).length > 0 && (
+            <div className="mb-20">
+              <div className="flex items-center gap-4 mb-10">
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-slate-400">Leadership</span>
+                <div className="flex-1 h-px bg-slate-100" />
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {aboutData.teamMembers
-                  .filter((member) => member.isLeadership)
+                  .filter((m) => m.isLeadership)
                   .sort((a, b) => a.order - b.order)
                   .map((member, index) => (
-                    <div key={member._id || index} className="group flex flex-col items-center text-center">
-                      <div className="relative mb-4">
-                        <div className="absolute -inset-1 rounded-full bg-linear-to-r from-blue-600 via-blue-500 to-blue-400 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500" />
-                        <div className="relative w-28 h-28 rounded-full overflow-hidden ring-4 ring-white shadow-xl group-hover:scale-105 transition-transform duration-300">
-                          {member.image ? (
-                            <Image
-                              src={member.image}
-                              alt={member.name}
-                              fill
-                              className="object-cover"
-                              sizes="112px"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-slate-200 flex items-center justify-center text-xl font-semibold text-slate-600">
-                              {member.name.slice(0, 1)}
-                            </div>
-                          )}
+                    <div key={member._id || index} className="group relative bg-slate-50 border border-slate-200 rounded-2xl p-8 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/8 transition-all duration-300">
+                      <div className="absolute top-6 right-6">
+                        <span className="text-xs font-bold tracking-widest uppercase px-2 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600">
+                          Leadership
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-5 mb-5">
+                        <div className="relative flex-shrink-0">
+                          <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-white shadow-md group-hover:ring-blue-100 transition-all duration-300">
+                            {member.image ? (
+                              <Image
+                                src={member.image}
+                                alt={member.name}
+                                fill
+                                className="object-cover"
+                                sizes="64px"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-blue-600 flex items-center justify-center text-xl font-bold text-white">
+                                {member.name.slice(0, 1)}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-bold text-slate-900">{member.name}</h3>
+                          <p className="text-sm font-semibold text-blue-600">{member.role}</p>
                         </div>
                       </div>
-                      <h3 className="text-lg font-semibold text-slate-900">{member.name}</h3>
-                      <p className="text-sm text-blue-700 font-semibold">{member.role}</p>
-                      <p className="text-sm text-slate-600 mt-3 leading-relaxed max-w-sm">{member.description}</p>
+                      <p className="text-sm text-slate-500 leading-relaxed">{member.description}</p>
                     </div>
                   ))}
               </div>
             </div>
+          )}
 
+          {/* Delivery Teams */}
+          {aboutData.teamMembers.filter((m) => !m.isLeadership).length > 0 && (
             <div>
-              <div className="flex items-center justify-center gap-2 mb-10 text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                <div className="h-px w-10 bg-linear-to-r from-transparent to-slate-300" />
-                Delivery Teams
-                <div className="h-px w-10 bg-linear-to-l from-transparent to-slate-300" />
+              <div className="flex items-center gap-4 mb-10">
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-slate-400">Delivery Teams</span>
+                <div className="flex-1 h-px bg-slate-100" />
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {aboutData.teamMembers
-                  .filter((member) => !member.isLeadership)
+                  .filter((m) => !m.isLeadership)
                   .sort((a, b) => a.order - b.order)
                   .map((member, index) => (
-                    <div key={member._id || index} className="group flex flex-col items-center text-center">
-                      <div className="relative mb-4">
-                        <div className="absolute -inset-1 rounded-full bg-linear-to-r from-slate-400 via-slate-300 to-slate-200 opacity-0 group-hover:opacity-100 blur transition-opacity duration-500" />
-                        <div className="relative w-24 h-24 rounded-full overflow-hidden ring-4 ring-white shadow-lg group-hover:scale-105 transition-transform duration-300">
-                          {member.image ? (
-                            <Image
-                              src={member.image}
-                              alt={member.name}
-                              fill
-                              className="object-cover"
-                              sizes="96px"
-                            />
-                          ) : (
-                            <div className="w-full h-full bg-slate-200 flex items-center justify-center text-lg font-semibold text-slate-600">
-                              {member.name.slice(0, 1)}
-                            </div>
-                          )}
-                        </div>
+                    <div key={member._id || index} className="group flex gap-4 p-6 rounded-2xl border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300">
+                      <div className="flex-shrink-0 w-12 h-12 rounded-xl overflow-hidden ring-2 ring-white shadow-sm">
+                        {member.image ? (
+                          <Image
+                            src={member.image}
+                            alt={member.name}
+                            width={48}
+                            height={48}
+                            className="object-cover w-full h-full"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-slate-200 flex items-center justify-center text-base font-bold text-slate-600">
+                            {member.name.slice(0, 1)}
+                          </div>
+                        )}
                       </div>
-                      <h3 className="text-base font-semibold text-slate-900">{member.name}</h3>
-                      <p className="text-sm text-blue-700 font-semibold">{member.role}</p>
-                      <p className="text-sm text-slate-600 mt-2 leading-relaxed max-w-xs">{member.description}</p>
+                      <div>
+                        <h3 className="font-bold text-slate-900">{member.name}</h3>
+                        <p className="text-xs font-semibold text-blue-600 mb-2">{member.role}</p>
+                        <p className="text-sm text-slate-500 leading-relaxed">{member.description}</p>
+                      </div>
                     </div>
                   ))}
               </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
-      {/* CTA */}§
-      <section className="relative pb-24 px-6">
-        <div className="max-w-5xl mx-auto overflow-hidden rounded-3xl border border-slate-200 bg-white/90 backdrop-blur-xl shadow-2xl">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.10),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.10),transparent_30%)]" />
-          <div className="relative px-8 md:px-12 py-12 md:py-14 grid md:grid-cols-[1.4fr_1fr] gap-10 items-center">
-            <div className="space-y-4">
-              <h3 className="text-2xl md:text-3xl font-semibold text-slate-900">{aboutData.cta.title}</h3>
-              <p className="text-slate-600 max-w-2xl">{aboutData.cta.description}</p>
-              <div className="flex flex-wrap gap-3 pt-2">
+      {/* ─── CTA ──────────────────────────────────────────────── */}
+      <section className="py-28 px-6 bg-slate-950">
+        <div className="relative max-w-5xl mx-auto overflow-hidden rounded-3xl border border-white/10">
+          {/* bg glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(37,99,235,0.3),transparent)]" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-blue-500/60 to-transparent" />
+
+          <div className="relative px-10 md:px-16 py-16 md:py-20 grid md:grid-cols-[1.4fr_1fr] gap-12 items-center">
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="h-px w-8 bg-blue-500" />
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-400">Get in touch</span>
+              </div>
+              <h3 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+                {aboutData.cta.title}
+              </h3>
+              <p className="text-slate-400 leading-relaxed">{aboutData.cta.description}</p>
+              <div className="flex flex-wrap gap-4 pt-2">
                 <Link
                   href={aboutData.cta.primaryButton.link}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/30 transition-transform duration-200 hover:scale-[1.02]"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30"
                 >
                   {aboutData.cta.primaryButton.text}
+                  <LucideIcons.ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
                   href={aboutData.cta.secondaryButton.link}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-blue-200 text-blue-700 bg-white/80 hover:bg-white transition-colors duration-200"
+                  className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-white/80 hover:text-white hover:border-white/30 font-semibold text-sm transition-colors duration-200"
                 >
                   {aboutData.cta.secondaryButton.text}
                 </Link>
               </div>
             </div>
-            <div className="relative p-6 rounded-2xl bg-slate-900 text-white overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(59,130,246,0.25),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(236,72,153,0.18),transparent_42%)]" />
-              <div className="relative space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs uppercase tracking-wide">
-                  <LucideIcons.Radio className="w-4 h-4" />
-                  On-call reliability
-                </div>
-                <p className="text-lg leading-relaxed">
-                  We design, implement, and sustain critical environments with 24/7 coverage, documented change control, and transparent reporting.
-                </p>gi
-                <div className="flex items-center gap-2 text-sm text-white/80">
-                  <LucideIcons.MessageCircle className="w-4 h-4" />
-                  Talk with our delivery leads today.
-                </div>
+
+            {/* right panel */}
+            <div className="relative p-8 rounded-2xl bg-white/5 border border-white/10">
+              <div className="space-y-5">
+                {[
+                  { icon: LucideIcons.Radio, text: "24/7 on-call reliability" },
+                  { icon: LucideIcons.FileText, text: "Documented change control" },
+                  { icon: LucideIcons.BarChart3, text: "Transparent reporting" },
+                  { icon: LucideIcons.MessageCircle, text: "Direct access to delivery leads" },
+                ].map(({ icon: Icon, text }) => (
+                  <div key={text} className="flex items-center gap-4">
+                    <div className="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 flex-shrink-0">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <span className="text-sm text-white/80">{text}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
+
     </div>
   );
 };

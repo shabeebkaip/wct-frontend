@@ -33,9 +33,11 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      // Stay in hero mode until the user scrolls past the full hero section (min-h-screen)
+      const threshold = window.innerHeight - 80;
+      setScrolled(window.scrollY > threshold);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -91,29 +93,34 @@ const Header = () => {
     { name: 'Contact', href: '/contact' },
   ];
 
+  // Hero mode: home page + not scrolled → transparent dark header synced with hero
+  const isHeroMode = pathname === '/' && !scrolled;
+
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'py-3' : 'py-4 md:py-6'
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? 'py-3' : 'py-4 md:py-5'
       }`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`relative px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-2xl border transition-all duration-300 ${
-            scrolled 
-              ? 'bg-white/70 backdrop-blur-md border-white/20 shadow-2xl shadow-slate-900/10' 
-              : 'bg-white/60 backdrop-blur border-white/30 shadow-xl shadow-slate-900/5'
+          <div className={`relative px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-2xl border transition-all duration-500 ${
+            isHeroMode
+              ? 'bg-white/5 backdrop-blur-md border-white/10 shadow-none'
+              : scrolled
+                ? 'bg-white/80 backdrop-blur-md border-white/20 shadow-2xl shadow-slate-900/10'
+                : 'bg-white/70 backdrop-blur border-white/30 shadow-xl shadow-slate-900/5'
           }`}>
             <div className="flex items-center justify-between">
               {/* Logo */}
               <Link href="/" className="flex items-center gap-2 group relative z-10">
-                <div className="relative ">
-                  <Image
-                    src="/logo.png"
-                    alt="WCT Solutions"
-                    width={150}
-                    height={150}
-                    className="object-contain transform group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
+                <Image
+                  src="/logo.png"
+                  alt="WCT Solutions"
+                  width={150}
+                  height={150}
+                  className={`object-contain transform group-hover:scale-110 transition-all duration-300 ${
+                    isHeroMode ? 'brightness-0 invert' : ''
+                  }`}
+                />
               </Link>
 
               {/* Desktop Navigation */}
@@ -126,25 +133,35 @@ const Header = () => {
                       href={link.href}
                       className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                         isActive
-                          ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10'
-                          : 'text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800/50'
+                          ? isHeroMode
+                            ? 'text-white bg-white/12'
+                            : 'text-blue-600 bg-blue-50'
+                          : isHeroMode
+                            ? 'text-white/75 hover:text-white hover:bg-white/10'
+                            : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
                       }`}
                     >
                       {link.name}
                       {isActive && (
-                        <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-blue-600 dark:bg-blue-400 rounded-full"></span>
+                        <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${
+                          isHeroMode ? 'bg-blue-400' : 'bg-blue-600'
+                        }`} />
                       )}
                     </Link>
                   );
                 })}
-                
+
                 {/* Solutions Dropdown */}
                 <div className="relative group">
                   <button
                     className={`flex items-center gap-1 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                      pathname?.startsWith('/solutions') 
-                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10' 
-                        : 'text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-gray-800/50'
+                      pathname?.startsWith('/solutions')
+                        ? isHeroMode
+                          ? 'text-white bg-white/12'
+                          : 'text-blue-600 bg-blue-50'
+                        : isHeroMode
+                          ? 'text-white/75 hover:text-white hover:bg-white/10'
+                          : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
                     }`}
                     onMouseEnter={() => setSolutionsOpen(true)}
                     onMouseLeave={() => setSolutionsOpen(false)}
@@ -152,10 +169,10 @@ const Header = () => {
                     Solutions
                     <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${solutionsOpen ? 'rotate-180' : ''}`} />
                   </button>
-                  
+
                   {/* Dropdown Menu */}
                   <div
-                    className={`absolute top-full left-0 mt-2 w-64 bg-white dark:bg-gray-900/95 backdrop-blur-xl border border-slate-200 dark:border-gray-800/80 rounded-xl shadow-lg dark:shadow-2xl overflow-hidden transition-all duration-300 ${
+                    className={`absolute top-full left-0 mt-2 w-64 bg-white backdrop-blur-xl border border-slate-200 rounded-xl shadow-lg overflow-hidden transition-all duration-300 ${
                       solutionsOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
                     }`}
                     onMouseEnter={() => setSolutionsOpen(true)}
@@ -169,8 +186,8 @@ const Header = () => {
                           href={`/solutions/${solution.slug}`}
                           className={`block px-4 py-3 text-sm transition-all duration-200 ${
                             isActive
-                              ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-l-2 border-blue-600 dark:border-blue-500'
-                              : 'text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-blue-50 dark:hover:bg-blue-500/10 hover:border-l-2 hover:border-blue-500'
+                              ? 'text-blue-600 bg-blue-50 border-l-2 border-blue-600'
+                              : 'text-slate-700 hover:text-slate-900 hover:bg-blue-50 hover:border-l-2 hover:border-blue-500'
                           }`}
                         >
                           {solution.title}
@@ -189,23 +206,22 @@ const Header = () => {
                     download={brochure.fileName}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 rounded-lg hover:bg-slate-100 transition-all duration-300"
+                    className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                      isHeroMode
+                        ? 'text-white/75 hover:text-white hover:bg-white/10'
+                        : 'text-slate-700 hover:text-blue-600 hover:bg-slate-100'
+                    }`}
                     title="Download Company Brochure"
-                    onClick={async (e) => {
-                      // Track the download
+                    onClick={async () => {
                       try {
                         await trackEvent({
                           eventType: 'brochure_download',
                           page: pathname,
-                          metadata: {
-                            fileName: brochure.fileName,
-                            brochureTitle: brochure.title,
-                          },
+                          metadata: { fileName: brochure.fileName, brochureTitle: brochure.title },
                         });
                       } catch (error) {
                         console.error('Failed to track brochure download:', error);
                       }
-                      // Let the download continue normally
                     }}
                   >
                     <Download className="w-4 h-4" />
@@ -214,7 +230,11 @@ const Header = () => {
                 )}
                 <a
                   href="tel:+966123456789"
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 hover:text-blue-600 rounded-lg hover:bg-slate-100 transition-all duration-300"
+                  className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
+                    isHeroMode
+                      ? 'text-white/75 hover:text-white hover:bg-white/10'
+                      : 'text-slate-700 hover:text-blue-600 hover:bg-slate-100'
+                  }`}
                 >
                   <Phone className="w-4 h-4" />
                   <span>Call Us</span>
@@ -231,14 +251,14 @@ const Header = () => {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all duration-300"
+                className={`lg:hidden p-2 rounded-lg transition-all duration-300 ${
+                  isHeroMode
+                    ? 'text-white/80 hover:text-white hover:bg-white/10'
+                    : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
+                }`}
                 aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
           </div>

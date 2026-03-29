@@ -30,150 +30,133 @@ interface LowCurrentSolutionProps {
 
 const LowCurrentSolution = ({ data }: LowCurrentSolutionProps) => {
   const content = data;
-  const { Zap, ArrowRight } = LucideIcons;
-  
+
   return (
-    <section className="relative bg-linear-to-b from-white via-slate-50 to-blue-50 dark:from-black dark:via-gray-900 dark:to-black py-20 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-5 dark:opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.3) 1px, transparent 0)',
-          backgroundSize: '50px 50px',
-        }}></div>
-      </div>
-
-      {/* Gradient Orbs */}
-      <div className="absolute top-20 right-10 w-72 h-72 bg-blue-500/10 dark:bg-blue-500/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-500/10 dark:bg-blue-500/10 rounded-full blur-3xl"></div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
+    <section className="py-28 px-6 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-500/10 border border-blue-300 dark:border-blue-500/30 rounded-full text-blue-700 dark:text-blue-400 text-sm font-semibold tracking-wide mb-6">
-            <Zap className="w-4 h-4" />
-            <span>{content.badge}</span>
+        <div className="mb-16 max-w-2xl">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px w-8 bg-blue-600" />
+            <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600">
+              {content.badge}
+            </span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-slate-900 dark:text-gray-100">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
             {content.title}
           </h2>
-          <p className="text-slate-600 dark:text-gray-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">
+          <p className="text-slate-500 text-lg leading-relaxed">
             {content.description}
           </p>
         </div>
 
-        {/* Security Flow Diagram */}
+        {/* Security Flow */}
         {content.securityFlow && content.securityFlow.length > 0 && (
-        <div className="mb-16">
-          <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 text-center mb-8">Multi-Layered Security Approach</h3>
-          <div className="relative flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0">
-            {content.securityFlow.map((item, index) => (
-              <React.Fragment key={index}>
-                {/* Flow Card */}
-                <div className="relative group">
-                  <div className="bg-white dark:bg-gray-900/50 border-2 border-blue-400 dark:border-blue-500/40 rounded-2xl p-6 min-w-[200px] backdrop-blur-sm group-hover:border-blue-500 dark:group-hover:border-blue-400/60 transition-all duration-300 shadow-lg dark:shadow-none">
-                    <div className="text-center">
-                      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 font-bold mb-3">
-                        {item.step}
-                      </div>
-                      <h4 className="text-slate-900 dark:text-white font-bold text-sm mb-2">{item.title}</h4>
-                      <p className="text-slate-600 dark:text-gray-400 text-xs">{item.description}</p>
+          <div className="mb-14">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-px w-8 bg-slate-300" />
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-slate-400">
+                Multi-Layered Security Approach
+              </span>
+            </div>
+            <div className="flex flex-col md:flex-row items-stretch gap-0">
+              {content.securityFlow.map((item, index) => (
+                <React.Fragment key={index}>
+                  <div className="flex-1 bg-slate-950 rounded-2xl p-6 group hover:bg-blue-950 transition-colors duration-300">
+                    <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-sm mb-4 shadow-lg shadow-blue-600/30">
+                      {item.step}
                     </div>
+                    <h4 className="text-white font-bold text-base mb-2">{item.title}</h4>
+                    <p className="text-slate-400 text-xs leading-relaxed">{item.description}</p>
                   </div>
-                </div>
-
-                {/* Arrow */}
-                {content.securityFlow && index < content.securityFlow.length - 1 && (
-                  <ArrowRight className="hidden md:block w-8 h-8 text-blue-500 dark:text-blue-400/50 mx-2 shrink-0" />
-                )}
-              </React.Fragment>
-            ))}
+                  {content.securityFlow && index < content.securityFlow.length - 1 && (
+                    <div className="hidden md:flex items-center px-2 shrink-0">
+                      <LucideIcons.ChevronRight className="w-5 h-5 text-slate-300" />
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
-        </div>
         )}
 
         {/* Main Solutions Grid */}
         {content.solutions && content.solutions.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {content.solutions.map((solution, index) => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const Icon = (LucideIcons as any)[solution.icon] || LucideIcons.Shield;
-            return (
-              <div
-                key={index}
-                className="group relative bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-2xl p-6 hover:border-slate-300 dark:hover:border-gray-700/80 transition-all duration-500 hover:bg-slate-50 dark:hover:bg-gray-800/50 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden"
-              >
-                {/* Gradient Background on Hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-5 bg-linear-to-br from-blue-500 to-cyan-500 transition-opacity duration-500"></div>
-                
-                {/* Icon */}
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-blue-100 dark:bg-blue-500/10 mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="w-7 h-7 text-blue-600 dark:text-blue-400" />
-                </div>
-
-                {/* Content */}
-                <h3 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-3 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
-                  {solution.title}
-                </h3>
-                <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed mb-4">
-                  {solution.description}
-                </p>
-
-                {/* Features */}
-                <div className="space-y-2">
-                  {solution.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-xs text-slate-600 dark:text-gray-500">
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-500 dark:bg-blue-500/50"></div>
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Corner Accent */}
-                <div className="absolute top-0 right-0 w-20 h-20 bg-linear-to-br from-blue-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </div>
-            );
-          })}
-        </div>
-        )}
-
-        {/* Additional Solutions */}
-        {content.additionalSolutions && content.additionalSolutions.length > 0 && (
-        <div className="mb-16">
-          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-gray-100 text-center mb-8">Additional Services</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {content.additionalSolutions.map((item, index) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
+            {content.solutions.map((solution, index) => {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Zap;
+              const Icon = (LucideIcons as any)[solution.icon] || LucideIcons.Shield;
               return (
                 <div
                   key={index}
-                  className="bg-white dark:bg-gray-900/30 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 rounded-xl p-6 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 hover:bg-slate-50 dark:hover:bg-gray-800/40 shadow-md dark:shadow-none"
+                  className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/8 transition-all duration-300"
                 >
-                  <Icon className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-4" />
-                  <h4 className="text-lg font-bold text-slate-900 dark:text-gray-100 mb-2">{item.title}</h4>
-                  <p className="text-slate-600 dark:text-gray-400 text-sm">{item.description}</p>
+                  <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-900 mb-2">{solution.title}</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed mb-4">{solution.description}</p>
+                  <div className="space-y-1.5">
+                    {solution.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs text-slate-500">
+                        <div className="w-1 h-1 rounded-full bg-blue-500 shrink-0" />
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               );
             })}
           </div>
-        </div>
         )}
 
-      </div>
+        {/* Additional Solutions */}
+        {content.additionalSolutions && content.additionalSolutions.length > 0 && (
+          <div className="mb-14">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-px w-8 bg-slate-300" />
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-slate-400">
+                Additional Services
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {content.additionalSolutions.map((item, index) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const Icon = (LucideIcons as any)[item.icon] || LucideIcons.Zap;
+                return (
+                  <div
+                    key={index}
+                    className="group flex gap-5 p-6 rounded-2xl border border-slate-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300"
+                  >
+                    <div className="mt-0.5 w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-200 shrink-0">
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-base font-bold text-slate-900 mb-1">{item.title}</h4>
+                      <p className="text-slate-500 text-sm leading-relaxed">{item.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
-      {/* CSS Animation */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+        {/* Bottom CTA bar */}
+        <div className="flex items-center justify-between flex-wrap gap-6 pt-10 border-t border-slate-100">
+          <div>
+            <p className="text-slate-900 font-bold text-xl mb-1">Intelligent protection for your premises.</p>
+            <p className="text-slate-500 text-sm">Integrated access control, fire alarms, PA systems, and more.</p>
+          </div>
+          <Link
+            href="/solutions"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30 shrink-0"
+          >
+            Explore Low Current
+            <LucideIcons.ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
     </section>
   );
 };
