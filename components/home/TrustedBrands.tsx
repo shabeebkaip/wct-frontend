@@ -28,7 +28,7 @@ function BrandLogo({ brand }: { brand: Brand }) {
         alt={brand.alt}
         width={brand.width || 120}
         height={brand.height || 48}
-        className="max-w-full h-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
+        className="max-w-full h-auto object-contain  group-hover:grayscale-0 transition-all duration-300"
         style={{ maxHeight: '42px' }}
       />
     </div>

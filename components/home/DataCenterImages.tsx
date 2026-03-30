@@ -26,42 +26,70 @@ const DataCenterImages = async () => {
   const data = await getDataCenterData();
 
   return (
-    <section className="py-28 px-6 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div className="mb-16 max-w-2xl">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-px w-8 bg-blue-600" />
-            <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600">
-              {data.sectionHeader.badge}
-            </span>
+    <section className="bg-white overflow-hidden">
+
+      {/* Top rule */}
+      <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-28">
+
+        {/* ── Section Header ── */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-20">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-md shadow-blue-600/30">
+                <LucideIcons.Server className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600">
+                {data.sectionHeader.badge}
+              </span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.06] tracking-tight mb-5">
+              {data.sectionHeader.title}
+            </h2>
+
+            <p className="text-slate-500 text-lg leading-relaxed">
+              {data.sectionHeader.description}
+            </p>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">
-            {data.sectionHeader.title}
-          </h2>
-          <p className="text-slate-500 text-lg leading-relaxed">
-            {data.sectionHeader.description}
-          </p>
+
+          {/* Stat pills */}
+          <div className="flex gap-4 shrink-0">
+            {[
+              { value: '99.9%', label: 'Uptime SLA' },
+              { value: 'Tier III', label: 'Standard' },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center px-6 py-4 rounded-2xl border border-slate-100 bg-slate-50">
+                <div className="text-2xl font-black text-slate-900">{stat.value}</div>
+                <div className="text-xs font-semibold uppercase tracking-widest text-slate-400 mt-1">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Solutions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+        {/* ── Solutions Grid ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-slate-100 rounded-2xl overflow-hidden border border-slate-100 mb-14">
           {data.solutions.map((solution, index) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const Icon = (LucideIcons as any)[solution.icon] || LucideIcons.Server;
             return (
               <div
                 key={index}
-                className="group relative bg-white border border-slate-200 rounded-2xl p-7 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-500/8 transition-all duration-300"
+                className="group relative bg-white p-8 hover:bg-blue-50/40 transition-colors duration-300"
               >
-                <div className="absolute top-7 right-7 text-4xl font-black text-slate-100 group-hover:text-blue-50 transition-colors select-none leading-none">
+                {/* Hover left accent */}
+                <div className="absolute left-0 top-8 bottom-8 w-0.5 bg-blue-600 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top rounded-full" />
+
+                <div className="absolute top-6 right-6 text-5xl font-black text-slate-100 group-hover:text-blue-100 transition-colors select-none leading-none">
                   {String(index + 1).padStart(2, '0')}
                 </div>
+
                 <div className="relative space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/30 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-6 h-6" />
+                  <div className="w-11 h-11 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-600/25 group-hover:shadow-blue-600/40 group-hover:scale-110 transition-all duration-300">
+                    <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900">{solution.title}</h3>
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{solution.title}</h3>
                   <p className="text-slate-500 text-sm leading-relaxed">{solution.description}</p>
                 </div>
               </div>
@@ -69,44 +97,73 @@ const DataCenterImages = async () => {
           })}
         </div>
 
-        {/* Features strip */}
+        {/* ── Features Strip ── */}
         {data.features && data.features.length > 0 && (
-          <div className="bg-slate-950 rounded-2xl p-8 mb-14">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-8 bg-blue-500" />
-              <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-400">
-                Key Capabilities
-              </span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              {data.features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/8">
-                  <LucideIcons.CheckCircle className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-white/80 text-sm font-medium">{feature}</span>
-                </div>
-              ))}
+          <div className="relative rounded-2xl bg-slate-900 overflow-hidden mb-14">
+            {/* Subtle blue glow top-left */}
+            <div className="absolute -top-10 -left-10 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative p-8 lg:p-10">
+              <div className="flex items-center gap-3 mb-7">
+                <div className="h-px w-8 bg-blue-500" />
+                <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-400">
+                  Key Capabilities
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {data.features.map((feature, index) => (
+                  <div
+                    key={index}
+                    className="group flex items-center gap-3 p-3.5 rounded-xl bg-white/5 border border-white/8 hover:bg-white/10 hover:border-blue-500/30 transition-all duration-200"
+                  >
+                    <div className="w-5 h-5 rounded-full bg-blue-600/20 border border-blue-500/40 flex items-center justify-center shrink-0">
+                      <LucideIcons.Check className="w-3 h-3 text-blue-400" />
+                    </div>
+                    <span className="text-white/75 text-sm font-medium group-hover:text-white/90 transition-colors">{feature}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
-        {/* Image Gallery */}
-        <ImageGallery images={data.images} />
-
-        {/* CTA */}
-        <div className="mt-14 flex items-center justify-between flex-wrap gap-6 pt-10 border-t border-slate-100">
-          <div>
-            <p className="text-slate-900 font-bold text-xl mb-1">Ready to build your infrastructure?</p>
-            <p className="text-slate-500 text-sm">Our engineers are ready to design and deliver your next project.</p>
-          </div>
-          <Link
-            href="/solutions"
-            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30 shrink-0"
-          >
-            Explore Solutions
-            <LucideIcons.ArrowRight className="w-4 h-4" />
-          </Link>
+        {/* ── Image Gallery ── */}
+        <div className="mb-14">
+          <ImageGallery images={data.images} />
         </div>
+
+        {/* ── CTA ── */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pt-10 border-t border-slate-100">
+          <div>
+            <p className="text-slate-900 font-black text-xl md:text-2xl tracking-tight mb-1.5">
+              {data.cta.title}
+            </p>
+            <p className="text-slate-500 text-sm">{data.cta.description}</p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              href={data.cta.primaryButton.link}
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30"
+            >
+              {data.cta.primaryButton.text}
+              <LucideIcons.ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href={data.cta.secondaryButton.link}
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-700 font-semibold text-sm transition-colors duration-200"
+            >
+              {data.cta.secondaryButton.text}
+            </Link>
+          </div>
+        </div>
+
       </div>
+
+      {/* Bottom rule */}
+      <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
     </section>
   );
 };
