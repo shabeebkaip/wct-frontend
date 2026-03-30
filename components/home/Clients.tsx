@@ -26,7 +26,7 @@ function ClientLogo({ logo }: { logo: ClientLogo }) {
         alt={logo.alt}
         width={120}
         height={48}
-        className="max-w-full h-auto object-contain grayscale group-hover:grayscale-0 transition-all duration-300"
+        className="max-w-full h-auto object-contain  transition-all duration-300"
         style={{ maxHeight: '42px' }}
       />
     </div>
