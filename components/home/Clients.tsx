@@ -42,8 +42,18 @@ const Clients = ({ data }: ClientsProps) => {
   };
 
   const logos = content.logos;
-  const row1 = logos.slice(0, Math.ceil(logos.length / 2));
-  const row2 = logos.slice(Math.ceil(logos.length / 2));
+  const row1Raw = logos.slice(0, Math.ceil(logos.length / 2));
+  const row2Raw = logos.slice(Math.ceil(logos.length / 2));
+
+  // Pad each row so the marquee set is at least 10 items wide — prevents
+  // visible gaps when there are few logos (each card ≈ 200px, viewport ≈ 1920px)
+  const padRow = (row: ClientLogo[]) => {
+    if (row.length === 0) return [];
+    const copies = Math.ceil(10 / row.length);
+    return Array.from({ length: copies }, () => row).flat();
+  };
+  const row1 = padRow(row1Raw);
+  const row2 = padRow(row2Raw);
 
   return (
     <section className="py-24 bg-white overflow-hidden">
