@@ -74,12 +74,12 @@ function BuildingVisual() {
     { angle: 300, abbr: 'CAM',  label: 'CCTV',    sub: ''       },
   ].map((s, i) => {
     const rad = (s.angle * Math.PI) / 180;
-    const nx  = cx + sr * Math.cos(rad);
-    const ny  = cy + sr * Math.sin(rad);
-    // push label further outward
-    const lx  = cx + (sr + 28) * Math.cos(rad);
-    const ly  = cy + (sr + 28) * Math.sin(rad);
-    const dur = 1.2 + i * 0.15;
+    const r3  = (n: number) => Math.round(n * 1000) / 1000; // fix SSR/client float mismatch
+    const nx  = r3(cx + sr * Math.cos(rad));
+    const ny  = r3(cy + sr * Math.sin(rad));
+    const lx  = r3(cx + (sr + 28) * Math.cos(rad));
+    const ly  = r3(cy + (sr + 28) * Math.sin(rad));
+    const dur = r3(1.2 + i * 0.15);
     return { ...s, nx, ny, lx, ly, dur };
   });
 

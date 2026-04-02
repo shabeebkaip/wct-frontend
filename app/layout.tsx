@@ -33,15 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased bg-white ${montserrat.variable} overflow-x-hidden`}
+        className={`antialiased bg-white ${montserrat.variable} overflow-x-hidden overflow-y-auto`}
         style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
       >
         <ThemeProvider>
           <AnalyticsProvider>
-            <Orb 
-              size={200} 
-              color="rgba(59, 130, 246, 0.3)" 
-              blur={100} 
+            <Orb
+              size={200}
+              color="rgba(59, 130, 246, 0.3)"
+              blur={100}
               opacity={0.4}
             />
             <LayoutWrapper>

@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, Phone, Mail, Download } from 'lucide-react';
 import { trackEvent } from '@/lib/hooks/useAnalytics';
@@ -93,8 +93,9 @@ const Header = () => {
     { name: 'Contact', href: '/contact' },
   ];
 
-  // Hero mode: home page + not scrolled → transparent dark header synced with hero
-  const isHeroMode = pathname === '/' && !scrolled;
+  // Hero mode: pages with dark hero sections + not scrolled → transparent dark header
+  const darkHeroPages = ['/', '/about'];
+  const isHeroMode = darkHeroPages.includes(pathname) && !scrolled;
 
   return (
     <>
@@ -239,13 +240,13 @@ const Header = () => {
                   <Phone className="w-4 h-4" />
                   <span>Call Us</span>
                 </a>
-                <a
+                <Link
                   href="/contact"
                   className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105"
                 >
                   <Mail className="w-4 h-4" />
                   <span>Get Quote</span>
-                </a>
+                </Link>
               </div>
 
               {/* Mobile Menu Button */}
@@ -389,13 +390,14 @@ const Header = () => {
               <Phone className="w-4 h-4" />
               <span>Call Us</span>
             </a>
-            <a
+            <Link
               href="/contact"
               className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold text-white transition-all duration-300 shadow-md shadow-blue-500/20"
+              onClick={() => setMobileMenuOpen(false)}
             >
               <Mail className="w-4 h-4" />
               <span>Get Quote</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
