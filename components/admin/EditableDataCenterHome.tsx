@@ -50,6 +50,9 @@ export default function EditableDataCenterHome({ isEditMode = false }: EditableD
           headers: { Authorization: 'Bearer admin-token' },
         });
         alert('Changes saved successfully!');
+      } else {
+        const err = await res.json().catch(() => ({}));
+        alert(`Failed to save: ${err.error || res.statusText}`);
       }
     } catch (error) {
       console.error('Error saving:', error);
@@ -74,9 +77,9 @@ export default function EditableDataCenterHome({ isEditMode = false }: EditableD
       });
 
       if (res.ok) {
-        const { url } = await res.json();
+        const { secure_url, publicId, format } = await res.json();
         const newImages = [...data.images];
-        newImages[index] = { ...newImages[index], src: url };
+        newImages[index] = { ...newImages[index], src: secure_url, publicId, format };
         setData({ ...data, images: newImages });
       }
     } catch (error) {

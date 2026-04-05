@@ -1,277 +1,172 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Server,
-  Network,
-  Shield,
-  Building2,
-  Calendar,
-  MapPin,
-  CheckCircle,
-  ArrowRight,
-  Grid3x3,
-  List,
-} from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Project } from '@/types/project';
 
 interface ProjectsClientProps {
   projects: Project[];
 }
 
+const CATEGORIES = [
+  { id: 'all', label: 'All' },
+  { id: 'data-center', label: 'Data Center' },
+  { id: 'structured-cabling', label: 'Structured Cabling' },
+  { id: 'low-current-solutions', label: 'Low Current' },
+  { id: 'low-voltage', label: 'Low Voltage' },
+  { id: 'control-rooms', label: 'Control Rooms' },
+];
+
+const CATEGORY_SHORT: Record<string, string> = {
+  'data-center': 'DATA CENTER',
+  'structured-cabling': 'STRUCT. CABLING',
+  'low-current-solutions': 'LOW CURRENT',
+  'low-voltage': 'LOW VOLTAGE',
+  'control-rooms': 'CONTROL ROOMS',
+};
+
+const STATUS_COLOR: Record<string, string> = {
+  completed: 'bg-emerald-400',
+  'in-progress': 'bg-blue-400',
+  planned: 'bg-slate-500',
+};
+
 export default function ProjectsClient({ projects }: ProjectsClientProps) {
-  const [activeFilter, setActiveFilter] = useState<'all' | 'data-center' | 'structured-cabling' | 'low-current-solutions' | 'low-voltage' | 'control-rooms'>('all');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [active, setActive] = useState('all');
 
-  const categories = [
-    { id: 'all', label: 'All Projects', icon: Building2 },
-    { id: 'data-center', label: 'Data Center', icon: Server },
-    { id: 'structured-cabling', label: 'Structured Cabling', icon: Network },
-    { id: 'low-current-solutions', label: 'Low Current Solutions', icon: Shield },
-    { id: 'low-voltage', label: 'Low Voltage', icon: Server },
-    { id: 'control-rooms', label: 'Control Rooms', icon: Building2 },
-  ];
+  const filtered =
+    active === 'all' ? projects : projects.filter((p) => p.category === active);
 
-  const filteredProjects =
-    activeFilter === 'all'
-      ? projects
-      : projects.filter((project) => project.category === activeFilter);
+  // Only show categories that have projects
+  const visibleCats = CATEGORIES.filter(
+    (c) => c.id === 'all' || projects.some((p) => p.category === c.id)
+  );
 
   return (
-    <>
-      {/* Filters Section */}
-      <section className="relative py-10 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
-            {/* Category Filters */}
-            <div className="flex flex-wrap gap-3">
-              {categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setActiveFilter(category.id as typeof activeFilter)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
-                    activeFilter === category.id
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
-                      : 'bg-white dark:bg-gray-900/40 text-slate-600 dark:text-gray-400 border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 shadow-md dark:shadow-none'
-                  }`}
-                >
-                  <category.icon className="w-4 h-4" />
-                  <span>{category.label}</span>
-                </button>
-              ))}
-            </div>
+    <section className="px-6 pb-24">
+      <div className="max-w-7xl mx-auto">
 
-            {/* View Mode Toggle */}
-            <div className="flex gap-2 p-1 rounded-xl bg-white dark:bg-gray-900/40 border border-slate-200 dark:border-gray-800/50 shadow-md dark:shadow-none">
+        {/* Filter — text tabs with underline active state */}
+        <div className="flex items-end gap-8 border-b border-white/[0.08] mb-0 overflow-x-auto pb-0 scrollbar-hide">
+          {visibleCats.map((c) => {
+            const count = c.id === 'all'
+              ? projects.length
+              : projects.filter((p) => p.category === c.id).length;
+            return (
               <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded-lg transition-all duration-300 ${
-                  viewMode === 'grid'
-                    ? 'bg-blue-600 text-white'
-                    : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-gray-300'
+                key={c.id}
+                onClick={() => setActive(c.id)}
+                className={`relative shrink-0 pb-4 text-xs font-mono uppercase tracking-widest transition-colors duration-200 ${
+                  active === c.id
+                    ? 'text-white'
+                    : 'text-slate-600 hover:text-slate-400'
                 }`}
               >
-                <Grid3x3 className="w-5 h-5" />
+                {c.label}
+                <span className="ml-2 text-[10px] text-slate-600">{count}</span>
+                {active === c.id && (
+                  <span className="absolute bottom-0 left-0 right-0 h-px bg-blue-500" />
+                )}
               </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded-lg transition-all duration-300 ${
-                  viewMode === 'list'
-                    ? 'bg-blue-600 text-white'
-                    : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-gray-300'
-                }`}
-              >
-                <List className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+            );
+          })}
+        </div>
 
-          {/* Projects Count */}
-          <div className="mb-8">
-            <p className="text-slate-600 dark:text-gray-400">
-              Showing{' '}
-              <span className="text-blue-600 dark:text-blue-400 font-semibold">
-                {filteredProjects.length}
-              </span>{' '}
-              projects
-            </p>
-          </div>
+        {/* Archive list */}
+        <div>
+          {filtered.map((project, idx) => (
+            <Link
+              key={project._id || project.title}
+              href={`/projects/${project._id}`}
+              className="group relative block border-b border-white/[0.06] hover:border-white/[0.10] transition-colors duration-300"
+            >
+              {/* Hover blue line — sweeps in from left */}
+              <span className="absolute bottom-0 left-0 h-px bg-blue-500 w-0 group-hover:w-full transition-all duration-500 ease-out" />
 
-          {/* Projects Grid/List */}
-          {viewMode === 'grid' ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.map((project) => (
-                <Link
-                  key={project._id || project.title}
-                  href={`/projects/${project._id}`}
-                  className="group relative rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 overflow-hidden shadow-lg dark:shadow-none block"
-                >
-                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="flex items-start gap-6 md:gap-10 py-7 md:py-9">
 
-                  {/* Project Image */}
-                  <div className="relative h-64 overflow-hidden">
-                    {project.images[0] ? (
-                      <Image
-                        src={project.images[0]}
-                        alt={project.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-slate-200 dark:bg-gray-800 flex items-center justify-center">
-                        <Building2 className="w-16 h-16 text-slate-400 dark:text-gray-600" />
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-linear-to-t from-white via-white/50 to-transparent dark:from-gray-900 dark:via-gray-900/50 dark:to-transparent" />
-
-                    {/* Category Badge */}
-                    <div className="absolute top-4 right-4">
-                      <div className="px-3 py-1 rounded-full bg-blue-600/90 backdrop-blur-sm text-xs font-medium text-white">
-                        {categories.find((c) => c.id === project.category)?.label}
-                      </div>
-                    </div>
+                {/* Ordinal + Category */}
+                <div className="shrink-0 w-20 md:w-28">
+                  <div className="font-mono text-3xl md:text-4xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors duration-300 leading-none mb-1.5 tabular-nums">
+                    {String(idx + 1).padStart(2, '0')}
                   </div>
-
-                  {/* Project Info */}
-                  <div className="relative p-6">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                      {project.title}
-                    </h3>
-
-                    <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-gray-400 mb-4">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        <span>{project.year}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        <span>{project.location.split(',')[0]}</span>
-                      </div>
-                    </div>
-
-                    <p className="text-slate-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
-                      {project.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tags.slice(0, 3).map((tag, idx) => (
-                        <span
-                          key={idx}
-                          className="px-2 py-1 rounded-lg bg-slate-100 dark:bg-gray-800/50 text-xs text-slate-600 dark:text-gray-400"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* View Details Indicator */}
-                    <div className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
-                      <span>View Details</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
+                  <div className="font-mono text-[9px] text-slate-600 uppercase tracking-widest leading-tight">
+                    {CATEGORY_SHORT[project.category] ?? project.category}
                   </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {filteredProjects.map((project) => (
-                <Link
-                  key={project._id}
-                  href={`/projects/${project._id}`}
-                  className="group relative rounded-2xl bg-white dark:bg-gray-900/40 backdrop-blur-sm border border-slate-200 dark:border-gray-800/50 hover:border-blue-400 dark:hover:border-blue-500/30 transition-all duration-300 overflow-hidden block shadow-lg dark:shadow-none"
-                >
-                  <div className="absolute inset-0 bg-linear-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
 
-                  <div className="relative flex flex-col md:flex-row gap-6 p-6">
-                    {/* Project Image */}
-                    <div className="relative w-full md:w-80 h-64 rounded-xl overflow-hidden shrink-0">
-                      {project.images[0] ? (
-                        <Image
-                          src={project.images[0]}
-                          alt={project.title}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-slate-200 dark:bg-gray-800 flex items-center justify-center">
-                          <Building2 className="w-16 h-16 text-slate-400 dark:text-gray-600" />
-                        </div>
-                      )}
-                      <div className="absolute top-4 right-4">
-                        <div className="px-3 py-1 rounded-full bg-blue-600/90 backdrop-blur-sm text-xs font-medium text-white">
-                          {categories.find((c) => c.id === project.category)?.label}
-                        </div>
-                      </div>
-                    </div>
+                {/* Main content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-3 md:gap-8">
 
-                    {/* Project Info */}
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {/* Title block */}
+                    <div className="min-w-0">
+                      <h2 className="text-xl md:text-2xl lg:text-3xl font-black tracking-tight text-white group-hover:text-blue-300 transition-colors duration-300 leading-tight mb-1.5">
                         {project.title}
-                      </h3>
-
-                      <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-gray-400 mb-4">
-                        <div className="flex items-center gap-1">
-                          <Building2 className="w-4 h-4" />
-                          <span>{project.client}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          <span>{project.year}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <MapPin className="w-4 h-4" />
-                          <span>{project.location}</span>
-                        </div>
-                      </div>
-
-                      <p className="text-slate-600 dark:text-gray-400 mb-4 leading-relaxed">
+                      </h2>
+                      <p className="font-mono text-xs text-slate-500 uppercase tracking-wider mb-3">
+                        {project.client}
+                      </p>
+                      <p className="text-sm text-slate-500 leading-relaxed max-w-xl line-clamp-2">
                         {project.description}
                       </p>
 
-                      {/* Scope */}
-                      {project.scope.length > 0 && (
-                        <div className="mb-4">
-                          <h4 className="text-sm font-semibold text-slate-800 dark:text-gray-300 mb-2">
-                            Project Scope:
-                          </h4>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                            {project.scope.map((item, idx) => (
-                              <div
-                                key={idx}
-                                className="flex items-center gap-2 text-sm text-slate-600 dark:text-gray-400"
-                              >
-                                <CheckCircle className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
-                                <span>{item}</span>
-                              </div>
-                            ))}
-                          </div>
+                      {/* Services strip */}
+                      {project.services && project.services.length > 0 && (
+                        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-4">
+                          {project.services.slice(0, 4).map((s, i) => (
+                            <span key={i} className="font-mono text-[10px] text-slate-600 uppercase tracking-wider">
+                              — {s}
+                            </span>
+                          ))}
                         </div>
                       )}
+                    </div>
 
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag, idx) => (
-                          <span
-                            key={idx}
-                            className="px-3 py-1 rounded-lg bg-slate-100 dark:bg-gray-800/50 text-xs text-slate-600 dark:text-gray-400"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                    {/* Right meta column */}
+                    <div className="shrink-0 md:text-right space-y-2 md:min-w-[160px]">
+                      <div className="flex md:justify-end items-center gap-2">
+                        {project.status && (
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${STATUS_COLOR[project.status] ?? 'bg-slate-500'}`} />
+                        )}
+                        <span className="font-mono text-[10px] text-slate-600 uppercase tracking-wider capitalize">
+                          {project.status}
+                        </span>
+                      </div>
+                      <div className="font-mono text-xs text-slate-400">{project.location.split(',')[0]}</div>
+                      <div className="font-mono text-xs text-slate-600">{project.year}</div>
+                      {project.projectValue && (
+                        <div className="font-mono text-xs text-slate-500">{project.projectValue}</div>
+                      )}
+                      <div className="flex md:justify-end items-center gap-1 pt-1 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="font-mono text-[10px] uppercase tracking-wider">View</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
                       </div>
                     </div>
                   </div>
-                </Link>
-              ))}
+                </div>
+              </div>
+            </Link>
+          ))}
+
+          {filtered.length === 0 && (
+            <div className="py-24 text-center font-mono text-xs text-slate-700 uppercase tracking-widest">
+              No projects in this category
             </div>
           )}
         </div>
-      </section>
-    </>
+
+        {/* Count footer */}
+        <div className="mt-8 flex items-center justify-between">
+          <span className="font-mono text-[10px] text-slate-700 uppercase tracking-widest">
+            {filtered.length} project{filtered.length !== 1 ? 's' : ''} listed
+          </span>
+          <span className="font-mono text-[10px] text-slate-700 uppercase tracking-widest">
+            WCT Portfolio Archive
+          </span>
+        </div>
+      </div>
+    </section>
   );
 }

@@ -10,6 +10,8 @@ declare global {
     alt: string;
     title: string;
     description: string;
+    format?: string;
+    publicId?: string;
   }
 
   interface DataCenterHomeData {

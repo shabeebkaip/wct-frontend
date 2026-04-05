@@ -89,9 +89,9 @@ export default function TrustedBrandsSection({
       });
 
       if (res.ok) {
-        const { url } = await res.json();
+        const { secure_url, publicId, format } = await res.json();
         const newBrands = [...data.trustedBrandsSection.brands];
-        newBrands[index] = { ...newBrands[index], src: url };
+        newBrands[index] = { ...newBrands[index], src: secure_url, publicId, format };
         updateData({
           trustedBrandsSection: { ...data.trustedBrandsSection, brands: newBrands },
         });

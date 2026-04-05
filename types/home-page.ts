@@ -76,6 +76,8 @@ declare global {
         alt: string;
         width?: number;
         height?: number;
+        format?: string;
+        publicId?: string;
       }>;
       trustBadge: string;
     };

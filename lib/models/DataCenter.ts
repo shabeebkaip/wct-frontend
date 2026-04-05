@@ -18,6 +18,8 @@ export interface IDataCenterHome {
     alt: string;
     title: string;
     description: string;
+    format?: string;
+    publicId?: string;
   }>;
   cta: {
     title: string;
@@ -56,6 +58,8 @@ const DataCenterHomeSchema = new Schema<IDataCenterHome>(
         alt: { type: String, required: true },
         title: { type: String, required: true },
         description: { type: String, required: true },
+        format: { type: String },
+        publicId: { type: String },
       },
     ],
     cta: {

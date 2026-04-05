@@ -14,6 +14,18 @@ interface HeroData {
   secondaryButtonLink: string;
 }
 
+const fallbackHeroData: HeroData = {
+  title: 'Intelligent Infrastructure',
+  subtitle: 'Built to Last.',
+  description: 'We design and deploy high-performance low-current systems — from data centers and structured cabling to CCTV and access control — engineered for reliability and scale.',
+  badgeText: 'Trusted Since 2014',
+  badgeDescription: 'UAE\'s leading low-current specialists',
+  primaryButtonText: 'Explore Our Services',
+  primaryButtonLink: '/services',
+  secondaryButtonText: 'View Projects',
+  secondaryButtonLink: '/projects',
+};
+
 async function getHeroData(): Promise<HeroData> {
   try {
     const connectDB = (await import('@/lib/mongodb')).default;
@@ -27,7 +39,7 @@ async function getHeroData(): Promise<HeroData> {
   } catch (error) {
     console.error('Error fetching hero data from database:', error);
   }
-  throw new Error('Failed to fetch hero data');
+  return fallbackHeroData;
 }
 
 export default async function Hero() {

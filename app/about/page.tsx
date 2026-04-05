@@ -57,35 +57,24 @@ const About = async () => {
           <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent to-slate-950" />
         </div>
 
-        {/* Top status bar */}
-        <div className="absolute top-0 left-0 right-0 z-20 border-b border-white/6 bg-white/3 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex items-center justify-between flex-wrap gap-3">
-            <div className="flex items-center gap-5">
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-                <span className="font-mono text-blue-400 text-[11px] font-bold tracking-[0.2em]">ONLINE</span>
-              </div>
-              <span className="text-white/20 font-mono">|</span>
-              <span className="font-mono text-white/40 text-[11px] tracking-[0.15em] uppercase">
-                WCT · About Us · Company Profile
-              </span>
-            </div>
-            <div className="flex items-center gap-6 font-mono text-[11px]">
-              <span className="text-white/35 tracking-widest">EST. 2013 · RIYADH, KSA</span>
-            </div>
-          </div>
-        </div>
-
         {/* Main content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-32 pb-12 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-36 pb-12 w-full">
 
-          {/* Eyebrow */}
-          <div className="flex items-center gap-3 mb-8">
+          {/* Eyebrow row */}
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-8">
             <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/8 border border-white/10">
               <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse" />
               <span className="text-xs font-bold tracking-[0.18em] uppercase text-blue-400">
                 {aboutData.hero.badge}
               </span>
+            </div>
+            <div className="flex items-center gap-4 font-mono text-[11px]">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-emerald-400 font-bold tracking-[0.2em]">ONLINE</span>
+              </div>
+              <span className="text-white/20">|</span>
+              <span className="text-white/35 tracking-widest">EST. 2005 · RIYADH, KSA</span>
             </div>
           </div>
 
@@ -145,7 +134,8 @@ const About = async () => {
               </div>
               <span className="text-slate-200 font-mono">|</span>
               <span className="font-mono text-slate-400 text-[11px] tracking-[0.15em] uppercase">
-                WCT · Company Profile · Est. 2013
+                WCT · Company Profile · Est. 2005
+
               </span>
             </div>
             <span className="font-mono text-slate-400 text-[11px] tracking-widest">RIYADH · KSA</span>
@@ -189,18 +179,6 @@ const About = async () => {
                 ))}
               </div>
 
-              {/* Optional image */}
-              {aboutData.companyStory.image && (
-                <div className="mt-10 rounded-2xl overflow-hidden border border-slate-100 shadow-lg">
-                  <Image
-                    src={aboutData.companyStory.image}
-                    alt="WCT Company"
-                    width={640}
-                    height={360}
-                    className="w-full h-auto object-cover"
-                  />
-                </div>
-              )}
             </div>
 
             {/* Right: Company profile card + differentiators */}
@@ -217,7 +195,7 @@ const About = async () => {
                 </div>
                 <div className="p-5 grid grid-cols-2 gap-3">
                   {[
-                    { label: "Founded",     value: "2013" },
+                    { label: "Founded",     value: "2005" },
                     { label: "HQ",          value: "Riyadh, KSA" },
                     { label: "Specialty",   value: "Data Center" },
                     { label: "Coverage",    value: "GCC Region" },
@@ -581,6 +559,71 @@ const About = async () => {
               </div>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* ─── TRUSTED BRANDS ───────────────────────────────────── */}
+      <section className="relative bg-white overflow-hidden py-20 px-6">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
+        <div className="relative max-w-7xl mx-auto">
+          <div className="mb-12 flex flex-col items-center text-center">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-px w-8 bg-blue-600" />
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600">Trusted Brands</span>
+              <div className="h-px w-8 bg-blue-600" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 leading-tight tracking-tight">
+              Partnered with the world&apos;s leading manufacturers
+            </h2>
+            <p className="text-slate-500 mt-3 max-w-xl text-sm leading-relaxed">
+              We work exclusively with globally certified brands to deliver uncompromising quality and performance.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+            {[
+              { name: "R&M",            src: "/trusted-brands/rm.png" },
+              { name: "Panduit",        src: "/trusted-brands/panduit.webp" },
+              { name: "Corning",        src: "/trusted-brands/corning.webp" },
+              { name: "Legrand",        src: "/trusted-brands/legrand.jpg" },
+              { name: "CommScope",      src: "/trusted-brands/commscope.png" },
+              { name: "3M",             src: "/trusted-brands/3m.jpg" },
+              { name: "Leviton",        src: "/trusted-brands/leviton.jpg" },
+              { name: "Datwyler",       src: "/trusted-brands/datwyler.jpg" },
+              { name: "Bosch",          src: "/trusted-brands/bosch.png" },
+              { name: "Axis",           src: "/trusted-brands/axis.jpg" },
+              { name: "Nitgen",         src: "/trusted-brands/nitgen.png" },
+              { name: "Samsung",        src: "/trusted-brands/samsung.avif" },
+              { name: "Milestone",      src: "/trusted-brands/milestone.webp" },
+              { name: "Genetec",        src: "/trusted-brands/genetec.png" },
+              { name: "Aiphone",        src: "/trusted-brands/aiphone.png" },
+              { name: "CAT",            src: "/trusted-brands/cat.webp" },
+              { name: "EDPAC",          src: "/trusted-brands/edpac.png" },
+              { name: "Yuasa",          src: "/trusted-brands/yuasa.png" },
+              { name: "Airedale",       src: "/trusted-brands/airedale.png" },
+              { name: "APC",            src: "/trusted-brands/apc.png" },
+              { name: "Huawei",         src: "/trusted-brands/huawei.svg" },
+              { name: "Vertiv",         src: "/trusted-brands/vertiv.svg" },
+            ].map(({ name, src }) => (
+              <div
+                key={name}
+                className="group flex flex-col items-center justify-center gap-2 p-3 rounded-xl border border-slate-100 bg-white hover:border-blue-200 hover:shadow-md hover:shadow-blue-500/8 transition-all duration-300"
+              >
+                <div className="w-full h-10 flex items-center justify-center">
+                  <Image
+                    src={src}
+                    alt={name}
+                    width={80}
+                    height={40}
+                    className="object-contain max-h-10 w-auto grayscale group-hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+                <span className="text-[10px] font-bold tracking-widest text-slate-400 group-hover:text-blue-500 uppercase transition-colors duration-300">
+                  {name}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

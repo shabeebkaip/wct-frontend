@@ -9,6 +9,8 @@ interface ITrustedBrandsSection {
     alt: string;
     width?: number;
     height?: number;
+    format?: string;
+    publicId?: string;
   }>;
   trustBadge: string;
   createdAt?: Date;
@@ -30,6 +32,8 @@ const TrustedBrandsSectionSchema = new mongoose.Schema<ITrustedBrandsSection>(
         alt: { type: String, required: true },
         width: { type: Number, default: 120 },
         height: { type: Number, default: 60 },
+        format: { type: String },
+        publicId: { type: String },
       },
     ],
     trustBadge: { 
