@@ -111,20 +111,6 @@ export default async function Hero() {
               {heroData.secondaryButtonText}
             </Link>
           </div>
-
-          {/* Stats row */}
-          <div className="mt-10 pt-8 border-t border-white/8 grid grid-cols-3 gap-6">
-            {[
-              { value: '10+', label: 'Years delivering' },
-              { value: '500+', label: 'Projects completed' },
-              { value: '24/7', label: 'Support coverage' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <div className="text-3xl font-black text-white">{stat.value}</div>
-                <div className="text-xs font-medium tracking-widest uppercase text-slate-500 mt-1">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* ── Right: MagicRings + Network diagram (client component) ── */}

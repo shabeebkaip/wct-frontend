@@ -264,10 +264,10 @@ const dataCenterHomeData = {
     'Power Distribution',
   ],
   images: [
-    { src: '/images/datacenter-1.jpg', alt: 'Data Center Server Room', title: 'Enterprise Server Infrastructure', description: 'High-density server racks with precision cooling and redundant power.' },
-    { src: '/images/datacenter-2.jpg', alt: 'Structured Cabling', title: 'Structured Cabling Systems', description: 'Certified cabling infrastructure for reliable high-speed connectivity.' },
-    { src: '/images/datacenter-3.jpg', alt: 'Cooling Systems', title: 'Precision Cooling', description: 'Advanced CRAC units maintaining optimal temperature and humidity.' },
-    { src: '/images/datacenter-4.jpg', alt: 'Power Distribution', title: 'Power Distribution', description: 'N+1 redundant UPS and PDU systems ensuring zero downtime.' },
+    { src: '/data-center-images/taylor-vick-M5tzZtFCOfs-unsplash.jpg', alt: 'Data Center Server Room', title: 'Enterprise Server Infrastructure', description: 'High-density server racks with precision cooling and redundant power.' },
+    { src: '/data-center-images/scott-rodgerson-PSpf_XgOM5w-unsplash.jpg', alt: 'Data Center Operations', title: 'Mission-Critical Operations', description: 'Certified cabling infrastructure for reliable high-speed connectivity.' },
+    { src: '/data-center-images/shutterstock_2353324769-1-e1765298357270-1200x676.webp', alt: 'Data Center Infrastructure', title: 'Precision Cooling Systems', description: 'Advanced CRAC units maintaining optimal temperature and humidity.' },
+    { src: '/data-center-images/Types-of-Data-Centers-Center-Type-Datacenter.jpg', alt: 'Data Center Types', title: 'Scalable Data Center Solutions', description: 'Legacy, modular and containerized data center infrastructure.' },
   ],
   cta: {
     title: 'Ready for a World-Class Data Center?',

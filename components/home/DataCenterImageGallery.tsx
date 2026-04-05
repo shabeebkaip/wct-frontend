@@ -24,6 +24,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
           src={images[0].src}
           alt={images[0].alt}
           fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -48,6 +49,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
             src={image.src}
             alt={image.alt}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-300">
