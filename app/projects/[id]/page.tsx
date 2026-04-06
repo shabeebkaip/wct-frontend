@@ -24,7 +24,7 @@ async function getProject(id: string): Promise<Project | null> {
   return null;
 }
 
-async function getAllProjects(): Promise<{ _id: string; title: string; category: string; client: string }[]> {
+async function getAllProjects(): Promise<{ _id: string; title: string; category: string; client: string; location: string; year: string; status?: string }[]> {
   try {
     const connectDB = (await import('@/lib/mongodb')).default;
     const ProjectModel = (await import('@/lib/models/Project')).default;

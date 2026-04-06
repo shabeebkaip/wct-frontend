@@ -85,15 +85,18 @@
   from { transform: translateX(-50%); }
   to   { transform: translateX(0); }
 }
-.animate-marquee {
-  animation: marquee 35s linear infinite;
-}
-.animate-marquee-reverse {
-  animation: marquee-reverse 35s linear infinite;
-}
-.animate-marquee:hover,
-.animate-marquee-reverse:hover {
-  animation-play-state: paused;
+
+@layer utilities {
+  .animate-marquee {
+    animation: marquee 35s linear infinite;
+  }
+  .animate-marquee-reverse {
+    animation: marquee-reverse 35s linear infinite;
+  }
+  .animate-marquee:hover,
+  .animate-marquee-reverse:hover {
+    animation-play-state: paused;
+  }
 }
 
 :root {
