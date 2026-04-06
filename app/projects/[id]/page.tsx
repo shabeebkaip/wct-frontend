@@ -238,7 +238,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <p className="font-mono text-[10px] text-slate-600 uppercase tracking-[0.25em] mb-8">Outcomes</p>
                 <div className="space-y-0">
                   {project.results.map((r: string, i: number) => (
-                    <div key={i} className="flex gap-6 py-5 border-b border-white/[0.06]">
+                    <div key={i} className="flex gap-6 py-5 border-b border-white/6">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
                       <p className="text-slate-300 text-sm leading-relaxed">{r}</p>
                     </div>
