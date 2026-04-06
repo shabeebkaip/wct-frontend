@@ -114,10 +114,10 @@ export default async function ProjectDetailPage({ params }: Props) {
             </div>
           )}
 
-          {/* Title — fills the screen */}
+          {/* Title */}
           <h1
             className="font-black leading-[0.92] tracking-tighter text-white mb-10"
-            style={{ fontSize: 'clamp(2.8rem, 7vw, 7rem)' }}
+            style={{ fontSize: 'clamp(2rem, 4vw, 3.8rem)' }}
           >
             {project.title}
           </h1>
@@ -238,7 +238,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <p className="font-mono text-[10px] text-slate-600 uppercase tracking-[0.25em] mb-8">Outcomes</p>
                 <div className="space-y-0">
                   {project.results.map((r: string, i: number) => (
-                    <div key={i} className="flex gap-6 py-5 border-b border-white/6">
+                    <div key={i} className="flex gap-6 py-5 border-b border-white/[0.06]">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
                       <p className="text-slate-300 text-sm leading-relaxed">{r}</p>
                     </div>
@@ -261,7 +261,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             )}
           </div>
 
-          {/* Right sidebar — floats cleanly */}
+          {/* Right sidebar */}
           <div className="space-y-12">
 
             {/* Technologies */}
@@ -270,10 +270,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <p className="font-mono text-[10px] text-slate-600 uppercase tracking-[0.25em] mb-6">Technologies</p>
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((t: string, i: number) => (
-                    <span
-                      key={i}
-                      className="font-mono text-[10px] px-3 py-1.5 border border-white/[0.08] text-slate-400 uppercase tracking-wider hover:border-blue-500/40 hover:text-white transition-colors"
-                    >
+                    <span key={i} className="font-mono text-[10px] px-3 py-1.5 border border-white/[0.08] text-slate-400 uppercase tracking-wider hover:border-blue-500/40 hover:text-white transition-colors">
                       {t}
                     </span>
                   ))}
@@ -282,7 +279,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             )}
 
             {/* Quick info pairs */}
-            {(project.industry || project.complexity) && (
+            {(project.industry || project.complexity || project.teamSize) && (
               <div>
                 <p className="font-mono text-[10px] text-slate-600 uppercase tracking-[0.25em] mb-6">Project Details</p>
                 <div className="space-y-4">
@@ -323,7 +320,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               </div>
             )}
 
-            {/* CTA — minimal */}
+            {/* CTA */}
             <div className="pt-4 border-t border-white/[0.06]">
               <p className="font-mono text-[10px] text-slate-600 uppercase tracking-[0.25em] mb-5">
                 Start a similar project
@@ -339,7 +336,8 @@ export default async function ProjectDetailPage({ params }: Props) {
           </div>
         </div>
       </div>
-      {/* ── Other Projects slider (light bg) ────────────────── */}
+
+      {/* ── Other Projects slider ─────────────────────────────── */}
       <ProjectsSlider projects={allProjects} currentId={id} />
     </div>
   );

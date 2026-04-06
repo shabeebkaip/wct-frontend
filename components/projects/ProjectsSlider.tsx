@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 
@@ -36,12 +37,40 @@ export default function ProjectsSlider({
   currentId: string;
 }) {
   const others = projects.filter((p) => p._id !== currentId);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (dir: 'left' | 'right') => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: dir === 'left' ? -380 : 380, behavior: 'smooth' });
-  };
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: 'start',
+    loop: others.length > 3,
+    dragFree: true,
+    containScroll: 'trimSnaps',
+  });
+
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCanScrollPrev(emblaApi.canScrollPrev());
+    setCanScrollNext(emblaApi.canScrollNext());
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    // Set initial state after mount
+    const timer = setTimeout(onSelect, 0);
+    return () => {
+      clearTimeout(timer);
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   if (others.length === 0) return null;
 
@@ -65,16 +94,18 @@ export default function ProjectsSlider({
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => scroll('left')}
-              className="w-10 h-10 flex items-center justify-center border border-slate-300 text-slate-500 hover:border-slate-900 hover:text-slate-900 transition-colors"
-              aria-label="Scroll left"
+              onClick={scrollPrev}
+              disabled={!canScrollPrev}
+              className="w-10 h-10 flex items-center justify-center border border-slate-300 text-slate-500 hover:border-slate-900 hover:text-slate-900 disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-200"
+              aria-label="Previous"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
             <button
-              onClick={() => scroll('right')}
-              className="w-10 h-10 flex items-center justify-center border border-slate-300 text-slate-500 hover:border-slate-900 hover:text-slate-900 transition-colors"
-              aria-label="Scroll right"
+              onClick={scrollNext}
+              disabled={!canScrollNext}
+              className="w-10 h-10 flex items-center justify-center border border-slate-300 text-slate-500 hover:border-slate-900 hover:text-slate-900 disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-200"
+              aria-label="Next"
             >
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -87,64 +118,80 @@ export default function ProjectsSlider({
           </div>
         </div>
 
-        {/* Scrollable track */}
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 -mx-6 px-6 lg:-mx-12 lg:px-12"
-          style={{ scrollSnapType: 'x mandatory' }}
-        >
-          {others.map((p, i) => {
-            const globalIdx = projects.findIndex((proj) => proj._id === p._id);
-            return (
-              <Link
-                key={p._id}
-                href={`/projects/${p._id}`}
-                className="group shrink-0 w-[300px] md:w-[340px] flex flex-col border border-slate-200 bg-white hover:border-slate-900 transition-all duration-300"
-                style={{ scrollSnapAlign: 'start' }}
-              >
-                {/* Card top accent */}
-                <div className="h-0.5 w-0 bg-slate-900 group-hover:w-full transition-all duration-500 ease-out" />
+        {/* Embla viewport */}
+        <div className="overflow-hidden -mx-6 px-6 lg:-mx-12 lg:px-12" ref={emblaRef}>
+          <div className="flex gap-4 touch-pan-y">
+            {others.map((p) => {
+              const globalIdx = projects.findIndex((proj) => proj._id === p._id);
+              return (
+                <Link
+                  key={p._id}
+                  href={`/projects/${p._id}`}
+                  className="group flex-none w-[300px] md:w-[340px] flex flex-col border border-slate-200 bg-white hover:border-slate-900 transition-all duration-300"
+                  style={{ userSelect: 'none' }}
+                >
+                  {/* Card top accent */}
+                  <div className="h-0.5 w-0 bg-slate-900 group-hover:w-full transition-all duration-500 ease-out" />
 
-                <div className="p-7 flex flex-col flex-1">
-                  {/* Number + category */}
-                  <div className="flex items-start justify-between mb-6">
-                    <span className="font-mono text-4xl font-bold text-slate-200 group-hover:text-slate-900 transition-colors leading-none">
-                      {String(globalIdx + 1).padStart(2, '0')}
-                    </span>
-                    {p.status && (
-                      <span className={`w-2 h-2 rounded-full mt-1.5 ${STATUS_COLOR[p.status] ?? 'bg-slate-400'}`} />
-                    )}
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-lg font-black tracking-tight text-slate-900 leading-snug mb-2 group-hover:text-blue-700 transition-colors">
-                    {p.title}
-                  </h3>
-
-                  {/* Client */}
-                  <p className="font-mono text-[10px] text-slate-400 uppercase tracking-wider mb-auto">
-                    {p.client}
-                  </p>
-
-                  {/* Footer meta */}
-                  <div className="flex items-end justify-between mt-8 pt-5 border-t border-slate-100">
-                    <div>
-                      <p className="font-mono text-[9px] text-slate-400 uppercase tracking-widest mb-1">
-                        {CATEGORY_LABELS[p.category] ?? p.category}
-                      </p>
-                      <p className="font-mono text-[10px] text-slate-500">
-                        {p.location?.split(',')[0] ?? ''} · {p.year}
-                      </p>
+                  <div className="p-7 flex flex-col flex-1">
+                    {/* Number + status */}
+                    <div className="flex items-start justify-between mb-6">
+                      <span className="font-mono text-4xl font-bold text-slate-200 group-hover:text-slate-900 transition-colors leading-none">
+                        {String(globalIdx + 1).padStart(2, '0')}
+                      </span>
+                      {p.status && (
+                        <span className={`w-2 h-2 rounded-full mt-1.5 ${STATUS_COLOR[p.status] ?? 'bg-slate-400'}`} />
+                      )}
                     </div>
-                    <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition-colors" />
+
+                    {/* Title */}
+                    <h3 className="text-lg font-black tracking-tight text-slate-900 leading-snug mb-2 group-hover:text-blue-700 transition-colors">
+                      {p.title}
+                    </h3>
+
+                    {/* Client */}
+                    <p className="font-mono text-[10px] text-slate-400 uppercase tracking-wider mb-auto">
+                      {p.client}
+                    </p>
+
+                    {/* Footer meta */}
+                    <div className="flex items-end justify-between mt-8 pt-5 border-t border-slate-100">
+                      <div>
+                        <p className="font-mono text-[9px] text-slate-400 uppercase tracking-widest mb-1">
+                          {CATEGORY_LABELS[p.category] ?? p.category}
+                        </p>
+                        <p className="font-mono text-[10px] text-slate-500">
+                          {p.location?.split(',')[0] ?? ''} · {p.year}
+                        </p>
+                      </div>
+                      <ArrowUpRight className="w-4 h-4 text-slate-300 group-hover:text-blue-600 transition-colors" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            );
-          })}
+                </Link>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Mobile: view all link */}
+        {/* Dot indicators */}
+        {others.length > 1 && (
+          <div className="flex items-center justify-center gap-1.5 mt-8">
+            {others.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => emblaApi?.scrollTo(i)}
+                className={`h-px transition-all duration-300 ${
+                  i === selectedIndex
+                    ? 'w-8 bg-slate-900'
+                    : 'w-3 bg-slate-300 hover:bg-slate-500'
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Mobile: view all */}
         <div className="mt-8 flex md:hidden">
           <Link
             href="/projects"
