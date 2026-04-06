@@ -13,8 +13,12 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "WeCare Technologies",
-  description: "Leading provider of comprehensive IT infrastructure solutions including CCTV surveillance, structured cabling, low current systems, and data center solutions",
+  title: {
+    default: "WeCare Technology | IT Infrastructure Solutions in Saudi Arabia",
+    template: "%s | WeCare Technology",
+  },
+  description: "WeCare Technology (WCT) is a leading IT infrastructure provider in Saudi Arabia, specializing in Data Centers, Structured Cabling, CCTV, Low Current Systems, and ICT solutions with 18+ years of expertise.",
+  metadataBase: new URL("https://wecaretech.com"),
   icons: {
     icon: [
       { url: '/logo.png' },
@@ -22,6 +26,11 @@ export const metadata: Metadata = {
       { url: '/logo.png', sizes: '16x16', type: 'image/png' },
     ],
     apple: '/logo.png',
+  },
+  openGraph: {
+    siteName: "WeCare Technology",
+    type: "website",
+    locale: "en_US",
   },
 };
 

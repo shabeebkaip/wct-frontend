@@ -1,17 +1,38 @@
-
+import type { Metadata } from "next";
 import Hero from "@/components/home/Hero";
 import Clients from "@/components/home/Clients";
 import DataCenterImages from "@/components/home/DataCenterImages";
 import CCTVSurveillance from "@/components/home/CCTVServeillance";
 import LowCurrentSolution from "@/components/home/LowCurrentSolution";
 import StructuredCabling from "@/components/home/StructuredCabling";
-import ProjectList from "@/components/home/ProjectList";
 import ContactUs from "@/components/home/ContactUs";
 import TrustedBrands from "@/components/home/TrustedBrands";
 
 // Force dynamic rendering to ensure CMS changes are reflected immediately
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "WeCare Technology | IT Infrastructure Solutions in Saudi Arabia",
+  description: "WeCare Technology (WCT) is a leading IT infrastructure provider in Saudi Arabia, specializing in Data Centers, Structured Cabling, CCTV, Low Current Systems, and ICT solutions with 18+ years of expertise.",
+  keywords: "WeCare Technology, WCT, IT infrastructure Saudi Arabia, data center solutions, structured cabling, CCTV surveillance, low current systems, ICT infrastructure Riyadh",
+  alternates: {
+    canonical: "https://wecaretech.com",
+  },
+  openGraph: {
+    title: "WeCare Technology | IT Infrastructure Solutions in Saudi Arabia",
+    description: "WeCare Technology (WCT) is a leading IT infrastructure provider in Saudi Arabia, specializing in Data Centers, Structured Cabling, CCTV, Low Current Systems, and ICT solutions.",
+    url: "https://wecaretech.com",
+    siteName: "WeCare Technology",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "WeCare Technology | IT Infrastructure Solutions in Saudi Arabia",
+    description: "Leading IT infrastructure provider in Saudi Arabia — Data Centers, Structured Cabling, CCTV, Low Current Systems.",
+  },
+};
 
 // Helper function to serialize ObjectIds in nested objects
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -118,7 +139,7 @@ async function getProjects() {
 }
 
 export default async function Home() {
-  const [cctvSection, lowCurrentSection, structuredCablingSection, clientsSection, trustedBrandsSection, projects] = await Promise.all([
+  const [cctvSection, lowCurrentSection, structuredCablingSection, clientsSection, trustedBrandsSection, ] = await Promise.all([
     getCCTVSection(),
     getLowCurrentSection(),
     getStructuredCablingSection(),
