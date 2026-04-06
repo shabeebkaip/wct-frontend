@@ -10,12 +10,9 @@ const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
 // Helper to get location from IP with multiple fallbacks
 async function getLocationFromIP(ip: string) {
-  console.log('Attempting to get location for IP:', ip);
-  
   // Check cache first
   const cached = locationCache.get(ip);
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    console.log('Using cached location for IP:', ip);
     return cached.data;
   }
   
@@ -44,8 +41,6 @@ async function getLocationFromIP(ip: string) {
           latitude: data.latitude,
           longitude: data.longitude,
         };
-        console.log('Location fetched successfully:', location);
-        
         // Cache the result
         locationCache.set(ip, { data: location, timestamp: Date.now() });
         
@@ -76,8 +71,6 @@ async function getLocationFromIP(ip: string) {
           latitude: data.lat,
           longitude: data.lon,
         };
-        console.log('Location fetched from fallback:', location);
-        
         // Cache the result
         locationCache.set(ip, { data: location, timestamp: Date.now() });
         
@@ -135,8 +128,6 @@ export async function POST(request: NextRequest) {
                     request.headers.get('x-real-ip') || 
                     'unknown';
     
-    console.log('Client IP detected:', ipAddress);
-
     // Get location from IP (skip for localhost/unknown/private IPs)
     let location = null;
     const isLocalhost = ipAddress === 'unknown' || 
@@ -154,8 +145,6 @@ export async function POST(request: NextRequest) {
       if (!location) {
         console.warn('Location could not be determined for IP:', ipAddress);
       }
-    } else {
-      console.log('Skipping location fetch for local/private IP:', ipAddress);
     }
 
     // Parse device info
@@ -166,15 +155,6 @@ export async function POST(request: NextRequest) {
       os: deviceInfo.os,
       screenResolution: clientDevice?.screenResolution || 'unknown',
     };
-
-    // Log for debugging
-    console.log('Tracking event:', {
-      eventType,
-      page,
-      ipAddress,
-      hasLocation: !!location,
-      deviceType: device.deviceType,
-    });
 
     // Determine if this is an entry page (first page in session)
     const isEntryPage = session?.isNewSession && eventType === 'page_view';
@@ -198,19 +178,9 @@ export async function POST(request: NextRequest) {
       timestamp: new Date(),
     });
 
-    console.log('Analytics entry created:', analyticsEntry._id, {
-      hasLocation: !!location,
-      location: location ? `${location.city}, ${location.country}` : 'none'
-    });
-
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       id: analyticsEntry._id,
-      debug: {
-        ipDetected: ipAddress,
-        locationFetched: !!location,
-        isLocalhost,
-      }
     });
   } catch (error: unknown) {
     console.error('Analytics tracking error:', error);

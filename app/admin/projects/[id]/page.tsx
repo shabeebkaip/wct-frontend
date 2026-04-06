@@ -139,10 +139,6 @@ export default function EditProjectPage() {
 
     setSaving(true);
     try {
-      console.log('Saving project with fields:', Object.keys(project));
-      console.log('Overview length:', project.overview?.length || 0);
-      console.log('Description length:', project.description?.length || 0);
-      
       const response = await fetch('/api/projects', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -156,8 +152,6 @@ export default function EditProjectPage() {
       }
 
       const result = await response.json();
-      console.log('Project saved successfully:', result.project._id);
-      
       // Update local state with saved project
       setProject(result.project);
       setHasChanges(false);

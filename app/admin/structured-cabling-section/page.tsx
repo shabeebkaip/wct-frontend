@@ -87,7 +87,6 @@ export default function StructuredCablingSectionPage() {
       </div>
     );
   }
-console.log('Rendered StructuredCablingSectionPage with data:', data);
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/30 to-gray-50">
       <AdminHeader

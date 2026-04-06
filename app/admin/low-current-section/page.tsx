@@ -87,7 +87,6 @@ export default function LowCurrentSectionPage() {
       </div>
     );
   }
-  console.log('Low Current Section Data:', data);
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 via-blue-50/30 to-gray-50">
       <AdminHeader

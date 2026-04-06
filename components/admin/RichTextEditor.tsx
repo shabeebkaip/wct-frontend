@@ -80,7 +80,7 @@ export function RichTextEditor({ value, onChange, placeholder, disabled }: RichT
   }, [value, editor])
 
   if (!editor) {
-    return null
+    return <div className="h-32 border rounded-md bg-gray-50 animate-pulse" />
   }
 
   const addLink = () => {
