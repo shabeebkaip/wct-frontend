@@ -299,8 +299,8 @@ const LowCurrentSolution = ({ data }: LowCurrentSolutionProps) => {
                   </div>
                 ))}
               </div>
-              <div className="h-px bg-slate-100 !mt-3" />
-              <div className="flex items-center gap-2 !mt-3">
+              <div className="h-px bg-slate-100 mt-3!" />
+              <div className="flex items-center gap-2 mt-3!">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
                 <span className="text-slate-400 tracking-[0.15em] uppercase text-[10px]">All systems nominal</span>
               </div>
