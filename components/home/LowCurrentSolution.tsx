@@ -472,7 +472,7 @@ const LowCurrentSolution = ({ data }: LowCurrentSolutionProps) => {
             </p>
           </div>
           <Link
-            href="/solutions"
+            href="/services/av-low-current"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30 shrink-0"
           >
             Explore Low Current

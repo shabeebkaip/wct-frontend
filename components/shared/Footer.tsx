@@ -3,7 +3,12 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, Phone, MapPin, Clock, ArrowRight, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import {
+  Mail, Phone, MapPin, ArrowRight,
+  Linkedin, Twitter, Facebook, Instagram,
+  Server, Cable, Network, Activity, Wifi,
+  Camera, Monitor, Sparkles, Shield,
+} from 'lucide-react';
 import { trackEvent } from '@/lib/hooks/useAnalytics';
 
 interface ContactInfo {
@@ -11,7 +16,6 @@ interface ContactInfo {
   title: string;
   details: string[];
   link?: string;
-  description?: string;
 }
 
 interface ContactPageData {
@@ -24,254 +28,206 @@ interface ContactPageData {
   };
 }
 
-interface Solution {
-  _id: string;
-  title: string;
-  slug: string;
-  published: boolean;
-}
+const SERVICES = [
+  { name: 'Data Center Solutions', href: '/services/data-center', icon: Server },
+  { name: 'Structured Cabling',    href: '/services/structured-cabling', icon: Cable },
+  { name: 'Fiber Optic Networks',  href: '/services/fiber-optic', icon: Network },
+  { name: 'Network Infrastructure',href: '/services/network', icon: Activity },
+  { name: 'Wi-Fi Design & Survey', href: '/services/wifi', icon: Wifi },
+  { name: 'Security Systems',      href: '/services/security', icon: Camera },
+  { name: 'AV & Low Current',      href: '/services/av-low-current', icon: Monitor },
+  { name: 'AI Solutions',          href: '/services/ai-solutions', icon: Sparkles },
+  { name: 'Cable Certification',   href: '/products', icon: Shield },
+];
+
+const COMPANY = [
+  { name: 'About Us',      href: '/about' },
+  { name: 'Our Projects',  href: '/projects' },
+  { name: 'Services',      href: '/services' },
+  { name: 'Products',      href: '/products' },
+  { name: 'Contact Us',    href: '/contact' },
+];
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [contactData, setContactData] = useState<ContactPageData | null>(null);
-  const [solutions, setSolutions] = useState<Solution[]>([]);
 
   useEffect(() => {
-    const fetchContactData = async () => {
-      try {
-        const res = await fetch('/api/contact-page');
-        const data = await res.json();
-        setContactData(data);
-      } catch (error) {
-        console.error('Error fetching contact data:', error);
-      }
-    };
-    
-    const fetchSolutions = async () => {
-      try {
-        const res = await fetch('/api/solutions?published=true');
-        const data = await res.json();
-        setSolutions(data);
-      } catch (error) {
-        console.error('Error fetching solutions:', error);
-      }
-    };
-    
-    fetchContactData();
-    fetchSolutions();
+    fetch('/api/contact-page')
+      .then(r => r.json())
+      .then(setContactData)
+      .catch(() => {});
   }, []);
 
-
-
-  const company = [
-    { name: 'About Us', href: '/about' },
-    { name: 'Our Projects', href: '/projects' },
-    { name: 'Contact', href: '/contact' },
-  ];
+  const getContactIcon = (icon: string) => {
+    if (icon === 'Phone') return Phone;
+    if (icon === 'Mail') return Mail;
+    return MapPin;
+  };
 
   return (
-    <footer className="relative bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-gray-800/50 overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-5 dark:opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(59, 130, 246, 0.3) 1px, transparent 0)',
-          backgroundSize: '50px 50px',
-        }}></div>
-      </div>
+    <footer className="relative bg-white border-t border-slate-100 overflow-hidden">
 
-      {/* Gradient Orbs */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/5 dark:bg-blue-500/5 rounded-full blur-3xl"></div>
+      {/* Glow */}
+      <div className="absolute top-0 left-1/4 w-96 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Main Footer Content */}
-        <div className="py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-            {/* Company Info */}
-            <div className="lg:col-span-2">
-              <Link href="/" className="flex items-center gap-2 mb-6 group">
-                <div className="relative w-12 h-12">
-                  <Image
-                    src="/logo.png"
-                    alt="WeCare Tech"
-                    fill
-                    className="object-contain group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-                <div>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  WeCare Tech
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-gray-500">Infrastructure Solutions</p>
-              </div>
-              </Link>
-              <p className="text-slate-600 dark:text-gray-400 text-sm leading-relaxed mb-6">
-                Delivering world-class infrastructure solutions across Saudi Arabia. 
-                Specialized in Data Centers, Security Systems, and ICT Infrastructure 
-                with 18+ years of expertise.
-              </p>              {/* Contact Info */}
-              <div className="space-y-3">
-                {contactData?.contactInfo.map((item, index) => {
-                  const IconComponent = item.icon === 'Phone' ? Phone : item.icon === 'Mail' ? Mail : item.icon === 'MapPin' ? MapPin : Clock;
-                  const isLink = item.link && (item.icon === 'Phone' || item.icon === 'Mail');
-                  
-                  if (isLink) {
-                    return (
-                      <a 
-                        key={index}
-                        href={item.link} 
-                        className="flex items-center gap-3 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors group"
-                      >
-                        <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center group-hover:border-blue-400 dark:group-hover:border-blue-500/30 transition-colors">
-                          <IconComponent className="w-4 h-4" />
-                        </div>
-                        <span className="text-sm">{item.details.join(', ')}</span>
-                      </a>
-                    );
-                  }
-                  
-                  return (
-                    <div key={index} className="flex items-start gap-3 text-slate-600 dark:text-gray-400">
-                      <div className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center shrink-0">
-                        <IconComponent className="w-4 h-4" />
-                      </div>
-                      <div className="text-sm">
-                        {item.details.map((detail, i) => (
-                          <p key={i}>{detail}</p>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Solutions */}
+      {/* ── CTA Banner ── */}
+      <div className="relative border-b border-slate-100 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div>
-              <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">
-                Solutions
-              </h4>
-              <ul className="space-y-3">
-                {solutions.map((item) => (
-                  <li key={item._id}>
-                    <Link
-                      href={`/solutions/${item.slug}`}
-                      className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
-                      onClick={() => {
-                        trackEvent({
-                          eventType: 'footer_click',
-                          page: window.location.pathname,
-                          metadata: {
-                            linkName: item.title,
-                            linkHref: `/solutions/${item.slug}`,
-                            section: 'Solutions',
-                          },
-                        });
-                      }}
-                    >
-                      <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h4 className="text-slate-900 dark:text-white font-bold text-sm uppercase tracking-wider mb-6">
-                Company
-              </h4>
-              <ul className="space-y-3">
-                {company.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className="flex items-center gap-2 text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-sm group"
-                      onClick={() => {
-                        trackEvent({
-                          eventType: 'footer_click',
-                          page: window.location.pathname,
-                          metadata: {
-                            linkName: item.name,
-                            linkHref: item.href,
-                            section: 'Company',
-                          },
-                        });
-                      }}
-                    >
-                      <ArrowRight className="w-3 h-3 opacity-0 -ml-5 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                      <span>{item.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-
-        {/* Bottom Footer */}
-        <div className="border-t border-slate-200 dark:border-gray-800/50 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Copyright */}
-            <div className="text-slate-500 dark:text-gray-500 text-sm text-center md:text-left">
-              <p>© {currentYear} WeCare Tech. All rights reserved.</p>
-              <p className="text-xs mt-1">
-                Crafted with excellence in Saudi Arabia
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-blue-600 mb-2">
+                Ready to start a project?
               </p>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+                Let's build something
+                <span className="text-blue-600"> that lasts.</span>
+              </h2>
             </div>
-
-            {/* Social Links */}
-            <div className="flex items-center gap-3">
-              {contactData?.socialLinks?.linkedin && (
-                <a
-                  href={contactData.socialLinks.linkedin}
-                  aria-label="LinkedIn"
-                  className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
-                >
-                  <Linkedin className="w-4 h-4" />
-                </a>
-              )}
-              {contactData?.socialLinks?.twitter && (
-                <a
-                  href={contactData.socialLinks.twitter}
-                  aria-label="Twitter"
-                  className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
-                >
-                  <Twitter className="w-4 h-4" />
-                </a>
-              )}
-              {contactData?.socialLinks?.facebook && (
-                <a
-                  href={contactData.socialLinks.facebook}
-                  aria-label="Facebook"
-                  className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
-                >
-                  <Facebook className="w-4 h-4" />
-                </a>
-              )}
-              {contactData?.socialLinks?.instagram && (
-                <a
-                  href={contactData.socialLinks.instagram}
-                  aria-label="Instagram"
-                  className="w-10 h-10 rounded-lg bg-white dark:bg-gray-900/50 border border-slate-200 dark:border-gray-800/50 flex items-center justify-center text-slate-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 dark:hover:border-blue-500/50 hover:bg-blue-100 dark:hover:bg-blue-500/10 transition-all duration-300"
-                >
-                  <Instagram className="w-4 h-4" />
-                </a>
-              )}
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30"
+              >
+                Get a Quote
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-700 font-semibold text-sm transition-colors duration-200"
+              >
+                View Services
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll to Top Button */}
+      {/* ── Main content ── */}
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+
+          {/* Brand column */}
+          <div className="lg:col-span-4">
+            <Link href="/" className="flex items-center gap-3 mb-5 group w-fit">
+              <div className="relative w-10 h-10">
+                <Image src="/logo.png" alt="WeCare Tech" fill className="object-contain" />
+              </div>
+              <div>
+                <p className="text-slate-900 font-black text-lg tracking-tight group-hover:text-blue-600 transition-colors">WeCare Tech</p>
+                <p className="text-slate-400 text-[10px] uppercase tracking-[0.2em]">Infrastructure Solutions</p>
+              </div>
+            </Link>
+
+            <p className="text-slate-500 text-sm leading-relaxed mb-7 max-w-xs">
+              Delivering high-performance infrastructure across Saudi Arabia — data centres, structured cabling, security, AV, and AI solutions with 18+ years of expertise.
+            </p>
+
+            {/* Contact details */}
+            <div className="space-y-3">
+              {contactData?.contactInfo.map((item, i) => {
+                const Icon = getContactIcon(item.icon);
+                const isLink = item.link && (item.icon === 'Phone' || item.icon === 'Mail');
+                const content = (
+                  <div className="flex items-center gap-3 group/c">
+                    <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 group-hover/c:border-blue-300 group-hover/c:bg-blue-50 transition-all duration-200">
+                      <Icon className="w-3.5 h-3.5 text-slate-500 group-hover/c:text-blue-600 transition-colors" />
+                    </div>
+                    <span className="text-slate-500 text-sm group-hover/c:text-slate-800 transition-colors">{item.details[0]}</span>
+                  </div>
+                );
+                return isLink ? (
+                  <a key={i} href={item.link}>{content}</a>
+                ) : (
+                  <div key={i}>{content}</div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Services column */}
+          <div className="lg:col-span-5">
+            <h4 className="text-slate-900 font-bold text-xs uppercase tracking-[0.2em] mb-6">
+              Services
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
+              {SERVICES.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="flex items-center gap-2.5 text-slate-500 hover:text-blue-600 transition-colors duration-200 group/s"
+                    onClick={() => trackEvent({ eventType: 'footer_click', page: window.location.pathname, metadata: { linkName: item.name, linkHref: item.href, section: 'Services' } })}
+                  >
+                    <Icon className="w-3.5 h-3.5 text-slate-300 group-hover/s:text-blue-500 transition-colors shrink-0" />
+                    <span className="text-sm">{item.name}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Company column */}
+          <div className="lg:col-span-3">
+            <h4 className="text-slate-900 font-bold text-xs uppercase tracking-[0.2em] mb-6">
+              Company
+            </h4>
+            <ul className="space-y-2.5">
+              {COMPANY.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors duration-200 text-sm group/c2"
+                    onClick={() => trackEvent({ eventType: 'footer_click', page: window.location.pathname, metadata: { linkName: item.name, linkHref: item.href, section: 'Company' } })}
+                  >
+                    <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover/c2:opacity-100 group-hover/c2:translate-x-0 transition-all duration-200 text-blue-500 shrink-0" />
+                    <span>{item.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Bottom bar ── */}
+      <div className="relative border-t border-slate-100 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-slate-400 text-xs">
+              © {currentYear} WeCare Technology. All rights reserved. · Saudi Arabia
+            </p>
+
+            {/* Social icons */}
+            <div className="flex items-center gap-2">
+              {[
+                { key: 'linkedin', Icon: Linkedin, href: contactData?.socialLinks?.linkedin },
+                { key: 'twitter',  Icon: Twitter,  href: contactData?.socialLinks?.twitter },
+                { key: 'facebook', Icon: Facebook, href: contactData?.socialLinks?.facebook },
+                { key: 'instagram',Icon: Instagram,href: contactData?.socialLinks?.instagram },
+              ].filter(s => s.href).map(({ key, Icon, href }) => (
+                <a
+                  key={key}
+                  href={href}
+                  aria-label={key}
+                  className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200"
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll to top */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-8 right-8 w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all duration-300 hover:scale-110 z-50"
+        className="fixed bottom-8 right-8 w-11 h-11 bg-blue-600 hover:bg-blue-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 transition-all duration-300 hover:scale-110 z-50"
         aria-label="Scroll to top"
       >
-        <ArrowRight className="w-5 h-5 -rotate-90" />
+        <ArrowRight className="w-4 h-4 -rotate-90" />
       </button>
     </footer>
   );

@@ -110,10 +110,10 @@ const About = async () => {
               <LucideIcons.ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/solutions"
+              href="/services"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full border border-white/15 text-white/80 hover:text-white hover:border-white/30 font-semibold text-sm transition-colors duration-200"
             >
-              Our Solutions
+              Our Services
             </Link>
           </div>
         </div>
@@ -409,9 +409,6 @@ const About = async () => {
                 WCT · Team Directory · All Hands
               </span>
             </div>
-            <span className="font-mono text-white/30 text-[11px] tracking-widest">
-              {aboutData.teamMembers.length} TOTAL MEMBERS
-            </span>
           </div>
         </div>
 
@@ -442,9 +439,6 @@ const About = async () => {
               <div className="flex items-center gap-4 mb-8">
                 <span className="font-mono text-[10px] font-bold tracking-[0.25em] uppercase text-slate-500">Leadership</span>
                 <div className="flex-1 h-px bg-white/8" />
-                <span className="font-mono text-[10px] text-white/20 tracking-widest">
-                  {aboutData.teamMembers.filter((m) => m.isLeadership).length} MEMBERS
-                </span>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
                 {aboutData.teamMembers
@@ -506,9 +500,6 @@ const About = async () => {
               <div className="flex items-center gap-4 mb-8">
                 <span className="font-mono text-[10px] font-bold tracking-[0.25em] uppercase text-slate-500">Delivery Teams</span>
                 <div className="flex-1 h-px bg-white/8" />
-                <span className="font-mono text-[10px] text-white/20 tracking-widest">
-                  {aboutData.teamMembers.filter((m) => !m.isLeadership).length} MEMBERS
-                </span>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {aboutData.teamMembers

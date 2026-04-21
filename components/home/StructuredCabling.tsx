@@ -480,10 +480,10 @@ const StructuredCabling = ({ data }: StructuredCablingProps) => {
             <p className="text-slate-500 text-sm">Cat6A, OS2 fiber, and end-to-end structured cabling delivery.</p>
           </div>
           <Link
-            href="/solutions"
+            href="/services/structured-cabling"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30 shrink-0"
           >
-            View Cabling Solutions
+            View Cabling Service
             <LucideIcons.ArrowRight className="w-4 h-4" />
           </Link>
         </div>

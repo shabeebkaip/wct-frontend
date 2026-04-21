@@ -209,7 +209,7 @@ const Header = () => {
                 >
                   <button
                     className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                      pathname?.startsWith('/solutions')
+                      pathname?.startsWith('/services')
                         ? isHeroMode ? 'text-white bg-white/12' : 'text-blue-600 bg-blue-50'
                         : isHeroMode ? 'text-white/75 hover:text-white hover:bg-white/10' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-100'
                     }`}

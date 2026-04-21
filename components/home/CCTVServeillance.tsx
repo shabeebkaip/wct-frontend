@@ -207,10 +207,10 @@ const CCTVSurveillance = ({ data }: CCTVSurveillanceProps) => {
             <p className="text-slate-500 text-sm">End-to-end surveillance design, supply, and commissioning.</p>
           </div>
           <Link
-            href="/solutions"
+            href="/services/security"
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm transition-colors duration-200 shadow-lg shadow-blue-600/30 shrink-0"
           >
-            View CCTV Solutions
+            View Security Service
             <LucideIcons.ArrowRight className="w-4 h-4" />
           </Link>
         </div>
