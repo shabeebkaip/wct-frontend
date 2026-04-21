@@ -33,13 +33,13 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Stay in hero mode until the user scrolls past the full hero section (min-h-screen)
-      const threshold = window.innerHeight - 80;
-      setScrolled(window.scrollY > threshold);
+      setScrolled(window.scrollY > window.innerHeight - 80);
     };
+    // Evaluate immediately on route change, then listen
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
 
   // Fetch solutions from database
   useEffect(() => {
@@ -90,11 +90,12 @@ const Header = () => {
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
     { name: 'Projects', href: '/projects' },
+    { name: 'Products', href: '/products' },
     { name: 'Contact', href: '/contact' },
   ];
 
   // Hero mode: pages with dark hero sections + not scrolled → transparent dark header
-  const darkHeroPages = ['/', '/about'];
+  const darkHeroPages = ['/', '/about', '/projects', '/contact', '/products'];
   const isHeroMode = darkHeroPages.includes(pathname) && !scrolled;
 
   return (
@@ -361,7 +362,7 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white rounded-lg border border-slate-300 dark:border-gray-700 hover:border-slate-400 dark:hover:border-gray-600 hover:bg-slate-50 dark:hover:bg-gray-800/50 transition-all duration-300"
-                onClick={async (e) => {
+                onClick={async () => {
                   // Track the download
                   try {
                     await trackEvent({

@@ -115,7 +115,7 @@ export default function ContactPage() {
     <div className="min-h-screen">
 
       {/* ── DARK HERO ───────────────────────────────────────── */}
-      <div className="bg-[#080C14] text-white relative">
+      <div className="bg-[#080C14] text-white relative min-h-screen flex flex-col justify-center">
         {/* Grid */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -126,10 +126,10 @@ export default function ContactPage() {
         />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] rounded-full bg-blue-700/[0.07] blur-[140px] pointer-events-none" />
 
-        <div className="relative">
-          <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="relative w-full">
+          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-36 pb-16">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-32 pb-20">
             {/* Label row */}
             <div className="flex items-center gap-4 mb-10">
               <span className="font-mono text-[10px] text-blue-500 uppercase tracking-[0.35em]">Get In Touch</span>

@@ -165,7 +165,7 @@ const About = async () => {
               {/* Key metrics strip */}
               <div className="grid grid-cols-3 gap-4">
                 {[
-                  { value: "10+",  label: "Years",    sub: "In business" },
+                  { value: "20+",  label: "Years",    sub: "In business" },
                   { value: "500+", label: "Projects", sub: "Delivered" },
                   { value: "24/7", label: "Support",  sub: "Always on" },
                 ].map((m) => (
@@ -347,7 +347,7 @@ const About = async () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {aboutData.coreValues.map((value, index) => {
               const ValueIcon = getIcon(value.icon, LucideIcons.Star);
               return (
@@ -418,7 +418,7 @@ const About = async () => {
         {/* Background grid */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none" />
 
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-24">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-12 pt-20 pb-8">
 
           {/* Header */}
           <div className="mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
@@ -438,7 +438,7 @@ const About = async () => {
 
           {/* Leadership */}
           {aboutData.teamMembers.filter((m) => m.isLeadership).length > 0 && (
-            <div className="mb-16">
+            <div className="mb-8">
               <div className="flex items-center gap-4 mb-8">
                 <span className="font-mono text-[10px] font-bold tracking-[0.25em] uppercase text-slate-500">Leadership</span>
                 <div className="flex-1 h-px bg-white/8" />
@@ -446,55 +446,40 @@ const About = async () => {
                   {aboutData.teamMembers.filter((m) => m.isLeadership).length} MEMBERS
                 </span>
               </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
                 {aboutData.teamMembers
                   .filter((m) => m.isLeadership)
                   .sort((a, b) => a.order - b.order)
                   .map((member, index) => (
                     <div
                       key={member._id || index}
-                      className="group relative rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:border-white/20 hover:bg-white/8 transition-all duration-300 overflow-hidden"
+                      className="group flex flex-col items-center text-center"
                     >
-                      {/* Top gradient accent */}
-                      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/60 to-transparent" />
-
-                      {/* Card header */}
-                      <div className="flex items-center justify-between px-6 py-4 border-b border-white/8">
-                        <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-blue-400 uppercase">Leadership</span>
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                          <span className="font-mono text-[10px] text-slate-500 tracking-widest">ACTIVE</span>
-                        </div>
-                      </div>
-
-                      {/* Body */}
-                      <div className="p-6">
-                        <div className="flex items-center gap-4 mb-5">
-                          <div className="relative flex-shrink-0">
-                            <div className="w-14 h-14 rounded-2xl overflow-hidden ring-2 ring-white/10 shadow-lg group-hover:ring-blue-500/30 transition-all duration-300">
-                              {member.image ? (
-                                <Image
-                                  src={member.image}
-                                  alt={member.name}
-                                  fill
-                                  className="object-cover"
-                                  sizes="56px"
-                                />
-                              ) : (
-                                <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-xl font-black text-white">
-                                  {member.name.slice(0, 1)}
-                                </div>
-                              )}
+                      {/* Circle photo */}
+                      <div className="relative mb-5">
+                        {/* Glowing ring */}
+                        <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-blue-500/40 to-indigo-500/20 blur-sm group-hover:from-blue-500/60 transition-all duration-500" />
+                        <div className="relative w-44 h-44 rounded-full overflow-hidden ring-2 ring-white/10 group-hover:ring-blue-500/40 transition-all duration-300">
+                          {member.image ? (
+                            <Image
+                              src={member.image}
+                              alt={member.name}
+                              fill
+                              className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                              sizes="176px"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-4xl font-black text-white">
+                              {member.name.slice(0, 1)}
                             </div>
-                            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-400 border-2 border-slate-950" />
-                          </div>
-                          <div>
-                            <h3 className="text-base font-black text-white tracking-tight">{member.name}</h3>
-                            <p className="text-xs font-semibold text-blue-400 mt-0.5">{member.role}</p>
-                          </div>
+                          )}
                         </div>
-                        <p className="text-sm text-slate-400 leading-relaxed">{member.description}</p>
+                        {/* Active dot */}
+                        <span className="absolute bottom-2 right-2 w-4 h-4 rounded-full bg-green-400 border-2 border-slate-950 shadow-lg shadow-green-400/50" />
                       </div>
+
+                      {/* Info */}
+                      <h3 className="text-xl font-black text-white tracking-tight">{member.name}</h3>
                     </div>
                   ))}
               </div>
@@ -615,7 +600,7 @@ const About = async () => {
                     alt={name}
                     width={80}
                     height={40}
-                    className="object-contain max-h-10 w-auto grayscale group-hover:grayscale-0 transition-all duration-300"
+                    className="object-contain max-h-10 w-auto  transition-all duration-300"
                   />
                 </div>
                 <span className="text-[10px] font-bold tracking-widest text-slate-400 group-hover:text-blue-500 uppercase transition-colors duration-300">

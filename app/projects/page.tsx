@@ -44,7 +44,7 @@ export default async function ProjectsPage() {
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] rounded-full bg-blue-700/[0.07] blur-[160px] -z-10 pointer-events-none" />
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden min-h-screen flex flex-col justify-center">
 
         {/* Ghost number — decorative backdrop */}
         <div
@@ -56,9 +56,9 @@ export default async function ProjectsPage() {
         </div>
 
         {/* Top rule */}
-        <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-48 pb-24">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-32 pb-20 w-full">
 
           {/* Label row */}
           <div className="flex items-center gap-4 mb-10">
@@ -139,28 +139,29 @@ export default async function ProjectsPage() {
       {/* ── Project list ─────────────────────────────────────── */}
       <ProjectsClient projects={projects} />
 
-      {/* ── Footer CTA ───────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 lg:px-12 py-24">
-        <div className="h-px bg-white/[0.06] mb-16" />
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
-          <div>
-            <p className="font-mono text-[10px] text-slate-600 uppercase tracking-[0.25em] mb-5">
-              Ready to build?
-            </p>
-            <h2
-              className="font-black tracking-tighter text-white leading-tight"
-              style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}
+      {/* ── Footer CTA — light ───────────────────────────────── */}
+      <section className="bg-white border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-24">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            <div>
+              <p className="font-mono text-[10px] text-slate-400 uppercase tracking-[0.25em] mb-5">
+                Ready to build?
+              </p>
+              <h2
+                className="font-black tracking-tighter text-slate-900 leading-tight"
+                style={{ fontSize: 'clamp(2rem, 5vw, 4.5rem)' }}
+              >
+                Let&apos;s discuss<br />your project.
+              </h2>
+            </div>
+            <Link
+              href="/contact"
+              className="group shrink-0 inline-flex items-center gap-3 font-mono text-xs text-slate-900 uppercase tracking-widest border border-slate-300 hover:border-blue-500 hover:text-blue-600 px-8 py-4 transition-colors duration-200"
             >
-              Let&apos;s discuss<br />your project.
-            </h2>
+              Contact Us
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+            </Link>
           </div>
-          <Link
-            href="/contact"
-            className="group shrink-0 inline-flex items-center gap-3 font-mono text-xs text-white uppercase tracking-widest border border-white/10 hover:border-blue-500/50 px-8 py-4 transition-colors duration-200"
-          >
-            Contact Us
-            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
-          </Link>
         </div>
       </section>
     </div>
